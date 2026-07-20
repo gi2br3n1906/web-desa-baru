@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Portal informasi dan pelayanan publik desa terintegrasi.">
+
+    <title>@yield('title', 'Portal Informasi Desa')</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased">
+    @php
+        $governmentActive = request()->routeIs('profile', 'services', 'potentials');
+        $facilityActive = request()->routeIs('facilities', 'posyandu');
+        $empowermentActive = request()->routeIs('agriculture', 'accounting', 'taxes');
+        $desktopLink = 'rounded-lg px-3 py-2 text-sm font-semibold transition hover:bg-white/10 hover:text-desaYellow focus:outline-none focus:ring-2 focus:ring-desaYellow';
+        $dropdownLink = 'block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-blue-50 hover:text-desaBlue focus:bg-blue-50 focus:text-desaBlue focus:outline-none';
+    @endphp
+
+    <header class="sticky top-0 z-50 bg-desaBlue text-white shadow-lg">
+        <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Navigasi utama">
+            <div class="flex h-16 items-center justify-between">
+                <a href="{{ route('home') }}" class="flex items-center gap-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-desaYellow">
+                    <span class="flex size-10 items-center justify-center rounded-full bg-desaYellow text-lg font-black text-desaBlue" aria-hidden="true">D</span>
+                    <span>
+                        <span class="block text-sm font-bold leading-tight sm:text-base">Portal Informasi Desa</span>
+                        <span class="hidden text-xs text-blue-100 sm:block">Melayani dengan transparan</span>
+                    </span>
+                </a>
+
+                <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center rounded-lg p-2 text-white transition hover:bg-white/10 hover:text-desaYellow focus:outline-none focus:ring-2 focus:ring-desaYellow lg:hidden" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Buka menu utama</span>
+                    <svg id="menu-open-icon" class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg id="menu-close-icon" class="hidden size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <div class="hidden items-center gap-1 lg:flex">
+                    <a href="{{ route('home') }}" class="{{ $desktopLink }} {{ request()->routeIs('home') ? 'bg-white/10 text-desaYellow' : 'text-white' }}">Beranda</a>
+
+                    <div class="group relative">
+                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $governmentActive ? 'bg-white/10 text-desaYellow' : 'text-white' }}" aria-haspopup="true">
+                            Pemerintahan & Layanan
+                            <svg class="size-4 transition group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <div class="invisible absolute right-0 top-full w-64 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                            <a href="{{ route('profile') }}" class="{{ $dropdownLink }}">Profil Pemerintah Desa</a>
+                            <a href="{{ route('services') }}" class="{{ $dropdownLink }}">Panduan Administrasi & Hukum</a>
+                            <a href="{{ route('potentials') }}" class="{{ $dropdownLink }}">Potensi Desa Bilingual</a>
+                        </div>
+                    </div>
+
+                    <div class="group relative">
+                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $facilityActive ? 'bg-white/10 text-desaYellow' : 'text-white' }}" aria-haspopup="true">
+                            Fasilitas & Kesehatan
+                            <svg class="size-4 transition group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <div class="invisible absolute right-0 top-full w-60 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                            <a href="{{ route('facilities') }}" class="{{ $dropdownLink }}">Peta Fasilitas Desa</a>
+                            <a href="{{ route('posyandu') }}" class="{{ $dropdownLink }}">Jadwal & Info Posyandu</a>
+                        </div>
+                    </div>
+
+                    <div class="group relative">
+                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $empowermentActive ? 'bg-white/10 text-desaYellow' : 'text-white' }}" aria-haspopup="true">
+                            Pemberdayaan & UMKM
+                            <svg class="size-4 transition group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <div class="invisible absolute right-0 top-full w-60 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                            <a href="{{ route('agriculture') }}" class="{{ $dropdownLink }}">Panduan Alat Tani</a>
+                            <a href="{{ route('accounting') }}" class="{{ $dropdownLink }}">Template Pembukuan</a>
+                            <a href="{{ route('taxes') }}" class="{{ $dropdownLink }}">Panduan Pajak UMKM</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden border-t border-white/20 pb-4 lg:hidden">
+                <div class="space-y-1 pt-3">
+                    <a href="{{ route('home') }}" class="block rounded-lg px-3 py-2 font-semibold transition hover:bg-white/10 hover:text-desaYellow">Beranda</a>
+                    <details class="group rounded-lg open:bg-white/5" {{ $governmentActive ? 'open' : '' }}>
+                        <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:text-desaYellow">
+                            Pemerintahan & Layanan
+                            <span class="transition group-open:rotate-180">⌄</span>
+                        </summary>
+                        <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-blue-100">
+                            <a href="{{ route('profile') }}" class="block py-2 hover:text-desaYellow">Profil Pemerintah Desa</a>
+                            <a href="{{ route('services') }}" class="block py-2 hover:text-desaYellow">Panduan Administrasi & Hukum</a>
+                            <a href="{{ route('potentials') }}" class="block py-2 hover:text-desaYellow">Potensi Desa Bilingual</a>
+                        </div>
+                    </details>
+                    <details class="group rounded-lg open:bg-white/5" {{ $facilityActive ? 'open' : '' }}>
+                        <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:text-desaYellow">
+                            Fasilitas & Kesehatan
+                            <span class="transition group-open:rotate-180">⌄</span>
+                        </summary>
+                        <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-blue-100">
+                            <a href="{{ route('facilities') }}" class="block py-2 hover:text-desaYellow">Peta Fasilitas Desa</a>
+                            <a href="{{ route('posyandu') }}" class="block py-2 hover:text-desaYellow">Jadwal & Info Posyandu</a>
+                        </div>
+                    </details>
+                    <details class="group rounded-lg open:bg-white/5" {{ $empowermentActive ? 'open' : '' }}>
+                        <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:text-desaYellow">
+                            Pemberdayaan & UMKM
+                            <span class="transition group-open:rotate-180">⌄</span>
+                        </summary>
+                        <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-blue-100">
+                            <a href="{{ route('agriculture') }}" class="block py-2 hover:text-desaYellow">Panduan Alat Tani</a>
+                            <a href="{{ route('accounting') }}" class="block py-2 hover:text-desaYellow">Template Pembukuan</a>
+                            <a href="{{ route('taxes') }}" class="block py-2 hover:text-desaYellow">Panduan Pajak UMKM</a>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="min-h-[calc(100vh-16rem)]">
+        @yield('content')
+    </main>
+
+    <footer class="border-t-4 border-desaYellow bg-desaBlue text-blue-100">
+        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-2 lg:px-8">
+            <div>
+                <h2 class="text-lg font-bold text-white">Portal Informasi Desa</h2>
+                <p class="mt-2 max-w-xl text-sm leading-6">Pusat informasi pemerintahan, pelayanan publik, kesehatan, fasilitas, pertanian, serta pemberdayaan UMKM desa.</p>
+            </div>
+            <div class="md:text-right">
+                <p class="text-sm">&copy; {{ now()->year }} Pemerintah Desa. Seluruh hak dilindungi.</p>
+                <a href="{{ url('/admin') }}" class="mt-3 inline-block text-sm font-semibold text-desaYellow transition hover:text-white">Masuk Panel Admin</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const openIcon = document.getElementById('menu-open-icon');
+        const closeIcon = document.getElementById('menu-close-icon');
+
+        menuButton?.addEventListener('click', () => {
+            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+            menuButton.setAttribute('aria-expanded', String(!isExpanded));
+            mobileMenu?.classList.toggle('hidden');
+            openIcon?.classList.toggle('hidden');
+            closeIcon?.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
