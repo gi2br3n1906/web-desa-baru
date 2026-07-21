@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 @php
-    $sragenLogoPath = 'images/logo-sragen.jpg';
-    $kknLogoPath = 'images/logo-kkn-undip.jpg';
-    $hasSragenLogo = is_file(public_path($sragenLogoPath));
-    $hasKknLogo = is_file(public_path($kknLogoPath));
+    $sragenLogoPath = \App\Support\BrandAssets::sragenLogo();
+    $kknLogoPath = \App\Support\BrandAssets::kknUndipLogo();
 @endphp
 <head>
     <meta charset="utf-8">
@@ -13,7 +11,7 @@
 
     <title>@yield('title', 'Portal Desa Pringanom')</title>
 
-    @if ($hasSragenLogo)
+    @if ($sragenLogoPath)
         <link rel="icon" href="{{ asset($sragenLogoPath) }}">
     @endif
 
@@ -32,7 +30,7 @@
         <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Navigasi utama">
             <div class="flex h-16 items-center justify-between">
                 <a href="{{ route('home') }}" class="flex items-center gap-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-desaYellow">
-                    @if ($hasSragenLogo)
+                    @if ($sragenLogoPath)
                         <img src="{{ asset($sragenLogoPath) }}" alt="Logo Kabupaten Sragen" class="h-11 w-auto shrink-0 object-contain" width="44" height="44">
                     @else
                         <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-desaYellow text-lg font-black text-desaBlue" aria-hidden="true">P</span>
@@ -150,7 +148,7 @@
         </div>
         <div class="border-t border-white/15">
             <div class="mx-auto flex max-w-7xl flex-col items-center justify-center gap-3 px-4 py-5 text-center sm:flex-row sm:px-6 lg:px-8">
-                @if ($hasKknLogo)
+                @if ($kknLogoPath)
                     <img src="{{ asset($kknLogoPath) }}" alt="Logo KKN Universitas Diponegoro" class="h-8 w-auto object-contain" width="32" height="32" loading="lazy">
                 @endif
                 <p class="text-sm font-medium text-blue-100">Dikembangkan dengan ❤️ oleh Tim KKN Universitas Diponegoro 2026</p>

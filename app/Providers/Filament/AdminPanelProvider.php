@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Support\BrandAssets;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -56,9 +57,9 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
 
-        $sragenLogoPath = 'images/logo-sragen.jpg';
+        $sragenLogoPath = BrandAssets::sragenLogo();
 
-        if (is_file(public_path($sragenLogoPath))) {
+        if ($sragenLogoPath) {
             $panel
                 ->brandLogo(asset($sragenLogoPath))
                 ->favicon(asset($sragenLogoPath));
