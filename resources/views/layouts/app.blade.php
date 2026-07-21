@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 @php
-    $sragenLogoPath = 'images/logo-sragen.png';
-    $kknLogoPath = 'images/logo-kkn-undip.png';
+    $sragenLogoPath = 'images/logo-sragen.jpg';
+    $kknLogoPath = 'images/logo-kkn-undip.jpg';
     $hasSragenLogo = is_file(public_path($sragenLogoPath));
     $hasKknLogo = is_file(public_path($kknLogoPath));
 @endphp

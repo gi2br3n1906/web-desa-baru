@@ -56,7 +56,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
 
-        $sragenLogoPath = 'images/logo-sragen.png';
+        $sragenLogoPath = 'images/logo-sragen.jpg';
 
         if (is_file(public_path($sragenLogoPath))) {
             $panel
