@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Profil Desa | Portal Informasi Desa')
+@section('title', 'Profil Desa | Desa Pringanom')
 
 @section('content')
     <section class="page-container">
         <header class="max-w-3xl">
             <p class="font-bold uppercase tracking-wider text-yellow-600">Pemerintahan Desa</p>
-            <h1 class="page-heading mt-2">Profil Pemerintah Desa</h1>
-            <p class="mt-4 leading-7 text-slate-600">Kenali arah pembangunan, misi pelayanan, struktur organisasi, serta kontak resmi pemerintah desa.</p>
+            <h1 class="page-heading mt-2">Profil Pemerintah Desa Pringanom</h1>
+            <p class="mt-4 leading-7 text-slate-600">Kenali arah pembangunan, misi pelayanan, struktur organisasi, serta kontak resmi Pemerintah Desa Pringanom.</p>
         </header>
 
         @if ($profile)
@@ -25,7 +25,7 @@
             <div class="mt-8 grid gap-8 lg:grid-cols-3">
                 <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:col-span-2">
                     <div class="border-b border-slate-100 p-6"><h2 class="text-2xl font-bold text-desaBlue">Struktur Organisasi</h2></div>
-                    <img src="{{ asset('storage/'.$profile->struktur_organisasi_path) }}" alt="Struktur organisasi pemerintah desa" class="h-auto w-full object-contain p-4" loading="lazy">
+                    <img src="{{ asset('storage/'.$profile->struktur_organisasi_path) }}" alt="Struktur organisasi Pemerintah Desa Pringanom" class="h-auto w-full object-contain p-4" loading="lazy">
                 </article>
 
                 <aside class="rounded-2xl bg-desaBlue p-6 text-white shadow-sm">

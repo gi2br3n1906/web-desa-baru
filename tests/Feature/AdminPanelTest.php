@@ -16,7 +16,8 @@ class AdminPanelTest extends TestCase
             ->assertRedirect('/admin/login');
 
         $this->get('/admin/login')
-            ->assertOk();
+            ->assertOk()
+            ->assertSee('Admin Pringanom');
     }
 
     public function test_admin_can_access_dashboard_and_all_resource_pages(): void

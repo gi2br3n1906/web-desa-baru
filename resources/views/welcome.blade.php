@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda | Portal Informasi Desa')
+@section('title', 'Beranda | Desa Pringanom')
 
 @section('content')
     <section class="relative isolate overflow-hidden bg-desaBlue text-white">
@@ -11,12 +11,12 @@
 
         <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-28">
             <div>
-                <span class="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-desaYellow ring-1 ring-white/20">Informasi desa dalam satu portal</span>
-                <h1 class="mt-6 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">Selamat Datang di Portal Informasi Desa</h1>
-                <p class="mt-6 max-w-2xl text-lg leading-8 text-blue-100">Temukan layanan administrasi, profil pemerintahan, fasilitas publik, jadwal kesehatan, panduan pertanian, dan dukungan UMKM secara mudah dan transparan.</p>
+                <span class="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-desaYellow ring-1 ring-white/20">Portal resmi Pemerintah Desa Pringanom</span>
+                <h1 class="mt-6 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">Selamat Datang di Portal Informasi dan Layanan Desa Pringanom</h1>
+                <p class="mt-6 max-w-2xl text-lg leading-8 text-blue-100">Kami hadir untuk mendekatkan pelayanan dan informasi desa kepada seluruh warga. Akses panduan administrasi, fasilitas publik, layanan kesehatan, pertanian, dan pemberdayaan UMKM dengan mudah, cepat, dan transparan.</p>
                 <div class="mt-9 flex flex-wrap gap-4">
                     <a href="{{ route('services') }}" class="rounded-xl bg-desaYellow px-6 py-3 font-bold text-desaBlue shadow-lg transition hover:bg-desaYellow-dark focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-desaBlue">Lihat Layanan Desa</a>
-                    <a href="{{ route('profile') }}" class="rounded-xl border border-white/40 bg-white/10 px-6 py-3 font-bold text-white transition hover:bg-white hover:text-desaBlue focus:outline-none focus:ring-2 focus:ring-desaYellow">Kenali Desa Kami</a>
+                    <a href="{{ route('profile') }}" class="rounded-xl border border-white/40 bg-white/10 px-6 py-3 font-bold text-white transition hover:bg-white hover:text-desaBlue focus:outline-none focus:ring-2 focus:ring-desaYellow">Kenali Desa Pringanom</a>
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
         <div class="max-w-2xl">
             <p class="font-bold uppercase tracking-wider text-yellow-600">Jelajahi informasi</p>
             <h2 id="explore-heading" class="page-heading mt-2">Layanan untuk masyarakat desa</h2>
-            <p class="mt-4 leading-7 text-slate-600">Portal ini menghubungkan masyarakat dengan informasi penting yang dikelola langsung oleh pemerintah desa.</p>
+            <p class="mt-4 leading-7 text-slate-600">Portal Desa Pringanom menghubungkan masyarakat dengan informasi resmi yang dikelola langsung oleh pemerintah desa untuk pelayanan yang terbuka dan mudah dijangkau.</p>
         </div>
 
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

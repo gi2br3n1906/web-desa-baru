@@ -22,11 +22,12 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        $panel = $panel
             ->default()
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('Admin Pringanom')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -54,5 +55,15 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+
+        $sragenLogoPath = 'images/logo-sragen.png';
+
+        if (is_file(public_path($sragenLogoPath))) {
+            $panel
+                ->brandLogo(asset($sragenLogoPath))
+                ->favicon(asset($sragenLogoPath));
+        }
+
+        return $panel;
     }
 }

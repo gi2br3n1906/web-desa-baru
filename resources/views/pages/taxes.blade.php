@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Panduan Pajak UMKM | Portal Informasi Desa')
+@section('title', 'Panduan Pajak UMKM | Desa Pringanom')
 
 @section('content')
     <section class="page-container">

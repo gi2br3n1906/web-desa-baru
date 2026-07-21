@@ -34,8 +34,19 @@ class PublicFrontendTest extends TestCase
         foreach ($routes as $route) {
             $this->get(route($route))
                 ->assertOk()
-                ->assertSee('Portal Informasi Desa');
+                ->assertSee('Desa Pringanom')
+                ->assertSee('Dikembangkan dengan ❤️ oleh Tim KKN Universitas Diponegoro 2026');
         }
+    }
+
+    public function test_homepage_uses_the_final_pringanom_identity(): void
+    {
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertSee('Portal resmi Pemerintah Desa Pringanom')
+            ->assertSee('Portal Informasi dan Layanan Desa Pringanom')
+            ->assertSee('Kecamatan Masaran, Kabupaten Sragen')
+            ->assertSee('Portal Resmi Pemerintahan Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen.');
     }
 
     public function test_public_pages_render_managed_content_and_storage_urls(): void

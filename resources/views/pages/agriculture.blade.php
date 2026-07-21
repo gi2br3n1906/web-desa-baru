@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Panduan Alat Tani | Portal Informasi Desa')
+@section('title', 'Panduan Alat Tani | Desa Pringanom')
 
 @section('content')
     <section class="page-container">
