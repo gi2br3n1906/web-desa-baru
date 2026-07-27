@@ -4,15 +4,11 @@
 
 @section('content')
     <section class="page-container">
-        <header class="max-w-3xl">
-            <p class="font-bold uppercase tracking-wider text-yellow-600">Fasilitas Publik</p>
-            <h1 class="page-heading mt-2">Peta Fasilitas Desa</h1>
-            <p class="mt-4 leading-7 text-slate-600">Temukan kantor, sekolah, tempat ibadah, fasilitas kesehatan, dan infrastruktur desa.</p>
-        </header>
+        <x-page-header eyebrow="Fasilitas Publik" title="Peta Fasilitas Desa" description="Temukan kantor, sekolah, tempat ibadah, fasilitas kesehatan, dan infrastruktur desa." />
 
         <div class="mt-10 grid gap-8 lg:grid-cols-2">
             @forelse ($facilities as $facility)
-                <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <article class="content-card overflow-hidden">
                     @if ($facility->google_maps_embed)
                         <div class="aspect-video overflow-hidden bg-slate-100 [&_iframe]:h-full [&_iframe]:w-full [&_iframe]:border-0">{!! $facility->google_maps_embed !!}</div>
                     @else

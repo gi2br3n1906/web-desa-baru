@@ -4,28 +4,29 @@
 
 @section('content')
     <section class="page-container">
-        <header class="max-w-3xl">
-            <p class="font-bold uppercase tracking-wider text-yellow-600">Pemerintahan Desa</p>
-            <h1 class="page-heading mt-2">Profil Pemerintah Desa Pringanom</h1>
-            <p class="mt-4 leading-7 text-slate-600">Kenali arah pembangunan, misi pelayanan, struktur organisasi, serta kontak resmi Pemerintah Desa Pringanom.</p>
-        </header>
+        <x-page-header eyebrow="Pemerintahan Desa" title="Profil Pemerintah Desa Pringanom" description="Kenali arah pembangunan, misi pelayanan, struktur organisasi, serta kontak resmi Pemerintah Desa Pringanom." />
 
         @if ($profile)
             <div class="mt-10 grid gap-8 lg:grid-cols-2">
-                <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                <article class="content-card p-6 sm:p-8">
                     <h2 class="border-l-4 border-desaYellow pl-4 text-2xl font-bold text-desaBlue">Visi</h2>
                     <div class="rich-content mt-6">{!! $profile->visi !!}</div>
                 </article>
-                <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                <article class="content-card p-6 sm:p-8">
                     <h2 class="border-l-4 border-desaYellow pl-4 text-2xl font-bold text-desaBlue">Misi</h2>
                     <div class="rich-content mt-6">{!! $profile->misi !!}</div>
                 </article>
             </div>
 
             <div class="mt-8 grid gap-8 lg:grid-cols-3">
-                <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:col-span-2">
-                    <div class="border-b border-slate-100 p-6"><h2 class="text-2xl font-bold text-desaBlue">Struktur Organisasi</h2></div>
-                    <img src="{{ asset('storage/'.$profile->struktur_organisasi_path) }}" alt="Struktur organisasi Pemerintah Desa Pringanom" class="h-auto w-full object-contain p-4" loading="lazy">
+                <article class="content-card overflow-hidden lg:col-span-2">
+                    <div class="border-b border-slate-100 p-6"><h2 class="flex items-center gap-3 text-2xl font-bold text-blue-900"><span class="h-7 w-1.5 rounded-full bg-amber-500"></span>Media & Struktur Desa</h2></div>
+                    @if (str_contains($profile->struktur_organisasi_path, '<iframe'))
+                        <div class="rich-content p-4">{!! $profile->struktur_organisasi_path !!}</div>
+                    @else
+                        <x-smart-image :src="asset('storage/'.$profile->struktur_organisasi_path)" alt="Struktur organisasi dan Kantor Desa Pringanom" class="aspect-video w-full" img-class="h-full w-full object-contain p-4" />
+                        <p class="border-t border-slate-100 bg-slate-50 px-6 py-4 text-sm text-slate-500">Area ini siap menampilkan embed video YouTube profil Kantor Desa Pringanom dari konten RichEditor.</p>
+                    @endif
                 </article>
 
                 <aside class="rounded-2xl bg-desaBlue p-6 text-white shadow-sm">

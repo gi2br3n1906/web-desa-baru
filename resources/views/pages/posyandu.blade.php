@@ -4,19 +4,18 @@
 
 @section('content')
     <section class="page-container">
-        <header class="max-w-3xl">
-            <p class="font-bold uppercase tracking-wider text-yellow-600">Kesehatan Masyarakat</p>
-            <h1 class="page-heading mt-2">Jadwal & Informasi Posyandu</h1>
-            <p class="mt-4 leading-7 text-slate-600">Catat jadwal pelayanan Posyandu dan simak informasi Perilaku Hidup Bersih dan Sehat (PHBS).</p>
-        </header>
+        <x-page-header eyebrow="Kesehatan Masyarakat" title="Jadwal & Informasi Posyandu" description="Catat jadwal pelayanan Posyandu dan simak informasi Perilaku Hidup Bersih dan Sehat (PHBS)." />
+
+        @php($toddler = \App\Support\BrandAssets::image('IMG_7053'))
+        <x-smart-image :src="$toddler ? asset($toddler) : null" alt="Balita mengikuti pelayanan Posyandu Desa Pringanom" class="mt-10 aspect-video w-full rounded-2xl" />
 
         <div class="mt-10 space-y-7">
             @forelse ($schedules as $schedule)
-                <article class="grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm md:grid-cols-[15rem_1fr]">
-                    <div class="flex flex-col justify-center bg-desaBlue p-6 text-white">
-                        <span class="text-sm font-bold uppercase tracking-wider text-desaYellow">Jadwal Pelaksanaan</span>
+                <article class="content-card grid overflow-hidden md:grid-cols-[15rem_1fr]">
+                    <div class="flex flex-col justify-center bg-blue-50 p-6 text-blue-900">
+                        <span class="text-sm font-bold uppercase tracking-wider text-amber-600">Jadwal Pelaksanaan</span>
                         <time datetime="{{ $schedule->tanggal_pelaksanaan->toDateString() }}" class="mt-3 text-2xl font-black">{{ $schedule->tanggal_pelaksanaan->translatedFormat('d F Y') }}</time>
-                        <p class="mt-2 font-semibold text-blue-100">{{ substr($schedule->jam_mulai, 0, 5) }}–{{ substr($schedule->jam_selesai, 0, 5) }} WIB</p>
+                        <p class="mt-2 font-semibold text-slate-600">{{ substr($schedule->jam_mulai, 0, 5) }}–{{ substr($schedule->jam_selesai, 0, 5) }} WIB</p>
                     </div>
                     <div class="p-6 sm:p-8">
                         <div class="flex flex-wrap items-start justify-between gap-4">

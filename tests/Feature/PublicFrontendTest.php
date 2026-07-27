@@ -35,7 +35,7 @@ class PublicFrontendTest extends TestCase
             $this->get(route($route))
                 ->assertOk()
                 ->assertSee('Desa Pringanom')
-                ->assertSee('Dikembangkan dengan ❤️ oleh Tim KKN Universitas Diponegoro 2026');
+                ->assertSee('Dikembangkan oleh Tim KKN Undip 2026');
         }
     }
 
@@ -43,10 +43,12 @@ class PublicFrontendTest extends TestCase
     {
         $this->get(route('home'))
             ->assertOk()
-            ->assertSee('Portal resmi Pemerintah Desa Pringanom')
             ->assertSee('Portal Informasi dan Layanan Desa Pringanom')
             ->assertSee('Kecamatan Masaran, Kabupaten Sragen')
-            ->assertSee('Portal Resmi Pemerintahan Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen.');
+            ->assertSee('Portal Resmi Pemerintahan Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen.')
+            ->assertSee('bg-slate-950/45', false)
+            ->assertSee('data-carousel-next', false)
+            ->assertSee('lg:grid-cols-6', false);
     }
 
     public function test_public_pages_render_managed_content_and_storage_urls(): void

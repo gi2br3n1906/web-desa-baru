@@ -4,18 +4,13 @@
 
 @section('content')
     <section class="page-container">
-        <header class="max-w-3xl">
-            <p class="font-bold uppercase tracking-wider text-yellow-600">Indonesia ・ 日本語</p>
-            <h1 class="page-heading mt-2">Potensi Desa Bilingual</h1>
-            <p class="mt-4 leading-7 text-slate-600">Mengenalkan kekayaan dan potensi unggulan desa dalam Bahasa Indonesia dan Bahasa Jepang.</p>
-        </header>
+        <x-page-header eyebrow="Indonesia ・ 日本語" title="Potensi Desa Bilingual" description="Mengenalkan kekayaan dan potensi unggulan desa dalam Bahasa Indonesia dan Bahasa Jepang." />
 
         <div class="mt-10 space-y-10">
             @forelse ($potentials as $potential)
-                <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                    @if ($potential->image_path)
-                        <img src="{{ asset('storage/'.$potential->image_path) }}" alt="{{ $potential->title_id }}" class="h-64 w-full object-cover sm:h-80" loading="lazy">
-                    @endif
+                <article class="content-card overflow-hidden">
+                    @php($kite = \App\Support\BrandAssets::image('image_a4602a') ?? \App\Support\BrandAssets::image('image_a45ff3'))
+                    <x-smart-image :src="$potential->image_path ? asset('storage/'.$potential->image_path) : ($kite ? asset($kite) : null)" :alt="'Anak-anak bermain layangan, potensi sosial Desa Pringanom — '.$potential->title_id" class="aspect-video w-full" />
                     <div class="grid divide-y divide-slate-200 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
                         <section class="p-6 sm:p-8" lang="id">
                             <span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-desaBlue">Indonesia</span>

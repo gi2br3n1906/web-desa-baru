@@ -1,62 +1,37 @@
 @extends('layouts.app')
-
 @section('title', 'Beranda | Desa Pringanom')
-
 @section('content')
-    <section class="relative isolate overflow-hidden bg-desaBlue text-white">
-        <div class="absolute inset-0 -z-10 opacity-20" aria-hidden="true">
-            <div class="absolute -right-24 -top-24 size-96 rounded-full bg-desaYellow blur-3xl"></div>
-            <div class="absolute -bottom-32 -left-24 size-96 rounded-full bg-blue-300 blur-3xl"></div>
-        </div>
-
-        <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-28">
-            <div>
-                <span class="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-desaYellow ring-1 ring-white/20">Portal resmi Pemerintah Desa Pringanom</span>
-                <h1 class="mt-6 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">Selamat Datang di Portal Informasi dan Layanan Desa Pringanom</h1>
-                <p class="mt-6 max-w-2xl text-lg leading-8 text-blue-100">Kami hadir untuk mendekatkan pelayanan dan informasi desa kepada seluruh warga. Akses panduan administrasi, fasilitas publik, layanan kesehatan, pertanian, dan pemberdayaan UMKM dengan mudah, cepat, dan transparan.</p>
-                <div class="mt-9 flex flex-wrap gap-4">
-                    <a href="{{ route('services') }}" class="rounded-xl bg-desaYellow px-6 py-3 font-bold text-desaBlue shadow-lg transition hover:bg-desaYellow-dark focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-desaBlue">Lihat Layanan Desa</a>
-                    <a href="{{ route('profile') }}" class="rounded-xl border border-white/40 bg-white/10 px-6 py-3 font-bold text-white transition hover:bg-white hover:text-desaBlue focus:outline-none focus:ring-2 focus:ring-desaYellow">Kenali Desa Pringanom</a>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4" aria-label="Ringkasan layanan portal">
-                @foreach ([
-                    ['Pemerintahan', 'Profil dan informasi perangkat desa'],
-                    ['Pelayanan', 'Panduan administrasi yang jelas'],
-                    ['Kesehatan', 'Jadwal Posyandu dan informasi PHBS'],
-                    ['UMKM', 'Pembukuan dan panduan perpajakan'],
-                ] as [$title, $description])
-                    <article class="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-sm transition hover:-translate-y-1 hover:bg-white/15">
-                        <div class="mb-4 size-2 rounded-full bg-desaYellow"></div>
-                        <h2 class="font-bold text-white">{{ $title }}</h2>
-                        <p class="mt-2 text-sm leading-6 text-blue-100">{{ $description }}</p>
-                    </article>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    <section class="page-container" aria-labelledby="explore-heading">
-        <div class="max-w-2xl">
-            <p class="font-bold uppercase tracking-wider text-yellow-600">Jelajahi informasi</p>
-            <h2 id="explore-heading" class="page-heading mt-2">Layanan untuk masyarakat desa</h2>
-            <p class="mt-4 leading-7 text-slate-600">Portal Desa Pringanom menghubungkan masyarakat dengan informasi resmi yang dikelola langsung oleh pemerintah desa untuk pelayanan yang terbuka dan mudah dijangkau.</p>
-        </div>
-
-        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            @foreach ([
-                [route('services'), 'Administrasi & Hukum', 'Persyaratan dan alur pengurusan layanan desa.'],
-                [route('facilities'), 'Fasilitas Desa', 'Lokasi dan keterangan fasilitas publik desa.'],
-                [route('agriculture'), 'Panduan Alat Tani', 'Perawatan dan keselamatan penggunaan alat pertanian.'],
-                [route('posyandu'), 'Informasi Posyandu', 'Jadwal kegiatan dan informasi kesehatan masyarakat.'],
-            ] as [$url, $title, $description])
-                <a href="{{ $url }}" class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-desaYellow hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-desaBlue">
-                    <span class="flex size-11 items-center justify-center rounded-xl bg-blue-50 font-black text-desaBlue transition group-hover:bg-desaYellow">→</span>
-                    <h3 class="mt-5 text-lg font-bold text-desaBlue">{{ $title }}</h3>
-                    <p class="mt-2 text-sm leading-6 text-slate-600">{{ $description }}</p>
-                </a>
-            @endforeach
-        </div>
-    </section>
+@php
+$slides = [
+ ['image_a462d7','Bentang Gunung Pringanom','Selamat Datang di Portal Informasi dan Layanan Desa Pringanom'],
+ ['image_a46314','Hamparan sawah Desa Pringanom','Tumbuh Bersama dari Potensi Pertanian Desa'],
+ ['image_a46339','Jalan Desa Pringanom saat matahari terbenam','Pelayanan Lebih Dekat, Informasi Lebih Terbuka'],
+];
+@endphp
+<section class="page-container pb-8 pt-6 lg:pb-10 lg:pt-8">
+ <div id="hero-carousel" class="relative h-[320px] overflow-hidden rounded-2xl bg-slate-800 shadow-xl md:h-[440px]" aria-roledescription="carousel" aria-label="Pemandangan Desa Pringanom">
+  @foreach($slides as [$filename,$alt,$heading]) @php($image=\App\Support\BrandAssets::image($filename))
+  <article class="absolute inset-0 transition-opacity duration-700 {{ $loop->first?'opacity-100':'pointer-events-none opacity-0' }}" data-carousel-slide aria-hidden="{{ $loop->first?'false':'true' }}">
+   <x-smart-image :src="$image ? asset($image) : null" :alt="$alt" class="h-full w-full" :eager="$loop->first" :zoom="false" />
+   <div class="absolute inset-0 bg-slate-950/45"></div>
+   <div class="absolute inset-0 flex items-end p-6 sm:p-10 lg:p-14"><div class="max-w-3xl text-white">
+    <p class="flex items-center gap-3 text-sm font-bold uppercase tracking-[.18em] text-amber-400"><span class="inline-block h-7 w-1.5 rounded-full bg-amber-500"></span>Desa Pringanom</p>
+    <h1 class="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">{{ $heading }}</h1>
+    <p class="mt-4 hidden max-w-2xl text-base leading-7 text-slate-100 sm:block">Portal resmi untuk layanan administrasi, informasi desa, kesehatan, pertanian, fasilitas publik, dan pemberdayaan masyarakat.</p>
+    <a href="{{ route('services') }}" class="primary-button mt-6">Jelajahi Layanan</a>
+   </div></div>
+  </article>@endforeach
+  <button type="button" data-carousel-prev class="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/30 bg-white/20 p-3 text-white backdrop-blur-md" aria-label="Slide sebelumnya">←</button>
+  <button type="button" data-carousel-next class="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-white/30 bg-white/20 p-3 text-white backdrop-blur-md" aria-label="Slide berikutnya">→</button>
+  <div class="absolute bottom-5 right-6 z-10 flex gap-2">@foreach($slides as $slide)<button type="button" data-carousel-dot="{{ $loop->index }}" class="h-2.5 rounded-full {{ $loop->first?'w-8 bg-amber-500':'w-2.5 bg-white/60' }}" aria-label="Buka slide {{ $loop->iteration }}"></button>@endforeach</div>
+ </div>
+</section>
+<section class="page-container py-10"><p class="section-kicker">Akses Cepat</p><h2 class="page-heading mt-4">Layanan untuk masyarakat desa</h2>
+ <div class="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-6 lg:overflow-visible">
+ @foreach([[route('profile'),'⌂','Profil Desa'],[route('services'),'✓','Layanan'],[route('potentials'),'✦','Potensi'],[route('facilities'),'⌖','Fasilitas'],[route('posyandu'),'+','Posyandu'],[route('agriculture'),'♧','Pertanian']] as [$url,$icon,$label])
+ <a href="{{ $url }}" class="content-card group min-w-[150px] snap-start p-5 text-center lg:min-w-0"><span class="mx-auto flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-blue-50 text-xl font-bold text-blue-900 transition group-hover:bg-amber-500">{{ $icon }}</span><h3 class="mt-4 font-bold text-blue-900">{{ $label }}</h3></a>@endforeach
+ </div>
+</section>
+<section class="bg-slate-100"><div class="mx-auto grid max-w-7xl grid-cols-2 px-4 py-10 sm:px-6 md:grid-cols-4 lg:px-8">@foreach([['8','Modul Informasi'],['24/7','Akses Portal'],['1','Desa Terintegrasi'],['2026','Tahun Pelayanan']] as [$number,$label])<div class="p-5 text-center"><strong class="block text-3xl font-extrabold text-blue-900 sm:text-4xl">{{ $number }}</strong><span class="mt-2 block text-sm font-medium text-slate-600">{{ $label }}</span></div>@endforeach</div></section>
+<script>document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementById('hero-carousel');if(!c)return;const s=[...c.querySelectorAll('[data-carousel-slide]')],d=[...c.querySelectorAll('[data-carousel-dot]')];let a=0;const show=i=>{a=(i+s.length)%s.length;s.forEach((x,n)=>{const on=n===a;x.classList.toggle('opacity-100',on);x.classList.toggle('opacity-0',!on);x.classList.toggle('pointer-events-none',!on);x.setAttribute('aria-hidden',String(!on))});d.forEach((x,n)=>{const on=n===a;x.classList.toggle('w-8',on);x.classList.toggle('bg-amber-500',on);x.classList.toggle('w-2.5',!on);x.classList.toggle('bg-white/60',!on)})};c.querySelector('[data-carousel-prev]').onclick=()=>show(a-1);c.querySelector('[data-carousel-next]').onclick=()=>show(a+1);d.forEach((x,n)=>x.onclick=()=>show(n));setInterval(()=>show(a+1),7000)});</script>
 @endsection

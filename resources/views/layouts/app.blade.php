@@ -22,26 +22,26 @@
         $governmentActive = request()->routeIs('profile', 'services', 'potentials');
         $facilityActive = request()->routeIs('facilities', 'posyandu');
         $empowermentActive = request()->routeIs('agriculture', 'accounting', 'taxes');
-        $desktopLink = 'rounded-lg px-3 py-2 text-sm font-semibold transition hover:bg-white/10 hover:text-desaYellow focus:outline-none focus:ring-2 focus:ring-desaYellow';
+        $desktopLink = 'rounded-full px-4 py-2 text-sm font-semibold text-blue-900 transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-amber-500';
         $dropdownLink = 'block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-blue-50 hover:text-desaBlue focus:bg-blue-50 focus:text-desaBlue focus:outline-none';
     @endphp
 
-    <header class="sticky top-0 z-50 bg-desaBlue text-white shadow-lg">
+    <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/85 text-blue-900 shadow-sm backdrop-blur-md">
         <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Navigasi utama">
             <div class="flex h-16 items-center justify-between">
                 <a href="{{ route('home') }}" class="flex items-center gap-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-desaYellow">
                     @if ($sragenLogoPath)
-                        <img src="{{ asset($sragenLogoPath) }}" alt="Logo Kabupaten Sragen" class="h-11 w-auto shrink-0 object-contain" width="44" height="44">
+                        <img src="{{ asset($sragenLogoPath) }}" alt="Logo resmi Kabupaten Sragen" class="h-11 w-auto shrink-0 object-contain mix-blend-multiply" width="44" height="44">
                     @else
                         <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-desaYellow text-lg font-black text-desaBlue" aria-hidden="true">P</span>
                     @endif
                     <span>
                         <span class="block text-sm font-bold leading-tight sm:text-base">Desa Pringanom</span>
-                        <span class="hidden text-xs text-blue-100 sm:block">Kecamatan Masaran, Kabupaten Sragen</span>
+                        <span class="hidden text-xs text-slate-500 sm:block">Kecamatan Masaran, Kabupaten Sragen</span>
                     </span>
                 </a>
 
-                <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center rounded-lg p-2 text-white transition hover:bg-white/10 hover:text-desaYellow focus:outline-none focus:ring-2 focus:ring-desaYellow lg:hidden" aria-controls="mobile-menu" aria-expanded="false">
+                <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center rounded-full p-2 text-blue-900 transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-amber-500 lg:hidden" aria-controls="mobile-menu" aria-expanded="false">
                     <span class="sr-only">Buka menu utama</span>
                     <svg id="menu-open-icon" class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -52,10 +52,10 @@
                 </button>
 
                 <div class="hidden items-center gap-1 lg:flex">
-                    <a href="{{ route('home') }}" class="{{ $desktopLink }} {{ request()->routeIs('home') ? 'bg-white/10 text-desaYellow' : 'text-white' }}">Beranda</a>
+                    <a href="{{ route('home') }}" class="{{ $desktopLink }} {{ request()->routeIs('home') ? 'bg-blue-50' : '' }}">Beranda</a>
 
                     <div class="group relative">
-                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $governmentActive ? 'bg-white/10 text-desaYellow' : 'text-white' }}" aria-haspopup="true">
+                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $governmentActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
                             Pemerintahan & Layanan
                             <svg class="size-4 transition group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
                         </button>
@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="group relative">
-                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $facilityActive ? 'bg-white/10 text-desaYellow' : 'text-white' }}" aria-haspopup="true">
+                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $facilityActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
                             Fasilitas & Kesehatan
                             <svg class="size-4 transition group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
                         </button>
@@ -78,7 +78,7 @@
                     </div>
 
                     <div class="group relative">
-                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $empowermentActive ? 'bg-white/10 text-desaYellow' : 'text-white' }}" aria-haspopup="true">
+                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $empowermentActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
                             Pemberdayaan & UMKM
                             <svg class="size-4 transition group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
                         </button>
@@ -88,44 +88,46 @@
                             <a href="{{ route('taxes') }}" class="{{ $dropdownLink }}">Panduan Pajak UMKM</a>
                         </div>
                     </div>
+                    <a href="{{ url('/admin') }}" class="ml-2 rounded-full border border-blue-900 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-900 hover:text-white">Login Admin</a>
                 </div>
             </div>
 
-            <div id="mobile-menu" class="hidden border-t border-white/20 pb-4 lg:hidden">
+            <div id="mobile-menu" class="hidden border-t border-slate-200 pb-4 lg:hidden">
                 <div class="space-y-1 pt-3">
-                    <a href="{{ route('home') }}" class="block rounded-lg px-3 py-2 font-semibold transition hover:bg-white/10 hover:text-desaYellow">Beranda</a>
-                    <details class="group rounded-lg open:bg-white/5" {{ $governmentActive ? 'open' : '' }}>
-                        <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:text-desaYellow">
+                    <a href="{{ route('home') }}" class="block rounded-lg px-3 py-2 font-semibold transition hover:bg-blue-50">Beranda</a>
+                    <details class="group rounded-lg open:bg-blue-50" {{ $governmentActive ? 'open' : '' }}>
+                        <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:bg-blue-50">
                             Pemerintahan & Layanan
                             <span class="transition group-open:rotate-180">⌄</span>
                         </summary>
-                        <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-blue-100">
-                            <a href="{{ route('profile') }}" class="block py-2 hover:text-desaYellow">Profil Pemerintah Desa</a>
-                            <a href="{{ route('services') }}" class="block py-2 hover:text-desaYellow">Panduan Administrasi & Hukum</a>
-                            <a href="{{ route('potentials') }}" class="block py-2 hover:text-desaYellow">Potensi Desa Bilingual</a>
+                        <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-slate-600">
+                            <a href="{{ route('profile') }}" class="block py-2 hover:text-blue-900">Profil Pemerintah Desa</a>
+                            <a href="{{ route('services') }}" class="block py-2 hover:text-blue-900">Panduan Administrasi & Hukum</a>
+                            <a href="{{ route('potentials') }}" class="block py-2 hover:text-blue-900">Potensi Desa Bilingual</a>
                         </div>
                     </details>
-                    <details class="group rounded-lg open:bg-white/5" {{ $facilityActive ? 'open' : '' }}>
-                        <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:text-desaYellow">
+                    <details class="group rounded-lg open:bg-blue-50" {{ $facilityActive ? 'open' : '' }}>
+                        <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:bg-blue-50">
                             Fasilitas & Kesehatan
                             <span class="transition group-open:rotate-180">⌄</span>
                         </summary>
-                        <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-blue-100">
-                            <a href="{{ route('facilities') }}" class="block py-2 hover:text-desaYellow">Peta Fasilitas Desa</a>
-                            <a href="{{ route('posyandu') }}" class="block py-2 hover:text-desaYellow">Jadwal & Info Posyandu</a>
+                        <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-slate-600">
+                            <a href="{{ route('facilities') }}" class="block py-2 hover:text-blue-900">Peta Fasilitas Desa</a>
+                            <a href="{{ route('posyandu') }}" class="block py-2 hover:text-blue-900">Jadwal & Info Posyandu</a>
                         </div>
                     </details>
-                    <details class="group rounded-lg open:bg-white/5" {{ $empowermentActive ? 'open' : '' }}>
-                        <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:text-desaYellow">
+                    <details class="group rounded-lg open:bg-blue-50" {{ $empowermentActive ? 'open' : '' }}>
+                        <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:bg-blue-50">
                             Pemberdayaan & UMKM
                             <span class="transition group-open:rotate-180">⌄</span>
                         </summary>
-                        <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-blue-100">
-                            <a href="{{ route('agriculture') }}" class="block py-2 hover:text-desaYellow">Panduan Alat Tani</a>
-                            <a href="{{ route('accounting') }}" class="block py-2 hover:text-desaYellow">Template Pembukuan</a>
-                            <a href="{{ route('taxes') }}" class="block py-2 hover:text-desaYellow">Panduan Pajak UMKM</a>
+                        <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-slate-600">
+                            <a href="{{ route('agriculture') }}" class="block py-2 hover:text-blue-900">Panduan Alat Tani</a>
+                            <a href="{{ route('accounting') }}" class="block py-2 hover:text-blue-900">Template Pembukuan</a>
+                            <a href="{{ route('taxes') }}" class="block py-2 hover:text-blue-900">Panduan Pajak UMKM</a>
                         </div>
                     </details>
+                    <a href="{{ url('/admin') }}" class="mt-2 block rounded-full border border-blue-900 px-4 py-2 text-center text-sm font-bold">Login Admin</a>
                 </div>
             </div>
         </nav>
@@ -135,24 +137,23 @@
         @yield('content')
     </main>
 
-    <footer class="border-t-4 border-desaYellow bg-desaBlue text-blue-100">
-        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-2 lg:px-8">
+    <footer class="bg-slate-900 text-slate-300">
+        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
             <div>
                 <h2 class="text-lg font-bold text-white">Desa Pringanom</h2>
                 <p class="mt-2 max-w-xl text-sm leading-6">Portal Resmi Pemerintahan Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen.</p>
             </div>
-            <div class="md:text-right">
-                <p class="text-sm">&copy; {{ now()->year }} Pemerintah Desa Pringanom. Seluruh hak dilindungi.</p>
-                <a href="{{ url('/admin') }}" class="mt-3 inline-block text-sm font-semibold text-desaYellow transition hover:text-white">Masuk Panel Admin</a>
+            <div><h2 class="font-bold text-white">Tautan Cepat</h2><div class="mt-4 space-y-2 text-sm"><a class="block hover:text-amber-400" href="{{ route('profile') }}">Profil Desa</a><a class="block hover:text-amber-400" href="{{ route('services') }}">Layanan Desa</a><a class="block hover:text-amber-400" href="{{ route('facilities') }}">Fasilitas Publik</a></div></div>
+            <div><h2 class="font-bold text-white">Pemberdayaan</h2><div class="mt-4 space-y-2 text-sm"><a class="block hover:text-amber-400" href="{{ route('agriculture') }}">Alat Tani</a><a class="block hover:text-amber-400" href="{{ route('accounting') }}">Pembukuan</a><a class="block hover:text-amber-400" href="{{ route('taxes') }}">Pajak UMKM</a></div></div>
+            <div>
+                <h2 class="font-bold text-white">Kolaborasi</h2>
+                <div class="mt-4 flex items-center gap-3">
+                    @if ($kknLogoPath)<img src="{{ asset($kknLogoPath) }}" alt="Logo Tim KKN Universitas Diponegoro" class="h-10 w-auto rounded bg-white object-contain p-1" loading="lazy">@endif
+                    <p class="text-sm">Dikembangkan oleh Tim KKN Undip 2026</p>
+                </div>
             </div>
         </div>
-        <div class="border-t border-white/15">
-            <div class="mx-auto flex max-w-7xl flex-col items-center justify-center gap-3 px-4 py-5 text-center sm:flex-row sm:px-6 lg:px-8">
-                @if ($kknLogoPath)
-                    <img src="{{ asset($kknLogoPath) }}" alt="Logo KKN Universitas Diponegoro" class="h-8 w-auto object-contain" width="32" height="32" loading="lazy">
-                @endif
-                <p class="text-sm font-medium text-blue-100">Dikembangkan dengan ❤️ oleh Tim KKN Universitas Diponegoro 2026</p>
-            </div>
+        <div class="border-t border-slate-800"><div class="mx-auto max-w-7xl px-4 py-5 text-sm sm:px-6 lg:px-8">&copy; {{ now()->year }} Pemerintah Desa Pringanom. Seluruh hak dilindungi.</div>
         </div>
     </footer>
 

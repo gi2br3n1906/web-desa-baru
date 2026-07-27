@@ -9,12 +9,14 @@ export default {
     extend: {
       colors: {
         desaBlue: {
-          DEFAULT: '#1e40af',
-          dark: '#1e3a8a',
+          DEFAULT: '#1E3A8A',
+          dark: '#172554',
+          light: '#EFF6FF',
         },
         desaYellow: {
-          DEFAULT: '#facc15',
-          dark: '#eab308',
+          DEFAULT: '#F59E0B',
+          dark: '#D97706',
+          light: '#FFFBEB',
         },
       },
     },
