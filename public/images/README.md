@@ -11,11 +11,11 @@ Layout publik dan panel admin akan mendeteksi kedua file tersebut secara otomati
 
 Nama dasar berikut dideteksi otomatis dalam format `.webp`, `.png`, `.jpg`, atau `.jpeg`:
 
-- `image_a462d7` — hero Gunung.
-- `image_a46314` — hero Sawah.
-- `image_a46339` — hero Jalan Sunset.
-- `image_a4602a` atau `image_a45ff3` — anak-anak bermain layangan.
-- `IMG_7053` — balita Posyandu.
-- `traktor` — traktor membajak sawah.
+- `hero-banner-1` — hero Gunung.
+- `hero-banner-2` — hero Sawah.
+- `hero-banner-3` — hero Jalan Sunset.
+- `potensi-layangan` — anak-anak bermain layangan.
+- `posyandu-balita` — balita Posyandu.
+- `alat-tani-traktor` — traktor membajak sawah.
 
 Jika aset belum tersedia, frontend menampilkan skeleton/fallback visual dan tidak menghasilkan broken image.

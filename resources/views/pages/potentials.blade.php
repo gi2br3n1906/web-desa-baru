@@ -9,7 +9,7 @@
         <div class="mt-10 space-y-10">
             @forelse ($potentials as $potential)
                 <article class="content-card overflow-hidden">
-                    @php($kite = \App\Support\BrandAssets::image('image_a4602a') ?? \App\Support\BrandAssets::image('image_a45ff3'))
+                    @php($kite = \App\Support\BrandAssets::image('potensi-layangan'))
                     <x-smart-image :src="$potential->image_path ? asset('storage/'.$potential->image_path) : ($kite ? asset($kite) : null)" :alt="'Anak-anak bermain layangan, potensi sosial Desa Pringanom — '.$potential->title_id" class="aspect-video w-full" />
                     <div class="grid divide-y divide-slate-200 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
                         <section class="p-6 sm:p-8" lang="id">

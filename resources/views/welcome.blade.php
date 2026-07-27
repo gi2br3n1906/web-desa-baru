@@ -3,9 +3,9 @@
 @section('content')
 @php
 $slides = [
- ['image_a462d7','Bentang Gunung Pringanom','Selamat Datang di Portal Informasi dan Layanan Desa Pringanom'],
- ['image_a46314','Hamparan sawah Desa Pringanom','Tumbuh Bersama dari Potensi Pertanian Desa'],
- ['image_a46339','Jalan Desa Pringanom saat matahari terbenam','Pelayanan Lebih Dekat, Informasi Lebih Terbuka'],
+ ['hero-banner-1','Bentang Gunung Pringanom','Selamat Datang di Portal Informasi dan Layanan Desa Pringanom'],
+ ['hero-banner-2','Hamparan sawah Desa Pringanom','Tumbuh Bersama dari Potensi Pertanian Desa'],
+ ['hero-banner-3','Jalan Desa Pringanom saat matahari terbenam','Pelayanan Lebih Dekat, Informasi Lebih Terbuka'],
 ];
 @endphp
 <section class="page-container pb-8 pt-6 lg:pb-10 lg:pt-8">

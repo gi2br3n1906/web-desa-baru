@@ -6,7 +6,7 @@
     <section class="page-container">
         <x-page-header eyebrow="Kesehatan Masyarakat" title="Jadwal & Informasi Posyandu" description="Catat jadwal pelayanan Posyandu dan simak informasi Perilaku Hidup Bersih dan Sehat (PHBS)." />
 
-        @php($toddler = \App\Support\BrandAssets::image('IMG_7053'))
+        @php($toddler = \App\Support\BrandAssets::image('posyandu-balita'))
         <x-smart-image :src="$toddler ? asset($toddler) : null" alt="Balita mengikuti pelayanan Posyandu Desa Pringanom" class="mt-10 aspect-video w-full rounded-2xl" />
 
         <div class="mt-10 space-y-7">
