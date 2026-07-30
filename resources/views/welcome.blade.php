@@ -10,7 +10,9 @@ $slides = [
 @endphp
 <section class="page-container pb-8 pt-6 lg:pb-10 lg:pt-8">
  <div id="hero-carousel" class="relative h-[320px] overflow-hidden rounded-2xl bg-slate-800 shadow-xl md:h-[440px]" aria-roledescription="carousel" aria-label="Pemandangan Desa Pringanom">
-  @foreach($slides as [$filename,$alt,$heading]) @php($image=\App\Support\BrandAssets::image($filename))
+  @foreach($slides as [$filename,$alt,$heading]) @php
+      $image = \App\Support\BrandAssets::image($filename);
+  @endphp
   <article class="absolute inset-0 transition-opacity duration-700 {{ $loop->first?'opacity-100':'pointer-events-none opacity-0' }}" data-carousel-slide aria-hidden="{{ $loop->first?'false':'true' }}">
    <x-smart-image :src="$image ? asset($image) : null" :alt="$alt" class="h-full w-full" :eager="$loop->first" :zoom="false" />
    <div class="absolute inset-0 bg-slate-950/45"></div>

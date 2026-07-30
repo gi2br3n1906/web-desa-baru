@@ -85,6 +85,7 @@
                         <div class="invisible absolute right-0 top-full w-60 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                             <a href="{{ route('agriculture') }}" class="{{ $dropdownLink }}">Panduan Alat Tani</a>
                             <a href="{{ route('accounting') }}" class="{{ $dropdownLink }}">Template Pembukuan</a>
+                            <a href="{{ route('umkm') }}" class="{{ $dropdownLink }}">Direktori UMKM</a>
                             <a href="{{ route('taxes') }}" class="{{ $dropdownLink }}">Panduan Pajak UMKM</a>
                         </div>
                     </div>
@@ -124,6 +125,7 @@
                         <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-slate-600">
                             <a href="{{ route('agriculture') }}" class="block py-2 hover:text-blue-900">Panduan Alat Tani</a>
                             <a href="{{ route('accounting') }}" class="block py-2 hover:text-blue-900">Template Pembukuan</a>
+                            <a href="{{ route('umkm') }}" class="block py-2 hover:text-blue-900">Direktori UMKM</a>
                             <a href="{{ route('taxes') }}" class="block py-2 hover:text-blue-900">Panduan Pajak UMKM</a>
                         </div>
                     </details>

@@ -1,22 +1,15 @@
 @extends('layouts.app')
-
-@section('title', 'Template Pembukuan | Desa Pringanom')
-
+@section('title','Buku UMKM | Desa Pringanom')
 @section('content')
-    <section class="page-container">
-        <x-page-header eyebrow="Akuntansi UMKM" title="Template Pembukuan Sederhana" description="Unduh format Excel untuk membantu pencatatan keuangan UMKM dan kelompok tani secara lebih tertib." />
-
-        <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            @forelse ($templates as $template)
-                <article class="content-card flex flex-col p-6 hover:-translate-y-1">
-                    <span class="flex size-12 items-center justify-center rounded-xl bg-green-100 font-black text-green-700">XLS</span>
-                    <h2 class="mt-5 text-xl font-bold text-desaBlue">{{ $template->nama_template }}</h2>
-                    <p class="mt-3 flex-1 leading-7 text-slate-600">{{ $template->deskripsi }}</p>
-                    <a href="{{ asset('storage/'.$template->file_path) }}" class="primary-button mt-6" download>Unduh Template</a>
-                </article>
-            @empty
-                <div class="empty-state md:col-span-2 lg:col-span-3">Template pembukuan belum tersedia.</div>
-            @endforelse
-        </div>
-    </section>
-@endsection
+<section class="page-container"><x-page-header eyebrow="Keuangan UMKM" title="Template & Buku Catatan UMKM" description="Unduh template resmi atau catat transaksi langsung di perangkat Anda." />
+<section class="mt-10"><h2 class="section-kicker">Template Excel Resmi</h2><div class="mt-6 grid gap-6 md:grid-cols-3">@forelse($templates as $template)<article class="content-card flex flex-col p-6"><h3 class="text-xl font-bold text-blue-900">{{ $template->nama_template }}</h3><p class="mt-3 flex-1 text-slate-600">{{ $template->deskripsi }}</p><a href="{{ asset('storage/'.$template->file_path) }}" download class="primary-button mt-5">Unduh .xlsx</a></article>@empty<div class="empty-state md:col-span-3">Template belum tersedia.</div>@endforelse</div></section>
+<section id="buku-umkm" class="content-card mt-14 overflow-hidden"><header class="bg-blue-900 p-6 text-white"><h2 class="text-2xl font-bold">Buku Catatan Keuangan UMKM</h2><p class="mt-2 text-blue-100">Data tersimpan lokal di browser dan tidak dikirim ke server.</p></header><div class="p-6">
+<div class="flex flex-wrap gap-2">@foreach(['jual'=>'Penjualan','kas'=>'Kas','hp'=>'Utang/Piutang','laba'=>'Laba Rugi'] as $id=>$label)<button type="button" data-tab="{{ $id }}" class="rounded-xl px-4 py-2 font-semibold {{ $loop->first?'bg-blue-900 text-white':'bg-slate-100 text-slate-700' }}">{{ $label }}</button>@endforeach</div>
+<form id="book-form" class="mt-6 grid gap-3 md:grid-cols-5"><input id="b-tanggal" type="date" required class="rounded-xl border-slate-300"><input id="b-keterangan" placeholder="Keterangan" required class="rounded-xl border-slate-300"><input id="b-masuk" type="number" min="0" placeholder="Masuk/Penjualan" class="rounded-xl border-slate-300"><input id="b-keluar" type="number" min="0" placeholder="Keluar/Modal" class="rounded-xl border-slate-300"><button class="rounded-xl bg-amber-500 px-4 py-2 font-semibold text-white hover:bg-amber-600">Simpan</button></form>
+<div class="mt-6 overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-100 text-blue-900"><tr><th class="p-3">Tanggal</th><th class="p-3">Keterangan</th><th class="p-3">Masuk</th><th class="p-3">Keluar</th><th class="p-3">Aksi</th></tr></thead><tbody id="book-body"></tbody></table></div><div id="book-summary" class="mt-6 rounded-xl bg-blue-50 p-5 font-bold text-blue-900"></div><button type="button" onclick="exportCSV()" class="mt-5 rounded-xl border border-blue-900 px-4 py-2 font-semibold text-blue-900">Export CSV</button></div></section></section>
+<script>
+const KEYS={jual:'umkm_jual_v2',kas:'umkm_kaso_v2',hp:'umkm_hp_v2'},get=k=>JSON.parse(localStorage.getItem(KEYS[k])||'[]'),set=(k,v)=>localStorage.setItem(KEYS[k],JSON.stringify(v));let active='jual';
+const money=v=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'}).format(v||0);function renderRows(k){const rows=get(k),body=document.getElementById('book-body');body.innerHTML=rows.map((r,i)=>`<tr class="border-b"><td class="p-3">${r.tanggal}</td><td class="p-3">${r.keterangan}</td><td class="p-3">${money(r.masuk)}</td><td class="p-3">${money(r.keluar)}</td><td class="p-3"><button onclick="hapus('${k}',${i})" class="text-red-600">Hapus</button></td></tr>`).join('');const m=rows.reduce((n,r)=>n+Number(r.masuk||0),0),x=rows.reduce((n,r)=>n+Number(r.keluar||0),0);document.getElementById('book-summary').textContent=`Total Masuk: ${money(m)} • Total Keluar: ${money(x)} • Saldo: ${money(m-x)}`}
+function renderJual(){renderRows('jual')}function renderKas(){renderRows('kas')}function renderHP(){renderRows('hp')}function renderLaba(){const a=[...get('jual'),...get('kas'),...get('hp')],m=a.reduce((n,r)=>n+Number(r.masuk||0),0),k=a.reduce((n,r)=>n+Number(r.keluar||0),0);document.getElementById('book-body').innerHTML='';document.getElementById('book-summary').textContent=`Estimasi Laba/Rugi: ${money(m-k)}`}function render(){({jual:renderJual,kas:renderKas,hp:renderHP,laba:renderLaba}[active])()}function hapus(k,i){const r=get(k);r.splice(i,1);set(k,r);render()}function exportCSV(){const r=get(active),csv=['Tanggal,Keterangan,Masuk,Keluar',...r.map(x=>[x.tanggal,`"${x.keterangan}"`,x.masuk,x.keluar].join(','))].join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`buku-${active}.csv`;a.click()}
+document.getElementById('book-form').onsubmit=e=>{e.preventDefault();if(active==='laba')return;const r=get(active);r.push({tanggal:document.getElementById('b-tanggal').value,keterangan:document.getElementById('b-keterangan').value,masuk:Number(document.getElementById('b-masuk').value||0),keluar:Number(document.getElementById('b-keluar').value||0)});set(active,r);e.target.reset();render()};document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{active=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.className='rounded-xl bg-slate-100 px-4 py-2 font-semibold text-slate-700');b.className='rounded-xl bg-blue-900 px-4 py-2 font-semibold text-white';render()});render();
+</script>@endsection

@@ -10,12 +10,12 @@ use App\Models\PublicFacility;
 use App\Models\TaxGuide;
 use App\Models\VillagePotential;
 use App\Models\VillageProfile;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PublicFrontendTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function test_all_public_pages_are_accessible_without_content(): void
     {
@@ -26,6 +26,7 @@ class PublicFrontendTest extends TestCase
             'facilities',
             'agriculture',
             'accounting',
+            'umkm',
             'taxes',
             'potentials',
             'posyandu',

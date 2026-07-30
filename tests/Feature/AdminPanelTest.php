@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AdminPanelTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function test_guest_is_redirected_to_the_admin_login_page(): void
     {
@@ -40,12 +40,20 @@ class AdminPanelTest extends TestCase
             'filament.admin.resources.admin-services.create',
             'filament.admin.resources.agriculture-guides.index',
             'filament.admin.resources.agriculture-guides.create',
+            'filament.admin.resources.faqs.index',
+            'filament.admin.resources.faqs.create',
             'filament.admin.resources.posyandu-schedules.index',
             'filament.admin.resources.posyandu-schedules.create',
             'filament.admin.resources.public-facilities.index',
             'filament.admin.resources.public-facilities.create',
+            'filament.admin.resources.service-requests.index',
+            'filament.admin.resources.service-requests.create',
             'filament.admin.resources.tax-guides.index',
             'filament.admin.resources.tax-guides.create',
+            'filament.admin.resources.tax-schedules.index',
+            'filament.admin.resources.tax-schedules.create',
+            'filament.admin.resources.umkms.index',
+            'filament.admin.resources.umkms.create',
             'filament.admin.resources.village-potentials.index',
             'filament.admin.resources.village-potentials.create',
             'filament.admin.resources.village-profiles.index',
