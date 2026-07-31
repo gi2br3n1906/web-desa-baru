@@ -30,7 +30,29 @@ class AdvancedFeaturesTest extends TestCase
         Faq::create(['kategori' => 'umkm', 'pertanyaan' => 'FAQ UMKM Uji?', 'jawaban' => 'Jawaban', 'urutan' => 1]);
         TaxSchedule::create(['judul_kegiatan' => 'Agenda Pajak Uji', 'tanggal' => now()->startOfMonth()->addDays(4)]);
         $this->get(route('umkm'))->assertOk()->assertSee('UMKM Uji')->assertSee('FAQ UMKM Uji?')->assertSee('umkm-map', false);
-        $this->get(route('accounting'))->assertOk()->assertSee('umkm_jual_v2')->assertSee('renderLaba')->assertSee('exportCSV');
+        $this->get(route('accounting'))
+            ->assertOk()
+            ->assertSee('🔵 Penjualan')
+            ->assertSee('🟢 Kas Operasional')
+            ->assertSee('🟢 Utang & Piutang')
+            ->assertSee('⚫ Laba Rugi')
+            ->assertSee('📖 Panduan')
+            ->assertSee('Catatan Harian')
+            ->assertSee('Rekap Mingguan')
+            ->assertSee('Rekap Bulanan')
+            ->assertSee('Total Qty Terjual')
+            ->assertSee('Saldo Kas Operasional')
+            ->assertSee('Piutang Belum Lunas')
+            ->assertSee('Prive/Pribadi')
+            ->assertSee('Hapus Semua Data Contoh')
+            ->assertSee('umkm_jual_v2')
+            ->assertSee('umkm_kaso_v2')
+            ->assertSee('umkm_hp_v2')
+            ->assertSee('renderMinggu')
+            ->assertSee('renderBulan')
+            ->assertSee('renderLaba')
+            ->assertSee('toggleLunas')
+            ->assertSee('exportCSV');
         $this->get(route('taxes'))->assertOk()->assertSee('Batas Pelaporan Pajak UMKM')->assertSee('Agenda Pajak Uji');
     }
 }

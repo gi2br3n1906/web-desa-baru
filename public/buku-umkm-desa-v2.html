@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buku UMKM Desa — Penjualan &amp; Kas Operasional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cover:#16302A; --cover-dark:#0F221D; --page:#F3EEDD; --page-line: rgba(27,42,47,0.12);
+    --ink:#1B2A2F; --ink-soft:#4B5A57;
+    --biru:#2C5F8A; --biru-dark:#204a6e;
+    --hijau:#2E5E4E; --hijau-dark:#234639;
+    --gelap:#3B3F45; --gelap-dark:#2A2D31;
+    --ochre:#D9A62E; --bata:#B5533C;
+    --card:#FFFDF6; --shadow: 0 8px 24px rgba(15,34,29,0.18);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;color:var(--ink);
+    background:linear-gradient(180deg, var(--cover) 0%, var(--cover-dark) 100%);min-height:100vh;}
+  .wrap{max-width:1100px;margin:0 auto;padding:20px 16px 60px;}
+  header.top{display:flex;align-items:center;gap:14px;padding:18px 4px 26px;color:#F3EEDD;}
+  header.top .mark{width:46px;height:46px;border-radius:8px;background:var(--ochre);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;font-size:22px;color:var(--cover-dark);flex-shrink:0;}
+  header.top h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(20px,4vw,28px);margin:0;letter-spacing:.2px;}
+  header.top p{margin:2px 0 0;font-size:13px;color:#C9D6CD;font-weight:500;}
+
+  .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;}
+  .tab{flex-shrink:0;cursor:pointer;border:none;font-family:'Fraunces',serif;font-weight:600;font-size:14px;padding:12px 16px 14px;border-radius:10px 10px 0 0;color:#fff;opacity:.6;transform:translateY(6px);transition:all .18s ease;}
+  .tab[data-c="biru"]{background:var(--biru-dark);}
+  .tab[data-c="hijau"]{background:var(--hijau-dark);}
+  .tab[data-c="gelap"]{background:var(--gelap-dark);}
+  .tab[data-c="netral"]{background:#4B5A57;}
+  .tab.active{opacity:1;transform:translateY(0);box-shadow:var(--shadow);}
+
+  .page{background:var(--page);border-radius:4px 12px 12px 12px;box-shadow:var(--shadow);padding:26px 22px 30px;
+    background-image:repeating-linear-gradient(to bottom, transparent, transparent 33px, var(--page-line) 34px);}
+  @media(min-width:640px){.page{padding:34px 36px 40px;}}
+
+  .book-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:0 0 4px;}
+  .book-sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 18px;line-height:1.5;}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.02em;}
+  .badge-biru{background:rgba(44,95,138,0.15);color:var(--biru);}
+  .badge-hijau{background:rgba(46,94,78,0.15);color:var(--hijau);}
+  .badge-gelap{background:rgba(59,63,69,0.15);color:var(--gelap);}
+
+  .card{background:var(--card);border-radius:10px;padding:18px;box-shadow:0 2px 8px rgba(27,42,47,0.08);margin-bottom:20px;}
+  .grid-form{display:grid;grid-template-columns:1fr;gap:12px;}
+  @media(min-width:640px){.grid-form{grid-template-columns:1fr 1fr;}}
+  .grid-form.cols-4{grid-template-columns:1fr;}
+  @media(min-width:760px){.grid-form.cols-4{grid-template-columns:repeat(4,1fr);}}
+  .grid-form .full{grid-column:1/-1;}
+  label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em;}
+  input,select{width:100%;padding:10px 11px;border:1.5px solid #D8D0B8;border-radius:7px;font-family:'Inter',sans-serif;font-size:14.5px;background:#fff;color:var(--ink);}
+  input:focus,select:focus{outline:2px solid var(--ochre);outline-offset:1px;border-color:var(--ochre);}
+
+  .btn{border:none;border-radius:8px;padding:11px 20px;font-weight:700;font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;transition:filter .15s;}
+  .btn:hover{filter:brightness(1.07);}
+  .btn-primary{background:var(--ochre);color:var(--cover-dark);}
+  .btn-ghost{background:transparent;color:var(--ink-soft);border:1.5px solid #D8D0B8;}
+  .btn-danger{background:transparent;color:var(--bata);border:1.5px solid var(--bata);}
+  .btn-sm{padding:7px 12px;font-size:12.5px;}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
+
+  .subtabs{display:flex;gap:8px;margin-bottom:16px;}
+  .subtab{border:1.5px solid #D8D0B8;background:#fff;border-radius:20px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-soft);}
+  .subtab.active{background:var(--biru);border-color:var(--biru);color:#fff;}
+
+  .summary-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
+  @media(min-width:640px){.summary-row{grid-template-columns:repeat(3,1fr);}}
+  .stat{background:var(--card);border-radius:10px;padding:16px 18px;box-shadow:0 2px 8px rgba(27,42,47,0.08);}
+  .stat .lbl{font-size:12px;color:var(--ink-soft);font-weight:600;text-transform:uppercase;letter-spacing:.03em;}
+  .stat .val{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;margin-top:4px;}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  thead th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-soft);padding:8px 8px;border-bottom:2px solid #D8D0B8;font-weight:700;}
+  tbody td{padding:9px 8px;border-bottom:1px solid var(--page-line);vertical-align:top;}
+  tbody tr:hover{background:rgba(217,166,46,0.08);}
+  tbody tr.contoh td{background:rgba(44,95,138,0.06);}
+  .num{font-family:'IBM Plex Mono',monospace;text-align:right;white-space:nowrap;}
+  .tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;}
+  .tag-masuk{background:rgba(62,124,89,0.15);color:#3E7C59;}
+  .tag-keluar{background:rgba(181,83,60,0.15);color:var(--bata);}
+  .tag-lunas{background:rgba(62,124,89,0.15);color:#3E7C59;}
+  .tag-belum{background:rgba(217,166,46,0.2);color:var(--ochre);}
+  .tag-contoh{background:rgba(44,95,138,0.15);color:var(--biru);}
+  .tbl-wrap{overflow-x:auto;border-radius:10px;}
+  .del-btn{background:none;border:none;color:var(--bata);cursor:pointer;font-size:12.5px;font-weight:700;padding:4px 6px;}
+  .empty{text-align:center;color:var(--ink-soft);font-size:13.5px;padding:26px 10px;}
+  .laba-pos{color:#3E7C59;font-weight:700;}
+  .laba-neg{color:var(--bata);font-weight:700;}
+  .note-box{background:#FCEFD8;border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ink-soft);margin-top:10px;line-height:1.5;}
+
+  .guide h3{font-family:'Fraunces',serif;font-size:16.5px;margin:20px 0 6px;color:var(--ink);}
+  .guide h3:first-child{margin-top:0;}
+  .guide p, .guide li{font-size:14px;line-height:1.65;color:var(--ink-soft);}
+  .guide ul{margin:6px 0 0;padding-left:20px;}
+  .footer-note{text-align:center;color:#C9D6CD;font-size:12px;margin-top:22px;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="mark">UM</div>
+    <div>
+      <h1>Buku UMKM Desa</h1>
+      <p>Penjualan dan kas operasional dicatat terpisah, biar jelas mana omzet dan mana biaya.</p>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-c="biru" onclick="showTab('jual')">🔵 Penjualan</button>
+    <button class="tab" data-c="hijau" onclick="showTab('kaso')">🟢 Kas Operasional</button>
+    <button class="tab" data-c="hijau" onclick="showTab('hp')">🟢 Utang &amp; Piutang</button>
+    <button class="tab" data-c="gelap" onclick="showTab('laba')">⚫ Laba Rugi</button>
+    <button class="tab" data-c="netral" onclick="showTab('panduan')">📖 Panduan</button>
+  </div>
+
+  <div class="page">
+
+    <!-- ===================== PENJUALAN ===================== -->
+    <section id="tab-jual">
+      <span class="badge badge-biru">KHUSUS PENDAPATAN JUALAN</span>
+      <h2 class="book-title">Buku &amp; Rekap Penjualan</h2>
+      <p class="book-sub">Catat tiap transaksi jualan di sini. Biaya bahan baku, transport, dll dicatat di tab Kas Operasional, bukan di sini.</p>
+
+      <div class="subtabs">
+        <button class="subtab active" onclick="showSub('jual-harian',this)">Catatan Harian</button>
+        <button class="subtab" onclick="showSub('jual-minggu',this)">Rekap Mingguan</button>
+        <button class="subtab" onclick="showSub('jual-bulan',this)">Rekap Bulanan</button>
+      </div>
+
+      <div id="jual-harian">
+        <div class="summary-row" id="jual-summary"></div>
+        <div class="card">
+          <form class="grid-form cols-4" onsubmit="return false;">
+            <div><label>Tanggal</label><input type="date" id="j-tanggal" required></div>
+            <div class="full" style="grid-column:span 2"><label>Nama Produk</label><input type="text" id="j-produk" placeholder="Contoh: Keripik Singkong 200gr" required></div>
+            <div><label>Qty</label><input type="number" id="j-qty" min="1" step="1" placeholder="0" required></div>
+            <div><label>Harga Satuan (Rp)</label><input type="number" id="j-harga" min="0" step="500" placeholder="0" required></div>
+            <div class="full btn-row">
+              <button class="btn btn-primary" onclick="tambahJual()">+ Simpan Penjualan</button>
+              <button class="btn btn-ghost" onclick="exportCSV('jual')">⬇ Unduh CSV</button>
+              <button class="btn btn-danger" onclick="hapusSemua('jual')">Hapus Semua Data Contoh</button>
+            </div>
+          </form>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Tanggal</th><th>Produk</th><th class="num">Qty</th><th class="num">Harga Satuan</th><th class="num">Total</th><th></th></tr></thead>
+            <tbody id="jual-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="jual-minggu" style="display:none">
+        <p class="book-sub">Minggu mengikuti kalender ISO (Senin = awal minggu). Hanya menampilkan minggu yang ada transaksinya.</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Minggu</th><th>Periode</th><th class="num">Qty Terjual</th><th class="num">Total Pendapatan</th></tr></thead>
+            <tbody id="jual-minggu-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="jual-bulan" style="display:none">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Bulan</th><th class="num">Qty Terjual</th><th class="num">Total Pendapatan</th></tr></thead>
+            <tbody id="jual-bulan-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== KAS OPERASIONAL ===================== -->
+    <section id="tab-kaso" style="display:none">
+      <span class="badge badge-hijau">MODAL, PENDAPATAN LAIN &amp; SEMUA PENGELUARAN</span>
+      <h2 class="book-title">Buku Kas Operasional</h2>
+      <p class="book-sub">Uang masuk non-jualan (modal, pendapatan lain) dan semua pengeluaran usaha. Penjualan tidak dicatat di sini.</p>
+
+      <div class="summary-row" id="kaso-summary"></div>
+
+      <div class="card">
+        <form class="grid-form" onsubmit="return false;">
+          <div><label>Tanggal</label><input type="date" id="k-tanggal" required></div>
+          <div><label>Jenis</label>
+            <select id="k-jenis"><option value="masuk">Kas Masuk</option><option value="keluar">Kas Keluar</option></select>
+          </div>
+          <div class="full"><label>Keterangan</label><input type="text" id="k-ket" placeholder="Contoh: Beli bahan baku singkong" required></div>
+          <div><label>Kategori</label>
+            <select id="k-kategori">
+              <option>Modal</option><option>Pendapatan Lain</option>
+              <option>Pembelian Bahan Baku</option><option>Transport</option>
+              <option>Operasional</option><option>Gaji/Upah</option>
+              <option>Prive/Pribadi</option><option>Lain-lain</option>
+            </select>
+          </div>
+          <div><label>Jumlah (Rp)</label><input type="number" id="k-jumlah" min="0" step="1000" placeholder="0" required></div>
+          <div class="full btn-row">
+            <button class="btn btn-primary" onclick="tambahKas()">+ Simpan Transaksi</button>
+            <button class="btn btn-ghost" onclick="exportCSV('kaso')">⬇ Unduh CSV</button>
+            <button class="btn btn-danger" onclick="hapusSemua('kaso')">Hapus Semua Data Contoh</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Tanggal</th><th>Keterangan</th><th>Kategori</th><th>Jenis</th><th class="num">Jumlah</th><th class="num">Saldo</th><th></th></tr></thead>
+          <tbody id="kaso-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== HUTANG PIUTANG ===================== -->
+    <section id="tab-hp" style="display:none">
+      <span class="badge badge-hijau">DI LUAR KAS HARIAN</span>
+      <h2 class="book-title">Catatan Utang &amp; Piutang</h2>
+      <p class="book-sub">Piutang = uang yang akan Anda terima. Hutang = uang yang harus Anda bayar. Klik status untuk tandai Lunas.</p>
+
+      <div class="summary-row" id="hp-summary"></div>
+
+      <div class="card">
+        <form class="grid-form" onsubmit="return false;">
+          <div><label>Tanggal</label><input type="date" id="h-tanggal" required></div>
+          <div><label>Jenis</label>
+            <select id="h-jenis"><option value="piutang">Piutang (akan diterima)</option><option value="hutang">Hutang (akan dibayar)</option></select>
+          </div>
+          <div><label>Nama Pihak</label><input type="text" id="h-nama" placeholder="Nama orang/toko" required></div>
+          <div><label>Jumlah (Rp)</label><input type="number" id="h-jumlah" min="0" step="1000" required></div>
+          <div class="full"><label>Keterangan</label><input type="text" id="h-ket" placeholder="Contoh: Ambil barang, bayar menyusul"></div>
+          <div class="full btn-row">
+            <button class="btn btn-primary" onclick="tambahHP()">+ Simpan Catatan</button>
+            <button class="btn btn-ghost" onclick="exportCSV('hp')">⬇ Unduh CSV</button>
+            <button class="btn btn-danger" onclick="hapusSemua('hp')">Hapus Semua Data Contoh</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Tanggal</th><th>Nama</th><th>Jenis</th><th>Keterangan</th><th class="num">Jumlah</th><th>Status</th><th></th></tr></thead>
+          <tbody id="hp-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== LABA RUGI ===================== -->
+    <section id="tab-laba" style="display:none">
+      <span class="badge badge-gelap">RINGKASAN OTOMATIS</span>
+      <h2 class="book-title">Rekap Laba Rugi Bulanan</h2>
+      <p class="book-sub">Digabung otomatis dari Buku Penjualan + Buku Kas Operasional — tidak perlu isi manual.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Bulan</th><th class="num">Penjualan</th><th class="num">Pendapatan Lain</th><th class="num">Pengeluaran Usaha</th><th class="num">Prive/Pribadi</th><th class="num">Laba/(Rugi)</th></tr></thead>
+          <tbody id="laba-body"></tbody>
+        </table>
+      </div>
+      <div class="note-box">Laba/(Rugi) = Penjualan + Pendapatan Lain − Pengeluaran Usaha. Prive/Pribadi ditampilkan terpisah dan <b>tidak</b> dihitung sebagai biaya usaha, karena itu penarikan pribadi, bukan biaya operasional.</div>
+    </section>
+
+    <!-- ===================== PANDUAN ===================== -->
+    <section id="tab-panduan" style="display:none" class="guide">
+      <h2 class="book-title">Panduan Singkat</h2>
+      <h3>🔵 Buku &amp; Rekap Penjualan</h3>
+      <p>Isi tiap kali ada transaksi jualan. Total dihitung otomatis (Qty × Harga Satuan). Rekap Mingguan dan Bulanan otomatis mengelompokkan data ini, cukup buka sub-tabnya, tidak perlu isi manual.</p>
+      <h3>🟢 Buku Kas Operasional</h3>
+      <p>Isi uang masuk yang BUKAN dari jualan (modal usaha, pendapatan lain) dan SEMUA pengeluaran: bahan baku, transport, operasional, gaji, sampai uang pribadi (Prive). Jualan tidak dicatat di sini.</p>
+      <h3>🟢 Utang &amp; Piutang</h3>
+      <p>Piutang = orang lain berutang ke usaha Anda. Hutang = usaha Anda berutang ke orang lain. Klik badge status untuk tandai Lunas.</p>
+      <h3>⚫ Laba Rugi</h3>
+      <p>Otomatis dari 2 buku di atas — tidak perlu diisi. Laba jika hasilnya positif, rugi jika negatif.</p>
+      <h3>Soal Data Contoh</h3>
+      <p>Beberapa baris contoh (bertanda biru muda, label "Contoh") sudah disiapkan supaya Anda tahu cara mengisi. Baris ini <b>boleh dan aman dihapus</b> — klik tombol "Hapus" di ujung baris untuk hapus satu-satu, atau tombol "Hapus Semua Data Contoh" di tiap buku untuk mengosongkan sekaligus sebelum mulai mencatat data usaha yang sesungguhnya.</p>
+      <h3>Tips Praktis</h3>
+      <ul>
+        <li>Catat transaksi hari itu juga, jangan menunggu menumpuk.</li>
+        <li>Data tersimpan di HP/browser yang dipakai saat ini — klik "Unduh CSV" secara rutin sebagai cadangan.</li>
+        <li>Simpan nota/struk fisik sebagai bukti walau sudah dicatat di sini.</li>
+      </ul>
+    </section>
+
+  </div>
+  <p class="footer-note">Data disimpan langsung di perangkat/browser yang Anda pakai (tidak dikirim ke server mana pun).<br>Gunakan tombol "Unduh CSV" secara berkala untuk mencadangkan data Anda.</p>
+</div>
+
+<script>
+const fmt = n => 'Rp' + Math.round(n||0).toLocaleString('id-ID');
+const todayISO = () => new Date().toISOString().slice(0,10);
+document.getElementById('j-tanggal').value = todayISO();
+document.getElementById('k-tanggal').value = todayISO();
+document.getElementById('h-tanggal').value = todayISO();
+
+function load(key, seed){
+  try{
+    const raw = localStorage.getItem(key);
+    if(raw===null){ localStorage.setItem(key, JSON.stringify(seed)); return seed; }
+    return JSON.parse(raw);
+  }catch(e){ return seed; }
+}
+function save(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
+
+const seedJual = [
+  {id:1, tanggal:'2026-01-05', produk:'Keripik Singkong 200gr', qty:10, harga:15000, contoh:true},
+  {id:2, tanggal:'2026-01-12', produk:'Keripik Singkong 200gr', qty:8, harga:15000, contoh:true},
+  {id:3, tanggal:'2026-02-03', produk:'Keripik Pisang 200gr', qty:12, harga:17000, contoh:true},
+];
+const seedKaso = [
+  {id:1, tanggal:'2026-01-01', ket:'Saldo Awal Kas/Bank', kategori:'Modal', jenis:'masuk', jumlah:2000000, contoh:true},
+  {id:2, tanggal:'2026-01-03', ket:'Beli bahan baku singkong & minyak', kategori:'Pembelian Bahan Baku', jenis:'keluar', jumlah:250000, contoh:true},
+  {id:3, tanggal:'2026-01-06', ket:'Ongkos ojek antar barang ke warung', kategori:'Transport', jenis:'keluar', jumlah:30000, contoh:true},
+];
+const seedHP = [
+  {id:1, tanggal:'2026-01-05', nama:'Toko Sumber Jaya', jenis:'hutang', jumlah:300000, ket:'Beli bahan baku, bayar 2 minggu lagi', status:'belum', contoh:true},
+  {id:2, tanggal:'2026-01-06', nama:'Bu Rina (pelanggan)', jenis:'piutang', jumlah:150000, ket:'Ambil barang, bayar menyusul', status:'belum', contoh:true},
+];
+
+let jual = load('umkm_jual_v2', seedJual);
+let kaso = load('umkm_kaso_v2', seedKaso);
+let hp   = load('umkm_hp_v2', seedHP);
+
+function showTab(name){
+  ['jual','kaso','hp','laba','panduan'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display = (t===name)?'block':'none';
+  });
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  if(name==='laba') renderLaba();
+}
+function showSub(id, btn){
+  ['jual-harian','jual-minggu','jual-bulan'].forEach(s=>{
+    document.getElementById(s).style.display = (s===id)?'block':'none';
+  });
+  btn.parentElement.querySelectorAll('.subtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(id==='jual-minggu') renderMinggu();
+  if(id==='jual-bulan') renderBulan();
+}
+
+function hapusSemua(which){
+  if(!confirm('Hapus SEMUA data (termasuk contoh) di buku ini? Data akan hilang dan tidak bisa dikembalikan.')) return;
+  if(which==='jual'){ jual=[]; save('umkm_jual_v2', jual); renderJual(); }
+  if(which==='kaso'){ kaso=[]; save('umkm_kaso_v2', kaso); renderKas(); }
+  if(which==='hp'){ hp=[]; save('umkm_hp_v2', hp); renderHP(); }
+}
+
+/* ---------- PENJUALAN ---------- */
+function tambahJual(){
+  const tanggal = document.getElementById('j-tanggal').value;
+  const produk = document.getElementById('j-produk').value.trim();
+  const qty = parseFloat(document.getElementById('j-qty').value);
+  const harga = parseFloat(document.getElementById('j-harga').value);
+  if(!tanggal || !produk || !qty || !harga){ alert('Lengkapi semua kolom dulu ya.'); return; }
+  jual.push({id:Date.now(), tanggal, produk, qty, harga, contoh:false});
+  save('umkm_jual_v2', jual);
+  document.getElementById('j-produk').value=''; document.getElementById('j-qty').value=''; document.getElementById('j-harga').value='';
+  renderJual();
+}
+function hapusJual(id){ if(!confirm('Hapus transaksi ini?')) return; jual=jual.filter(x=>x.id!==id); save('umkm_jual_v2',jual); renderJual(); }
+
+function renderJual(){
+  const body = document.getElementById('jual-body'); body.innerHTML='';
+  const sorted = [...jual].sort((a,b)=>a.tanggal.localeCompare(b.tanggal));
+  let totalQty=0, totalRp=0;
+  if(sorted.length===0){ body.innerHTML='<tr><td colspan="6" class="empty">Belum ada penjualan. Tambahkan transaksi pertama di form di atas.</td></tr>'; }
+  sorted.forEach(t=>{
+    const total = t.qty*t.harga; totalQty+=t.qty; totalRp+=total;
+    const tr = document.createElement('tr'); if(t.contoh) tr.className='contoh';
+    tr.innerHTML = `<td>${fmtTgl(t.tanggal)} ${t.contoh?'<span class="tag tag-contoh">Contoh</span>':''}</td><td>${esc(t.produk)}</td>
+      <td class="num">${t.qty}</td><td class="num">${fmt(t.harga)}</td><td class="num">${fmt(total)}</td>
+      <td><button class="del-btn" onclick="hapusJual(${t.id})">Hapus</button></td>`;
+    body.appendChild(tr);
+  });
+  document.getElementById('jual-summary').innerHTML = `
+    <div class="stat"><div class="lbl">Total Qty Terjual</div><div class="val">${totalQty}</div></div>
+    <div class="stat"><div class="lbl">Total Pendapatan</div><div class="val" style="color:#3E7C59">${fmt(totalRp)}</div></div>`;
+}
+
+function isoWeekInfo(dateStr){
+  const d = new Date(dateStr+'T00:00:00');
+  const target = new Date(d.valueOf());
+  const dayNr = (d.getDay()+6)%7;
+  target.setDate(target.getDate()-dayNr+3);
+  const firstThursday = new Date(target.getFullYear(),0,4);
+  const diff = (target - firstThursday)/86400000;
+  const week = 1 + Math.round(diff/7);
+  const monday = new Date(d); monday.setDate(d.getDate()-dayNr);
+  const sunday = new Date(monday); sunday.setDate(monday.getDate()+6);
+  return {year: target.getFullYear(), week, monday, sunday};
+}
+function fmtDateShort(d){ return d.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}); }
+
+function renderMinggu(){
+  const body = document.getElementById('jual-minggu-body'); body.innerHTML='';
+  const byWeek = {};
+  jual.forEach(t=>{
+    const info = isoWeekInfo(t.tanggal);
+    const key = info.year+'-W'+String(info.week).padStart(2,'0');
+    if(!byWeek[key]) byWeek[key] = {qty:0, total:0, monday:info.monday, sunday:info.sunday, week:info.week, year:info.year};
+    byWeek[key].qty += t.qty; byWeek[key].total += t.qty*t.harga;
+  });
+  const keys = Object.keys(byWeek).sort();
+  if(keys.length===0){ body.innerHTML='<tr><td colspan="4" class="empty">Belum ada data penjualan.</td></tr>'; return; }
+  keys.forEach(k=>{
+    const w = byWeek[k];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>Minggu ${w.week} / ${w.year}</td><td>${fmtDateShort(w.monday)} – ${fmtDateShort(w.sunday)}</td>
+      <td class="num">${w.qty}</td><td class="num">${fmt(w.total)}</td>`;
+    body.appendChild(tr);
+  });
+}
+function renderBulan(){
+  const bulanNama = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  const body = document.getElementById('jual-bulan-body'); body.innerHTML='';
+  const byMonth = {};
+  jual.forEach(t=>{
+    const ym = t.tanggal.slice(0,7);
+    if(!byMonth[ym]) byMonth[ym] = {qty:0, total:0};
+    byMonth[ym].qty += t.qty; byMonth[ym].total += t.qty*t.harga;
+  });
+  const keys = Object.keys(byMonth).sort();
+  if(keys.length===0){ body.innerHTML='<tr><td colspan="3" class="empty">Belum ada data penjualan.</td></tr>'; return; }
+  keys.forEach(k=>{
+    const [y,m]=k.split('-'); const label = bulanNama[parseInt(m,10)-1]+' '+y;
+    const d = byMonth[k];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${label}</td><td class="num">${d.qty}</td><td class="num">${fmt(d.total)}</td>`;
+    body.appendChild(tr);
+  });
+}
+
+/* ---------- KAS OPERASIONAL ---------- */
+function tambahKas(){
+  const tanggal = document.getElementById('k-tanggal').value;
+  const ket = document.getElementById('k-ket').value.trim();
+  const kategori = document.getElementById('k-kategori').value;
+  const jenis = document.getElementById('k-jenis').value;
+  const jumlah = parseFloat(document.getElementById('k-jumlah').value);
+  if(!tanggal || !ket || !jumlah || jumlah<=0){ alert('Lengkapi tanggal, keterangan, dan jumlah dulu ya.'); return; }
+  kaso.push({id:Date.now(), tanggal, ket, kategori, jenis, jumlah, contoh:false});
+  save('umkm_kaso_v2', kaso);
+  document.getElementById('k-ket').value=''; document.getElementById('k-jumlah').value='';
+  renderKas();
+}
+function hapusKas(id){ if(!confirm('Hapus transaksi ini?')) return; kaso=kaso.filter(x=>x.id!==id); save('umkm_kaso_v2',kaso); renderKas(); }
+
+function renderKas(){
+  const sorted = [...kaso].sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.id-b.id);
+  let saldo=0, totalMasuk=0, totalKeluar=0;
+  const body = document.getElementById('kaso-body'); body.innerHTML='';
+  if(sorted.length===0){ body.innerHTML='<tr><td colspan="7" class="empty">Belum ada transaksi kas operasional.</td></tr>'; }
+  sorted.forEach(t=>{
+    const nilai = t.jenis==='masuk' ? t.jumlah : -t.jumlah; saldo += nilai;
+    if(t.jenis==='masuk') totalMasuk+=t.jumlah; else totalKeluar+=t.jumlah;
+    const tr = document.createElement('tr'); if(t.contoh) tr.className='contoh';
+    tr.innerHTML = `<td>${fmtTgl(t.tanggal)} ${t.contoh?'<span class="tag tag-contoh">Contoh</span>':''}</td><td>${esc(t.ket)}</td><td>${esc(t.kategori)}</td>
+      <td><span class="tag ${t.jenis==='masuk'?'tag-masuk':'tag-keluar'}">${t.jenis==='masuk'?'Masuk':'Keluar'}</span></td>
+      <td class="num">${fmt(t.jumlah)}</td><td class="num">${fmt(saldo)}</td>
+      <td><button class="del-btn" onclick="hapusKas(${t.id})">Hapus</button></td>`;
+    body.appendChild(tr);
+  });
+  document.getElementById('kaso-summary').innerHTML = `
+    <div class="stat"><div class="lbl">Saldo Kas Operasional</div><div class="val">${fmt(saldo)}</div></div>
+    <div class="stat"><div class="lbl">Total Masuk</div><div class="val" style="color:#3E7C59">${fmt(totalMasuk)}</div></div>
+    <div class="stat"><div class="lbl">Total Keluar</div><div class="val" style="color:var(--bata)">${fmt(totalKeluar)}</div></div>`;
+}
+
+/* ---------- HUTANG PIUTANG ---------- */
+function tambahHP(){
+  const tanggal = document.getElementById('h-tanggal').value;
+  const jenis = document.getElementById('h-jenis').value;
+  const nama = document.getElementById('h-nama').value.trim();
+  const jumlah = parseFloat(document.getElementById('h-jumlah').value);
+  const ket = document.getElementById('h-ket').value.trim();
+  if(!tanggal || !nama || !jumlah || jumlah<=0){ alert('Lengkapi tanggal, nama, dan jumlah dulu ya.'); return; }
+  hp.push({id:Date.now(), tanggal, jenis, nama, jumlah, ket, status:'belum', contoh:false});
+  save('umkm_hp_v2', hp);
+  document.getElementById('h-nama').value=''; document.getElementById('h-jumlah').value=''; document.getElementById('h-ket').value='';
+  renderHP();
+}
+function toggleLunas(id){ hp = hp.map(x=> x.id===id ? {...x, status: x.status==='lunas'?'belum':'lunas'} : x); save('umkm_hp_v2', hp); renderHP(); }
+function hapusHP(id){ if(!confirm('Hapus catatan ini?')) return; hp=hp.filter(x=>x.id!==id); save('umkm_hp_v2',hp); renderHP(); }
+
+function renderHP(){
+  const body = document.getElementById('hp-body'); body.innerHTML='';
+  if(hp.length===0){ body.innerHTML='<tr><td colspan="7" class="empty">Belum ada catatan utang/piutang.</td></tr>'; }
+  let totalPiutang=0, totalHutang=0;
+  [...hp].sort((a,b)=>a.tanggal.localeCompare(b.tanggal)).forEach(t=>{
+    if(t.status==='belum'){ if(t.jenis==='piutang') totalPiutang+=t.jumlah; else totalHutang+=t.jumlah; }
+    const tr = document.createElement('tr'); if(t.contoh) tr.className='contoh';
+    tr.innerHTML = `<td>${fmtTgl(t.tanggal)} ${t.contoh?'<span class="tag tag-contoh">Contoh</span>':''}</td><td>${esc(t.nama)}</td>
+      <td><span class="tag ${t.jenis==='piutang'?'tag-masuk':'tag-keluar'}">${t.jenis==='piutang'?'Piutang':'Hutang'}</span></td>
+      <td>${esc(t.ket||'-')}</td><td class="num">${fmt(t.jumlah)}</td>
+      <td><span class="tag ${t.status==='lunas'?'tag-lunas':'tag-belum'}" style="cursor:pointer" onclick="toggleLunas(${t.id})">${t.status==='lunas'?'Lunas':'Belum Lunas'}</span></td>
+      <td><button class="del-btn" onclick="hapusHP(${t.id})">Hapus</button></td>`;
+    body.appendChild(tr);
+  });
+  document.getElementById('hp-summary').innerHTML = `
+    <div class="stat"><div class="lbl">Piutang Belum Lunas</div><div class="val" style="color:#3E7C59">${fmt(totalPiutang)}</div></div>
+    <div class="stat"><div class="lbl">Hutang Belum Lunas</div><div class="val" style="color:var(--bata)">${fmt(totalHutang)}</div></div>`;
+}
+
+/* ---------- LABA RUGI ---------- */
+function renderLaba(){
+  const bulanNama = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const byMonth = {};
+  jual.forEach(t=>{ const ym=t.tanggal.slice(0,7); if(!byMonth[ym]) byMonth[ym]={penjualan:0,pendapatanLain:0,pengeluaran:0,prive:0}; byMonth[ym].penjualan += t.qty*t.harga; });
+  kaso.forEach(t=>{
+    const ym=t.tanggal.slice(0,7); if(!byMonth[ym]) byMonth[ym]={penjualan:0,pendapatanLain:0,pengeluaran:0,prive:0};
+    if(t.jenis==='masuk' && t.kategori==='Pendapatan Lain') byMonth[ym].pendapatanLain += t.jumlah;
+    if(t.jenis==='keluar' && t.kategori==='Prive/Pribadi') byMonth[ym].prive += t.jumlah;
+    else if(t.jenis==='keluar') byMonth[ym].pengeluaran += t.jumlah;
+  });
+  const keys = Object.keys(byMonth).sort();
+  const body = document.getElementById('laba-body'); body.innerHTML='';
+  if(keys.length===0){ body.innerHTML='<tr><td colspan="6" class="empty">Belum ada data. Isi Buku Penjualan dan Kas Operasional dulu.</td></tr>'; return; }
+  keys.forEach(k=>{
+    const [y,m]=k.split('-'); const label = bulanNama[parseInt(m,10)-1]+' '+y;
+    const d = byMonth[k];
+    const laba = d.penjualan + d.pendapatanLain - d.pengeluaran;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${label}</td><td class="num">${fmt(d.penjualan)}</td><td class="num">${fmt(d.pendapatanLain)}</td>
+      <td class="num">${fmt(d.pengeluaran)}</td><td class="num">${fmt(d.prive)}</td>
+      <td class="num ${laba>=0?'laba-pos':'laba-neg'}">${fmt(laba)}</td>`;
+    body.appendChild(tr);
+  });
+}
+
+function fmtTgl(iso){ const [y,m,d]=iso.split('-'); return `${d}/${m}/${y}`; }
+function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+function exportCSV(which){
+  let rows, filename;
+  if(which==='jual'){
+    rows=[['Tanggal','Produk','Qty','Harga Satuan','Total']];
+    [...jual].sort((a,b)=>a.tanggal.localeCompare(b.tanggal)).forEach(t=>rows.push([fmtTgl(t.tanggal), t.produk, t.qty, t.harga, t.qty*t.harga]));
+    filename='buku-penjualan.csv';
+  } else if(which==='kaso'){
+    rows=[['Tanggal','Keterangan','Kategori','Jenis','Jumlah']];
+    [...kaso].sort((a,b)=>a.tanggal.localeCompare(b.tanggal)).forEach(t=>rows.push([fmtTgl(t.tanggal), t.ket, t.kategori, t.jenis==='masuk'?'Kas Masuk':'Kas Keluar', t.jumlah]));
+    filename='buku-kas-operasional.csv';
+  } else {
+    rows=[['Tanggal','Nama','Jenis','Keterangan','Jumlah','Status']];
+    [...hp].sort((a,b)=>a.tanggal.localeCompare(b.tanggal)).forEach(t=>rows.push([fmtTgl(t.tanggal), t.nama, t.jenis==='piutang'?'Piutang':'Hutang', t.ket||'', t.jumlah, t.status==='lunas'?'Lunas':'Belum Lunas']));
+    filename='utang-piutang.csv';
+  }
+  const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(["\uFEFF"+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
+}
+
+renderJual(); renderKas(); renderHP();
+</script>
+</body>
+</html>
