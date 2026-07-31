@@ -7,6 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="Portal resmi informasi dan pelayanan Pemerintah Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen.">
 
     <title>@yield('title', 'Portal Desa Pringanom')</title>
@@ -89,7 +90,25 @@
                             <a href="{{ route('taxes') }}" class="{{ $dropdownLink }}">Panduan Pajak UMKM</a>
                         </div>
                     </div>
-                    <a href="{{ url('/admin') }}" class="ml-2 rounded-full border border-blue-900 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-900 hover:text-white">Login Admin</a>
+                    @auth
+                        <div class="group relative ml-2">
+                            <button type="button" class="inline-flex items-center gap-2 rounded-full border border-blue-900 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-50" aria-haspopup="true">
+                                {{ auth()->user()->name }}
+                                <span aria-hidden="true">⌄</span>
+                            </button>
+                            <div class="invisible absolute right-0 top-full w-48 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                                @if (auth()->user()->role === 'admin')
+                                    <a href="{{ url('/admin') }}" class="{{ $dropdownLink }}">Panel Admin</a>
+                                @endif
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="block w-full rounded-lg px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-red-50 hover:text-red-700">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}" class="ml-2 rounded-full border border-blue-900 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-900 hover:text-white">Masuk</a>
+                    @endauth
                 </div>
             </div>
 
@@ -129,7 +148,17 @@
                             <a href="{{ route('taxes') }}" class="block py-2 hover:text-blue-900">Panduan Pajak UMKM</a>
                         </div>
                     </details>
-                    <a href="{{ url('/admin') }}" class="mt-2 block rounded-full border border-blue-900 px-4 py-2 text-center text-sm font-bold">Login Admin</a>
+                    @auth
+                        @if (auth()->user()->role === 'admin')
+                            <a href="{{ url('/admin') }}" class="mt-2 block rounded-full border border-blue-900 px-4 py-2 text-center text-sm font-bold">Panel Admin</a>
+                        @endif
+                        <form method="POST" action="{{ route('logout') }}" class="mt-2">
+                            @csrf
+                            <button type="submit" class="block w-full rounded-full border border-red-700 px-4 py-2 text-center text-sm font-bold text-red-700">Logout ({{ auth()->user()->name }})</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="mt-2 block rounded-full border border-blue-900 px-4 py-2 text-center text-sm font-bold">Masuk</a>
+                    @endauth
                 </div>
             </div>
         </nav>

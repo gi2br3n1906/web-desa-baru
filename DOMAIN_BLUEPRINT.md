@@ -92,3 +92,22 @@ Berikut adalah rancangan tabel database untuk mengakomodasi 8 kebutuhan konten w
 - `tanggal` (Date)
 - `keterangan` (Text, nullable)
 - `is_routine_monthly` (Boolean, default: false)
+
+## 13. Tabel: `umkm_transactions` (Buku Keuangan UMKM)
+- `id` (Primary Key)
+- `user_id` (Foreign Key -> users)
+- `book_type` (Enum: jual, kaso, hp)
+- `date` (Date)
+- `title_or_product` (String)
+- `category` (String, nullable)
+- `transaction_type` (Enum: masuk, keluar, piutang, hutang; nullable)
+- `qty` (Integer, nullable)
+- `price_per_unit` (Decimal 12,2; nullable)
+- `amount` (Decimal 12,2)
+- `status` (Enum: lunas, belum; nullable)
+- `notes` (Text, nullable)
+
+## Role Pengguna
+- `users.role` menggunakan enum `admin` atau `umkm`, dengan default `umkm`.
+- Admin dapat mengakses panel Filament dan rekap seluruh transaksi.
+- Akun UMKM hanya dapat mengakses transaksi miliknya melalui endpoint pembukuan terautentikasi.

@@ -24,7 +24,7 @@ class AdminPanelTest extends TestCase
     {
         $admin = User::firstOrCreate(
             ['email' => 'admin@desa.com'],
-            User::factory()->make([
+            User::factory()->admin()->make([
                 'email' => 'admin@desa.com',
                 'password' => 'password',
             ])->getAttributes(),
@@ -54,6 +54,9 @@ class AdminPanelTest extends TestCase
             'filament.admin.resources.tax-schedules.create',
             'filament.admin.resources.umkms.index',
             'filament.admin.resources.umkms.create',
+            'filament.admin.resources.umkm-transactions.index',
+            'filament.admin.resources.users.index',
+            'filament.admin.resources.users.create',
             'filament.admin.resources.village-potentials.index',
             'filament.admin.resources.village-potentials.create',
             'filament.admin.resources.village-profiles.index',
@@ -63,5 +66,14 @@ class AdminPanelTest extends TestCase
         foreach ($routes as $route) {
             $this->get(route($route))->assertOk();
         }
+    }
+
+    public function test_umkm_user_cannot_access_admin_panel(): void
+    {
+        $user = User::factory()->create(['role' => 'umkm']);
+
+        $this->actingAs($user)
+            ->get('/admin')
+            ->assertForbidden();
     }
 }

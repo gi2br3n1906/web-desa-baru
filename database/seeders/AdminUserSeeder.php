@@ -17,6 +17,7 @@ class AdminUserSeeder extends Seeder
             [
                 'name' => 'Administrator Desa',
                 'password' => 'password',
+                'role' => 'admin',
             ],
         );
     }

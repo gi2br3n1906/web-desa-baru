@@ -13,14 +13,17 @@ use App\Models\ServiceRequest;
 use App\Models\TaxGuide;
 use App\Models\TaxSchedule;
 use App\Models\Umkm;
+use App\Models\UmkmTransaction;
 use App\Models\VillagePotential;
 use App\Models\VillageProfile;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Response;
 
 class FrontendController extends Controller
 {
@@ -88,6 +91,58 @@ class FrontendController extends Controller
         return view('pages.accounting', [
             'templates' => AccountingTemplate::query()->latest()->get(),
         ]);
+    }
+
+    public function getTransactions(Request $request): JsonResponse
+    {
+        $transactions = $request->user()
+            ->transactions()
+            ->when($request->filled('book_type'), fn ($query) => $query->where('book_type', $request->string('book_type')->toString()))
+            ->latest('date')
+            ->latest('id')
+            ->get();
+
+        return response()->json(['data' => $transactions]);
+    }
+
+    public function storeTransaction(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'book_type' => ['required', 'in:jual,kaso,hp'],
+            'date' => ['required', 'date'],
+            'title_or_product' => ['required', 'string', 'max:255'],
+            'category' => ['nullable', 'string', 'max:255'],
+            'transaction_type' => ['nullable', 'in:masuk,keluar,piutang,hutang'],
+            'qty' => ['nullable', 'integer', 'min:0'],
+            'price_per_unit' => ['nullable', 'numeric', 'min:0'],
+            'amount' => ['required', 'numeric', 'min:0'],
+            'status' => ['nullable', 'in:lunas,belum'],
+            'notes' => ['nullable', 'string', 'max:5000'],
+        ]);
+
+        $transaction = $request->user()->transactions()->create($data);
+
+        return response()->json(['data' => $transaction], 201);
+    }
+
+    public function deleteTransaction(Request $request, UmkmTransaction $transaction): Response
+    {
+        abort_unless($transaction->user_id === $request->user()->id, 404);
+
+        $transaction->delete();
+
+        return response()->noContent();
+    }
+
+    public function toggleLunas(Request $request, UmkmTransaction $transaction): JsonResponse
+    {
+        abort_unless($transaction->user_id === $request->user()->id, 404);
+
+        $transaction->update([
+            'status' => $transaction->status === 'lunas' ? 'belum' : 'lunas',
+        ]);
+
+        return response()->json(['data' => $transaction->fresh()]);
     }
 
     public function umkm(): View
