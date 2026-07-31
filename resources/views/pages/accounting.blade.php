@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="md:col-span-2">
                                         <label for="j-produk" class="field-label">Nama Produk</label>
-                                        <input type="text" id="j-produk" placeholder="Contoh: Keripik Singkong 200gr" required class="field-input">
+                                        <input type="text" id="j-produk" placeholder="Nama produk" required class="field-input">
                                     </div>
                                     <div>
                                         <label for="j-qty" class="field-label">Qty</label>
@@ -74,7 +74,7 @@
                                     <div class="flex flex-wrap items-end gap-2 md:col-span-3">
                                         <button type="button" class="primary-button" onclick="tambahJual()">+ Simpan Penjualan</button>
                                         <button type="button" class="secondary-button" onclick="exportCSV('jual')">⬇ Unduh CSV</button>
-                                        <button type="button" class="danger-button" onclick="hapusSemua('jual')">Hapus Semua Data Contoh</button>
+                                        <button type="button" class="danger-button" onclick="hapusSemua('jual')">Hapus Semua Data</button>
                                     </div>
                                 </form>
                             </div>
@@ -112,7 +112,7 @@
                                 <div class="md:col-span-2"><label for="k-ket" class="field-label">Keterangan</label><input type="text" id="k-ket" placeholder="Contoh: Beli bahan baku singkong" required class="field-input"></div>
                                 <div><label for="k-kategori" class="field-label">Kategori</label><select id="k-kategori" class="field-input"><option>Modal</option><option>Pendapatan Lain</option><option>Pembelian Bahan Baku</option><option>Transport</option><option>Operasional</option><option>Gaji/Upah</option><option>Prive/Pribadi</option><option>Lain-lain</option></select></div>
                                 <div><label for="k-jumlah" class="field-label">Jumlah (Rp)</label><input type="number" id="k-jumlah" min="0" step="1000" placeholder="0" required class="field-input"></div>
-                                <div class="flex flex-wrap gap-2 md:col-span-2"><button type="button" class="primary-button" onclick="tambahKas()">+ Simpan Transaksi</button><button type="button" class="secondary-button" onclick="exportCSV('kaso')">⬇ Unduh CSV</button><button type="button" class="danger-button" onclick="hapusSemua('kaso')">Hapus Semua Data Contoh</button></div>
+                                <div class="flex flex-wrap gap-2 md:col-span-2"><button type="button" class="primary-button" onclick="tambahKas()">+ Simpan Transaksi</button><button type="button" class="secondary-button" onclick="exportCSV('kaso')">⬇ Unduh CSV</button><button type="button" class="danger-button" onclick="hapusSemua('kaso')">Hapus Semua Data</button></div>
                             </form>
                         </div>
                         <div class="mt-5 overflow-x-auto rounded-xl bg-white shadow-sm ring-1 ring-slate-200"><table class="book-table"><thead><tr><th>Tanggal</th><th>Keterangan</th><th>Kategori</th><th>Jenis</th><th class="text-right">Jumlah</th><th class="text-right">Saldo</th><th>Aksi</th></tr></thead><tbody id="kaso-body"></tbody></table></div>
@@ -130,7 +130,7 @@
                                 <div><label for="h-nama" class="field-label">Nama Pihak</label><input type="text" id="h-nama" placeholder="Nama orang/toko" required class="field-input"></div>
                                 <div><label for="h-jumlah" class="field-label">Jumlah (Rp)</label><input type="number" id="h-jumlah" min="0" step="1000" required class="field-input"></div>
                                 <div class="md:col-span-2"><label for="h-ket" class="field-label">Keterangan</label><input type="text" id="h-ket" placeholder="Contoh: Ambil barang, bayar menyusul" class="field-input"></div>
-                                <div class="flex flex-wrap gap-2 md:col-span-2"><button type="button" class="primary-button" onclick="tambahHP()">+ Simpan Catatan</button><button type="button" class="secondary-button" onclick="exportCSV('hp')">⬇ Unduh CSV</button><button type="button" class="danger-button" onclick="hapusSemua('hp')">Hapus Semua Data Contoh</button></div>
+                                <div class="flex flex-wrap gap-2 md:col-span-2"><button type="button" class="primary-button" onclick="tambahHP()">+ Simpan Catatan</button><button type="button" class="secondary-button" onclick="exportCSV('hp')">⬇ Unduh CSV</button><button type="button" class="danger-button" onclick="hapusSemua('hp')">Hapus Semua Data</button></div>
                             </form>
                         </div>
                         <div class="mt-5 overflow-x-auto rounded-xl bg-white shadow-sm ring-1 ring-slate-200"><table class="book-table"><thead><tr><th>Tanggal</th><th>Nama</th><th>Jenis</th><th>Keterangan</th><th class="text-right">Jumlah</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="hp-body"></tbody></table></div>
@@ -152,7 +152,7 @@
                             <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200"><h3 class="text-lg font-bold text-emerald-900">🟢 Utang &amp; Piutang</h3><p class="mt-2 text-sm leading-6 text-slate-600">Piutang berarti orang lain berutang kepada usaha Anda. Hutang berarti usaha Anda berutang kepada orang lain. Klik badge status untuk menandai lunas.</p></article>
                             <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200"><h3 class="text-lg font-bold text-slate-800">⚫ Laba Rugi</h3><p class="mt-2 text-sm leading-6 text-slate-600">Otomatis dari dua buku di atas. Laba positif berarti pendapatan lebih besar daripada pengeluaran; nilai negatif berarti rugi.</p></article>
                         </div>
-                        <article class="mt-5 rounded-xl bg-amber-50 p-5 ring-1 ring-amber-200"><h3 class="text-lg font-bold text-slate-800">Soal Data Contoh</h3><p class="mt-2 text-sm leading-6 text-slate-600">Pada mode tamu, beberapa baris contoh bertanda biru muda disiapkan agar Anda tahu cara mengisi. Data contoh boleh dihapus satu per satu atau dengan tombol “Hapus Data Contoh”.</p></article>
+                        <article class="mt-5 rounded-xl bg-amber-50 p-5 ring-1 ring-amber-200"><h3 class="text-lg font-bold text-slate-800">Soal Data Tersimpan</h3><p class="mt-2 text-sm leading-6 text-slate-600">Mode tamu menyimpan data pada browser ini. Data tersebut tidak masuk ke database desa. Gunakan tombol hapus pada baris atau tombol “Hapus Semua Data” bila ingin mengosongkan buku.</p></article>
                         <article class="mt-5 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200"><h3 class="text-lg font-bold text-slate-800">Tips Praktis</h3><ul class="mt-2 list-disc space-y-2 pl-5 text-sm leading-6 text-slate-600"><li>Catat transaksi hari itu juga, jangan menunggu menumpuk.</li><li>Mode tamu menyimpan data di browser; unduh CSV secara rutin sebagai cadangan.</li><li>Simpan nota atau struk fisik sebagai bukti walau sudah dicatat di sini.</li></ul></article>
                     </section>
                 </div>
@@ -225,37 +225,19 @@
         let kaso = [];
         let hp = [];
 
-        const seedJual = [
-            { id: 1, tanggal: '2026-01-05', produk: 'Keripik Singkong 200gr', qty: 10, harga: 15000, contoh: true },
-            { id: 2, tanggal: '2026-01-12', produk: 'Keripik Singkong 200gr', qty: 8, harga: 15000, contoh: true },
-            { id: 3, tanggal: '2026-02-03', produk: 'Keripik Pisang 200gr', qty: 12, harga: 17000, contoh: true },
-        ];
-        const seedKaso = [
-            { id: 1, tanggal: '2026-01-01', ket: 'Saldo Awal Kas/Bank', kategori: 'Modal', jenis: 'masuk', jumlah: 2000000, contoh: true },
-            { id: 2, tanggal: '2026-01-03', ket: 'Beli bahan baku singkong & minyak', kategori: 'Pembelian Bahan Baku', jenis: 'keluar', jumlah: 250000, contoh: true },
-            { id: 3, tanggal: '2026-01-06', ket: 'Ongkos ojek antar barang ke warung', kategori: 'Transport', jenis: 'keluar', jumlah: 30000, contoh: true },
-        ];
-        const seedHP = [
-            { id: 1, tanggal: '2026-01-05', nama: 'Toko Sumber Jaya', jenis: 'hutang', jumlah: 300000, ket: 'Beli bahan baku, bayar 2 minggu lagi', status: 'belum', contoh: true },
-            { id: 2, tanggal: '2026-01-06', nama: 'Bu Rina (pelanggan)', jenis: 'piutang', jumlah: 150000, ket: 'Ambil barang, bayar menyusul', status: 'belum', contoh: true },
-        ];
-
         const fmt = value => `Rp${Math.round(Number(value) || 0).toLocaleString('id-ID')}`;
         const todayISO = () => new Date().toISOString().slice(0, 10);
         const monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         const monthNamesLong = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;' }[character]));
-        const localGet = (key, seed) => {
+        const localGet = key => {
             try {
                 const raw = localStorage.getItem(STORAGE_KEYS[key]);
-                if (raw === null) {
-                    localStorage.setItem(STORAGE_KEYS[key], JSON.stringify(seed));
-                    return [...seed];
-                }
+                if (raw === null) return [];
                 const data = JSON.parse(raw);
-                return Array.isArray(data) ? data : [...seed];
+                return Array.isArray(data) ? data : [];
             } catch (error) {
-                return [...seed];
+                return [];
             }
         };
         const localSet = (key, data) => localStorage.setItem(STORAGE_KEYS[key], JSON.stringify(data));
@@ -600,9 +582,9 @@
             if (isAuthenticated) {
                 loadServerRows().then(() => { renderJual(); renderKas(); renderHP(); }).catch(error => setFeedback(error.message, true));
             } else {
-                jual = localGet('jual', seedJual);
-                kaso = localGet('kaso', seedKaso);
-                hp = localGet('hp', seedHP);
+                jual = localGet('jual');
+                kaso = localGet('kaso');
+                hp = localGet('hp');
                 renderJual();
                 renderKas();
                 renderHP();

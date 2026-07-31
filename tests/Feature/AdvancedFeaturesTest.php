@@ -44,7 +44,7 @@ class AdvancedFeaturesTest extends TestCase
             ->assertSee('Saldo Kas Operasional')
             ->assertSee('Piutang Belum Lunas')
             ->assertSee('Prive/Pribadi')
-            ->assertSee('Hapus Semua Data Contoh')
+            ->assertSee('Hapus Semua Data')
             ->assertSee('umkm_jual_v2')
             ->assertSee('umkm_kaso_v2')
             ->assertSee('umkm_hp_v2')
@@ -52,7 +52,9 @@ class AdvancedFeaturesTest extends TestCase
             ->assertSee('renderBulan')
             ->assertSee('renderLaba')
             ->assertSee('toggleLunas')
-            ->assertSee('exportCSV');
+            ->assertSee('exportCSV')
+            ->assertDontSee('const seedJual')
+            ->assertDontSee('Toko Sumber Jaya');
         $this->get(route('taxes'))->assertOk()->assertSee('Batas Pelaporan Pajak UMKM')->assertSee('Agenda Pajak Uji');
     }
 }
