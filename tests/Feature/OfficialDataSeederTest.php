@@ -35,6 +35,10 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseCount('tax_guides', 3);
         $this->assertDatabaseCount('tax_schedules', 4);
         $this->assertDatabaseCount('posyandu_schedules', 4);
+        $this->assertDatabaseCount('posyandu_profiles', 1);
+        $this->assertDatabaseCount('posyandu_officers', 10);
+        $this->assertDatabaseCount('posyandu_educations', 3);
+        $this->assertDatabaseCount('posyandu_galleries', 4);
         $this->assertDatabaseCount('public_facilities', 3);
         $this->assertDatabaseCount('admin_services', 13);
 
@@ -44,6 +48,10 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseHas('faqs', ['kategori' => 'pajak', 'pertanyaan' => 'Apa itu PPh Final UMKM 0,5%?']);
         $this->assertDatabaseHas('tax_schedules', ['judul_kegiatan' => 'Setor PPh Final UMKM', 'is_routine_monthly' => true]);
         $this->assertDatabaseHas('posyandu_schedules', ['nama_posyandu' => 'Posyandu Dukuh Pringanom', 'kontak_bidan' => 'Iis Nurdianawati (Bidan Desa)']);
+        $this->assertDatabaseHas('posyandu_profiles', ['nama_bidan' => 'Iis Nurdianawati']);
+        $this->assertDatabaseHas('posyandu_officers', ['jabatan' => 'Ketua', 'nama' => 'Sri Mulyani']);
+        $this->assertDatabaseHas('posyandu_educations', ['kategori' => 'PHBS', 'judul' => 'Gomibunbetsu: Pilah Sampah dari Rumah']);
+        $this->assertDatabaseHas('posyandu_galleries', ['judul' => 'Posyandu Dukuh Pringanom', 'tanggal' => '2026-07-18 00:00:00']);
         $this->assertDatabaseHas('public_facilities', ['nama_fasilitas' => 'Posyandu Sari Mulyo XI', 'kategori' => 'kesehatan']);
         $this->assertDatabaseHas('admin_services', ['nama_layanan' => 'Surat Keterangan Domisili']);
 
@@ -71,9 +79,17 @@ class OfficialDataSeederTest extends TestCase
 
         $this->get(route('posyandu'))
             ->assertOk()
+            ->assertSee('Jadwal &amp; Informasi Posyandu Desa Pringanom', false)
+            ->assertSee('Struktur Pengurus Posyandu Sari Mulyo XI')
+            ->assertSee('Jadwal Pelayanan Posyandu')
+            ->assertSee('Infografis &amp; Edukasi Kesehatan', false)
+            ->assertSee('Galeri Kegiatan Posyandu')
             ->assertSee('Iis Nurdianawati')
             ->assertSee('Sri Mulyani')
-            ->assertSee('Waktu pelaksanaan dikonfirmasi oleh kader');
+            ->assertSee('Waktu pelaksanaan dikonfirmasi oleh kader')
+            ->assertSee('Gomibunbetsu: Pilah Sampah dari Rumah')
+            ->assertSee('selectedYear')
+            ->assertSee('openPoster');
 
         $this->get(route('facilities'))
             ->assertOk()

@@ -8,6 +8,10 @@ use App\Models\AdminService;
 use App\Models\AgricultureGuide;
 use App\Models\Faq;
 use App\Models\PosyanduSchedule;
+use App\Models\PosyanduEducation;
+use App\Models\PosyanduGallery;
+use App\Models\PosyanduOfficer;
+use App\Models\PosyanduProfile;
 use App\Models\PublicFacility;
 use App\Models\ServiceRequest;
 use App\Models\TaxGuide;
@@ -183,6 +187,10 @@ class FrontendController extends Controller
     public function posyandu(): View
     {
         return view('pages.posyandu', [
+            'posyanduProfile' => PosyanduProfile::query()->first(),
+            'officers' => PosyanduOfficer::query()->orderBy('level')->orderBy('urutan')->get(),
+            'educations' => PosyanduEducation::query()->orderBy('urutan')->get(),
+            'galleries' => PosyanduGallery::query()->latest('tanggal')->get(),
             'schedules' => PosyanduSchedule::query()
                 ->orderBy('tanggal_pelaksanaan')
                 ->orderBy('jam_mulai')

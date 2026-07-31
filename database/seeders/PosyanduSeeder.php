@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\PosyanduEducation;
+use App\Models\PosyanduGallery;
+use App\Models\PosyanduOfficer;
+use App\Models\PosyanduProfile;
 use App\Models\PosyanduSchedule;
 use App\Models\PublicFacility;
 use Illuminate\Database\Seeder;
@@ -12,6 +16,92 @@ class PosyanduSeeder extends Seeder
     public function run(): void
     {
         $bidan = 'Iis Nurdianawati (Bidan Desa)';
+
+        PosyanduProfile::updateOrCreate(
+            ['nama_bidan' => 'Iis Nurdianawati'],
+            [
+                'subtitle' => 'Bidan Desa — Penanggung Jawab & Pembina Seluruh Kader Posyandu',
+                'wilayah' => 'Desa Pringanom, Kec. Masaran',
+                'deskripsi' => 'Bidan yang bertanggung jawab membina dan mendampingi seluruh kader posyandu di wilayah Desa Pringanom.',
+                'foto_path' => null,
+            ],
+        );
+
+        $officers = [
+            ['Ketua', 'Sri Mulyani', 1, 1],
+            ['Sekretaris', 'Tri Wahyuni', 2, 1],
+            ['Bendahara', 'Sunarsi', 2, 2],
+            ['Ketua Bidang Pendidikan', 'Triana Puji Lestari', 3, 1],
+            ['Ketua Bidang Kesehatan', 'Ike Susanti', 3, 2],
+            ['Anggota Bidang Kesehatan', 'Umi Farida', 3, 3],
+            ['Ketua Bidang Pekerjaan Umum', 'Suryani', 3, 4],
+            ['Ketua Bidang Sosial', 'Bp. Diyono', 3, 5],
+            ['Ketua Bidang Trantibumlinmas', 'Bp. Alex Sangidi', 3, 6],
+            ['Ketua Bidang Perumahan Rakyat', 'Bp. Sukimin', 3, 7],
+        ];
+
+        foreach ($officers as [$position, $name, $level, $order]) {
+            PosyanduOfficer::updateOrCreate(
+                ['nama_posyandu' => 'Posyandu Sari Mulyo XI', 'jabatan' => $position],
+                ['nama' => $name, 'level' => $level, 'urutan' => $order],
+            );
+        }
+
+        $educations = [
+            [
+                'kategori' => 'PHBS',
+                'judul' => 'Gomibunbetsu: Pilah Sampah dari Rumah',
+                'deskripsi' => 'Budaya pemilahan sampah berdasarkan jenisnya sejak dari rumah: organik, anorganik, serta sampah berbahaya atau B3.',
+                'drive_id' => '1iaTNqtK1mPTc1eUWoX1fxxn7CbQNvWZt',
+                'urutan' => 1,
+            ],
+            [
+                'kategori' => 'PHBS',
+                'judul' => 'Leptospirosis dan PHBS pada Petani',
+                'deskripsi' => 'Kenali risiko penularan melalui air, tanah, atau lumpur yang terkontaminasi dan langkah perlindungan bagi petani.',
+                'drive_id' => '1lQwO1s1KLt2Ve19Rer8bMAHs5PCnTITq',
+                'urutan' => 2,
+            ],
+            [
+                'kategori' => 'PHBS',
+                'judul' => 'Jangan Anggap Remeh Sampah',
+                'deskripsi' => 'Materi dampak sampah terhadap lingkungan, banjir, dan kesehatan serta kebiasaan pengelolaan sampah yang benar.',
+                'drive_id' => '1Hzg9rAPvq2O_RrAqCP0Ggw-7020gTJh9',
+                'urutan' => 3,
+            ],
+        ];
+
+        foreach ($educations as $education) {
+            $driveId = $education['drive_id'];
+            PosyanduEducation::updateOrCreate(
+                ['judul' => $education['judul']],
+                [
+                    'kategori' => $education['kategori'],
+                    'deskripsi' => $education['deskripsi'],
+                    'poster_url' => "https://drive.google.com/file/d/{$driveId}/view",
+                    'thumbnail_url' => "https://drive.google.com/thumbnail?id={$driveId}&sz=w1200",
+                    'urutan' => $education['urutan'],
+                ],
+            );
+        }
+
+        $galleries = [
+            ['Posyandu Dukuh Bakung Wetan', '2026-07-15', '1shcWXPdJGK-lWG0NKiPlHui2W4QmdTDQ'],
+            ['Posyandu Dukuh Jetak', '2026-07-16', '1anUuLTz_gvzo4EZDOriYNFEAcyeTrr1Z'],
+            ['Posyandu Dukuh Pakis', '2026-07-17', '1Oqd3s-JFj6tXJXN1S28uQ37q_aCvmnxL'],
+            ['Posyandu Dukuh Pringanom', '2026-07-18', '136Gjgq9qOFXYfwCc2g1HHIexHCld4KeD'],
+        ];
+
+        foreach ($galleries as [$title, $date, $driveId]) {
+            PosyanduGallery::updateOrCreate(
+                ['judul' => $title],
+                [
+                    'tanggal' => $date,
+                    'foto_url' => "https://drive.google.com/file/d/{$driveId}/view",
+                    'thumbnail_url' => "https://drive.google.com/thumbnail?id={$driveId}&sz=w1200",
+                ],
+            );
+        }
         $generalInformation = <<<'HTML'
 <p><strong>Bidan Desa:</strong> Iis Nurdianawati, penanggung jawab pembinaan dan pendampingan seluruh kader Posyandu di Desa Pringanom.</p>
 <h4>Materi PHBS</h4>
