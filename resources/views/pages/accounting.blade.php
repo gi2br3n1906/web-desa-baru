@@ -224,18 +224,26 @@
         let jual = [];
         let kaso = [];
         let hp = [];
+        const seedJual = [];
+        const seedKaso = [];
+        const seedHP = [];
 
         const fmt = value => `Rp${Math.round(Number(value) || 0).toLocaleString('id-ID')}`;
         const todayISO = () => new Date().toISOString().slice(0, 10);
         const monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         const monthNamesLong = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;' }[character]));
-        const localGet = key => {
+        const numberValue = value => parseFloat(value) || 0;
+        const stringValue = value => String(value ?? '').trim();
+        const sanitizeLegacyRows = rows => Array.isArray(rows) ? rows.filter(row => !row?.contoh) : [];
+        const localGet = (key, fallback = []) => {
             try {
                 const raw = localStorage.getItem(STORAGE_KEYS[key]);
-                if (raw === null) return [];
+                if (raw === null) return [...fallback];
                 const data = JSON.parse(raw);
-                return Array.isArray(data) ? data : [];
+                const sanitized = sanitizeLegacyRows(Array.isArray(data) ? data : []);
+                if (sanitized.length !== data.length) localStorage.setItem(STORAGE_KEYS[key], JSON.stringify(sanitized));
+                return sanitized;
             } catch (error) {
                 return [];
             }
@@ -264,15 +272,33 @@
             });
         }
 
+        function normalizeApiValue(transaction, preferredKey, fallbackKeys = []) {
+            const keys = [preferredKey, ...fallbackKeys];
+            for (const key of keys) {
+                if (transaction?.[key] !== undefined && transaction?.[key] !== null) {
+                    return transaction[key];
+                }
+            }
+            return null;
+        }
+
         function normalizeServerTransaction(transaction) {
-            const bookType = transaction.book_type === 'kaso' ? 'kaso' : transaction.book_type;
+            const bookType = stringValue(normalizeApiValue(transaction, 'book_type', ['bookType'])) === 'kaso' ? 'kaso' : stringValue(normalizeApiValue(transaction, 'book_type', ['bookType']));
+            const tanggal = stringValue(normalizeApiValue(transaction, 'date', ['tanggal'])).slice(0, 10);
+            const titleOrProduct = stringValue(normalizeApiValue(transaction, 'title_or_product', ['titleOrProduct', 'produk', 'ket', 'nama']));
+            const harga = numberValue(normalizeApiValue(transaction, 'price_per_unit', ['harga', 'pricePerUnit']));
+            const qty = numberValue(normalizeApiValue(transaction, 'qty', ['quantity']));
+            const jenis = stringValue(normalizeApiValue(transaction, 'transaction_type', ['jenis', 'type']));
+            const jumlah = numberValue(normalizeApiValue(transaction, 'amount', ['jumlah', 'total']));
+            const kategori = stringValue(normalizeApiValue(transaction, 'category', ['kategori'])) || 'Lain-lain';
+            const notes = stringValue(normalizeApiValue(transaction, 'notes', ['ket', 'keterangan']));
             if (bookType === 'jual') {
-                return { id: transaction.id, tanggal: String(transaction.date).slice(0, 10), produk: transaction.title_or_product, qty: Number(transaction.qty || 0), harga: Number(transaction.price_per_unit || 0), contoh: false };
+                return { id: transaction.id, tanggal, produk: titleOrProduct, qty, harga, contoh: false };
             }
             if (bookType === 'hp') {
-                return { id: transaction.id, tanggal: String(transaction.date).slice(0, 10), nama: transaction.title_or_product, jenis: transaction.transaction_type, jumlah: Number(transaction.amount || 0), ket: transaction.notes || '', status: transaction.status || 'belum', contoh: false };
+                return { id: transaction.id, tanggal, nama: titleOrProduct, jenis: jenis || stringValue(normalizeApiValue(transaction, 'category', ['kategori'])), jumlah, ket: notes, status: stringValue(normalizeApiValue(transaction, 'status', ['state'])) || 'belum', contoh: false };
             }
-            return { id: transaction.id, tanggal: String(transaction.date).slice(0, 10), ket: transaction.title_or_product, kategori: transaction.category || 'Lain-lain', jenis: transaction.transaction_type || 'keluar', jumlah: Number(transaction.amount || 0), contoh: false };
+            return { id: transaction.id, tanggal, ket: titleOrProduct, kategori, jenis: jenis || 'keluar', jumlah, contoh: false };
         }
 
         async function loadServerRows() {
@@ -341,10 +367,10 @@
             let totalRevenue = 0;
             const body = document.getElementById('jual-body');
             body.innerHTML = sorted.length ? sorted.map(transaction => {
-                const total = Number(transaction.qty) * Number(transaction.harga);
-                totalQty += Number(transaction.qty);
+                const total = numberValue(transaction.qty) * numberValue(transaction.harga);
+                totalQty += numberValue(transaction.qty);
                 totalRevenue += total;
-                return `<tr class="${transaction.contoh ? 'example-row' : ''}"><td>${fmtTgl(transaction.tanggal)}${exampleBadge(transaction)}</td><td>${escapeHtml(transaction.produk)}</td><td class="number">${transaction.qty}</td><td class="number">${fmt(transaction.harga)}</td><td class="number">${fmt(total)}</td><td><button type="button" class="row-action" onclick="hapusJual(${transaction.id})">Hapus</button></td></tr>`;
+                return `<tr class="${transaction.contoh ? 'example-row' : ''}"><td>${fmtTgl(transaction.tanggal)}${exampleBadge(transaction)}</td><td>${escapeHtml(transaction.produk)}</td><td class="number">${numberValue(transaction.qty)}</td><td class="number">${fmt(numberValue(transaction.harga))}</td><td class="number">${fmt(total)}</td><td><button type="button" class="row-action" onclick="hapusJual(${transaction.id})">Hapus</button></td></tr>`;
             }).join('') : emptyRow(6, 'Belum ada penjualan. Tambahkan transaksi pertama di form di atas.');
             document.getElementById('jual-summary').innerHTML = `<div class="stat-card"><div class="stat-label">Total Qty Terjual</div><div class="stat-value">${totalQty}</div></div><div class="stat-card"><div class="stat-label">Total Pendapatan</div><div class="stat-value positive">${fmt(totalRevenue)}</div></div>`;
         }
@@ -369,8 +395,8 @@
                 const info = isoWeekInfo(transaction.tanggal);
                 const key = `${info.year}-W${String(info.week).padStart(2, '0')}`;
                 byWeek[key] ??= { qty: 0, total: 0, monday: info.monday, sunday: info.sunday, week: info.week, year: info.year };
-                byWeek[key].qty += Number(transaction.qty);
-                byWeek[key].total += Number(transaction.qty) * Number(transaction.harga);
+                byWeek[key].qty += numberValue(transaction.qty);
+                byWeek[key].total += numberValue(transaction.qty) * numberValue(transaction.harga);
             });
             const rows = Object.keys(byWeek).sort().map(key => {
                 const week = byWeek[key];
@@ -384,8 +410,8 @@
             jual.forEach(transaction => {
                 const key = String(transaction.tanggal).slice(0, 7);
                 byMonth[key] ??= { qty: 0, total: 0 };
-                byMonth[key].qty += Number(transaction.qty);
-                byMonth[key].total += Number(transaction.qty) * Number(transaction.harga);
+                byMonth[key].qty += numberValue(transaction.qty);
+                byMonth[key].total += numberValue(transaction.qty) * numberValue(transaction.harga);
             });
             const rows = Object.keys(byMonth).sort().map(key => {
                 const [year, month] = key.split('-');
@@ -401,7 +427,7 @@
             let totalOut = 0;
             const body = document.getElementById('kaso-body');
             body.innerHTML = sorted.length ? sorted.map(transaction => {
-                const amount = Number(transaction.jumlah);
+                const amount = numberValue(transaction.jumlah);
                 if (transaction.jenis === 'masuk') { saldo += amount; totalIn += amount; } else { saldo -= amount; totalOut += amount; }
                 return `<tr class="${transaction.contoh ? 'example-row' : ''}"><td>${fmtTgl(transaction.tanggal)}${exampleBadge(transaction)}</td><td>${escapeHtml(transaction.ket)}</td><td>${escapeHtml(transaction.kategori)}</td><td><span class="${transaction.jenis === 'masuk' ? 'type-in' : 'type-out'}">${transaction.jenis === 'masuk' ? 'Masuk' : 'Keluar'}</span></td><td class="number">${fmt(amount)}</td><td class="number">${fmt(saldo)}</td><td><button type="button" class="row-action" onclick="hapusKas(${transaction.id})">Hapus</button></td></tr>`;
             }).join('') : emptyRow(7, 'Belum ada transaksi kas operasional.');
@@ -414,9 +440,9 @@
             const body = document.getElementById('hp-body');
             const sorted = [...hp].sort((a, b) => a.tanggal.localeCompare(b.tanggal) || Number(a.id) - Number(b.id));
             body.innerHTML = sorted.length ? sorted.map(transaction => {
-                if (transaction.status === 'belum') transaction.jenis === 'piutang' ? totalReceivable += Number(transaction.jumlah) : totalPayable += Number(transaction.jumlah);
+                if (transaction.status === 'belum') transaction.jenis === 'piutang' ? totalReceivable += numberValue(transaction.jumlah) : totalPayable += numberValue(transaction.jumlah);
                 const statusLabel = transaction.status === 'lunas' ? 'Lunas' : 'Belum Lunas';
-                return `<tr class="${transaction.contoh ? 'example-row' : ''}"><td>${fmtTgl(transaction.tanggal)}${exampleBadge(transaction)}</td><td>${escapeHtml(transaction.nama)}</td><td><span class="${transaction.jenis === 'piutang' ? 'type-in' : 'type-out'}">${transaction.jenis === 'piutang' ? 'Piutang' : 'Hutang'}</span></td><td>${escapeHtml(transaction.ket || '-')}</td><td class="number">${fmt(transaction.jumlah)}</td><td><button type="button" class="status-badge ${transaction.status === 'lunas' ? 'status-paid' : 'status-unpaid'}" onclick="toggleLunas(${transaction.id})">${statusLabel}</button></td><td><button type="button" class="row-action" onclick="hapusHP(${transaction.id})">Hapus</button></td></tr>`;
+                return `<tr class="${transaction.contoh ? 'example-row' : ''}"><td>${fmtTgl(transaction.tanggal)}${exampleBadge(transaction)}</td><td>${escapeHtml(transaction.nama)}</td><td><span class="${transaction.jenis === 'piutang' ? 'type-in' : 'type-out'}">${transaction.jenis === 'piutang' ? 'Piutang' : 'Hutang'}</span></td><td>${escapeHtml(transaction.ket || '-')}</td><td class="number">${fmt(numberValue(transaction.jumlah))}</td><td><button type="button" class="status-badge ${transaction.status === 'lunas' ? 'status-paid' : 'status-unpaid'}" onclick="toggleLunas(${transaction.id})">${statusLabel}</button></td><td><button type="button" class="row-action" onclick="hapusHP(${transaction.id})">Hapus</button></td></tr>`;
             }).join('') : emptyRow(7, 'Belum ada catatan utang/piutang.');
             document.getElementById('hp-summary').innerHTML = `<div class="stat-card"><div class="stat-label">Piutang Belum Lunas</div><div class="stat-value positive">${fmt(totalReceivable)}</div></div><div class="stat-card"><div class="stat-label">Hutang Belum Lunas</div><div class="stat-value negative">${fmt(totalPayable)}</div></div>`;
         }
@@ -426,14 +452,14 @@
             jual.forEach(transaction => {
                 const key = String(transaction.tanggal).slice(0, 7);
                 byMonth[key] ??= { penjualan: 0, pendapatanLain: 0, pengeluaran: 0, prive: 0 };
-                byMonth[key].penjualan += Number(transaction.qty) * Number(transaction.harga);
+                byMonth[key].penjualan += numberValue(transaction.qty) * numberValue(transaction.harga);
             });
             kaso.forEach(transaction => {
                 const key = String(transaction.tanggal).slice(0, 7);
                 byMonth[key] ??= { penjualan: 0, pendapatanLain: 0, pengeluaran: 0, prive: 0 };
-                if (transaction.jenis === 'masuk' && transaction.kategori === 'Pendapatan Lain') byMonth[key].pendapatanLain += Number(transaction.jumlah);
-                if (transaction.jenis === 'keluar' && transaction.kategori === 'Prive/Pribadi') byMonth[key].prive += Number(transaction.jumlah);
-                else if (transaction.jenis === 'keluar') byMonth[key].pengeluaran += Number(transaction.jumlah);
+                if (transaction.jenis === 'masuk' && transaction.kategori === 'Pendapatan Lain') byMonth[key].pendapatanLain += numberValue(transaction.jumlah);
+                if (transaction.jenis === 'keluar' && transaction.kategori === 'Prive/Pribadi') byMonth[key].prive += numberValue(transaction.jumlah);
+                else if (transaction.jenis === 'keluar') byMonth[key].pengeluaran += numberValue(transaction.jumlah);
             });
             const rows = Object.keys(byMonth).sort().map(key => {
                 const [year, month] = key.split('-');
@@ -476,9 +502,9 @@
         async function tambahJual() {
             const tanggal = document.getElementById('j-tanggal').value;
             const produk = document.getElementById('j-produk').value.trim();
-            const qty = Number(document.getElementById('j-qty').value);
-            const harga = Number(document.getElementById('j-harga').value);
-            if (!tanggal || !produk || qty <= 0 || harga <= 0 || !Number.isFinite(qty) || !Number.isFinite(harga)) { window.alert('Lengkapi semua kolom terlebih dahulu.'); return; }
+            const qty = numberValue(document.getElementById('j-qty').value);
+            const harga = numberValue(document.getElementById('j-harga').value);
+            if (!tanggal || !produk || qty <= 0 || harga <= 0) { window.alert('Lengkapi nama produk, qty, dan harga terlebih dahulu.'); return; }
             try {
                 const row = { id: Date.now(), tanggal, produk, qty, harga, contoh: false };
                 if (isAuthenticated) jual.push(await createTransaction({ book_type: 'jual', date: tanggal, title_or_product: produk, qty, price_per_unit: harga, amount: qty * harga, transaction_type: 'masuk', status: 'lunas' }));
@@ -501,8 +527,8 @@
             const ket = document.getElementById('k-ket').value.trim();
             const kategori = document.getElementById('k-kategori').value;
             const jenis = document.getElementById('k-jenis').value;
-            const jumlah = Number(document.getElementById('k-jumlah').value);
-            if (!tanggal || !ket || !jumlah || jumlah <= 0) { window.alert('Lengkapi tanggal, keterangan, dan jumlah terlebih dahulu.'); return; }
+            const jumlah = numberValue(document.getElementById('k-jumlah').value);
+            if (!tanggal || !ket || jumlah <= 0) { window.alert('Lengkapi tanggal, keterangan, dan jumlah terlebih dahulu.'); return; }
             try {
                 const row = { id: Date.now(), tanggal, ket, kategori, jenis, jumlah, contoh: false };
                 if (isAuthenticated) kaso.push(await createTransaction({ book_type: 'kaso', date: tanggal, title_or_product: ket, category: kategori, transaction_type: jenis, amount: jumlah }));
@@ -523,9 +549,9 @@
             const tanggal = document.getElementById('h-tanggal').value;
             const jenis = document.getElementById('h-jenis').value;
             const nama = document.getElementById('h-nama').value.trim();
-            const jumlah = Number(document.getElementById('h-jumlah').value);
+            const jumlah = numberValue(document.getElementById('h-jumlah').value);
             const ket = document.getElementById('h-ket').value.trim();
-            if (!tanggal || !nama || !jumlah || jumlah <= 0) { window.alert('Lengkapi tanggal, nama, dan jumlah terlebih dahulu.'); return; }
+            if (!tanggal || !nama || jumlah <= 0) { window.alert('Lengkapi nama pihak dan jumlah terlebih dahulu.'); return; }
             try {
                 const row = { id: Date.now(), tanggal, jenis, nama, jumlah, ket, status: 'belum', contoh: false };
                 if (isAuthenticated) hp.push(await createTransaction({ book_type: 'hp', date: tanggal, title_or_product: nama, category: jenis, transaction_type: jenis, amount: jumlah, status: 'belum', notes: ket }));
@@ -558,15 +584,15 @@
             let filename;
             if (which === 'jual') {
                 rows = [['Tanggal', 'Produk', 'Qty', 'Harga Satuan', 'Total']];
-                [...jual].sort((a, b) => a.tanggal.localeCompare(b.tanggal)).forEach(row => rows.push([fmtTgl(row.tanggal), row.produk, row.qty, row.harga, row.qty * row.harga]));
+                [...jual].sort((a, b) => a.tanggal.localeCompare(b.tanggal)).forEach(row => rows.push([fmtTgl(row.tanggal), row.produk, numberValue(row.qty), numberValue(row.harga), numberValue(row.qty) * numberValue(row.harga)]));
                 filename = 'buku-penjualan.csv';
             } else if (which === 'kaso') {
                 rows = [['Tanggal', 'Keterangan', 'Kategori', 'Jenis', 'Jumlah']];
-                [...kaso].sort((a, b) => a.tanggal.localeCompare(b.tanggal)).forEach(row => rows.push([fmtTgl(row.tanggal), row.ket, row.kategori, row.jenis === 'masuk' ? 'Kas Masuk' : 'Kas Keluar', row.jumlah]));
+                [...kaso].sort((a, b) => a.tanggal.localeCompare(b.tanggal)).forEach(row => rows.push([fmtTgl(row.tanggal), row.ket, row.kategori, row.jenis === 'masuk' ? 'Kas Masuk' : 'Kas Keluar', numberValue(row.jumlah)]));
                 filename = 'buku-kas-operasional.csv';
             } else {
                 rows = [['Tanggal', 'Nama', 'Jenis', 'Keterangan', 'Jumlah', 'Status']];
-                [...hp].sort((a, b) => a.tanggal.localeCompare(b.tanggal)).forEach(row => rows.push([fmtTgl(row.tanggal), row.nama, row.jenis === 'piutang' ? 'Piutang' : 'Hutang', row.ket || '', row.jumlah, row.status === 'lunas' ? 'Lunas' : 'Belum Lunas']));
+                [...hp].sort((a, b) => a.tanggal.localeCompare(b.tanggal)).forEach(row => rows.push([fmtTgl(row.tanggal), row.nama, row.jenis === 'piutang' ? 'Piutang' : 'Hutang', row.ket || '', numberValue(row.jumlah), row.status === 'lunas' ? 'Lunas' : 'Belum Lunas']));
                 filename = 'utang-piutang.csv';
             }
             const csv = rows.map(row => row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(',')).join('\n');
@@ -582,9 +608,9 @@
             if (isAuthenticated) {
                 loadServerRows().then(() => { renderJual(); renderKas(); renderHP(); }).catch(error => setFeedback(error.message, true));
             } else {
-                jual = localGet('jual');
-                kaso = localGet('kaso');
-                hp = localGet('hp');
+                jual = localGet('jual', seedJual);
+                kaso = localGet('kaso', seedKaso);
+                hp = localGet('hp', seedHP);
                 renderJual();
                 renderKas();
                 renderHP();

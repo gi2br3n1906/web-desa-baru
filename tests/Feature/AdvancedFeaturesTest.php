@@ -53,7 +53,9 @@ class AdvancedFeaturesTest extends TestCase
             ->assertSee('renderLaba')
             ->assertSee('toggleLunas')
             ->assertSee('exportCSV')
-            ->assertDontSee('const seedJual')
+            ->assertSee('const seedJual = []')
+            ->assertSee('const seedKaso = []')
+            ->assertSee('const seedHP = []')
             ->assertDontSee('Toko Sumber Jaya');
         $this->get(route('taxes'))->assertOk()->assertSee('Batas Pelaporan Pajak UMKM')->assertSee('Agenda Pajak Uji');
     }
