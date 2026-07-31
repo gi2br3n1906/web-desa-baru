@@ -17,7 +17,11 @@
                     <div class="flex flex-col justify-center bg-blue-50 p-6 text-blue-900">
                         <span class="text-sm font-bold uppercase tracking-wider text-amber-600">Jadwal Pelaksanaan</span>
                         <time datetime="{{ $schedule->tanggal_pelaksanaan->toDateString() }}" class="mt-3 text-2xl font-black">{{ $schedule->tanggal_pelaksanaan->translatedFormat('d F Y') }}</time>
-                        <p class="mt-2 font-semibold text-slate-600">{{ substr($schedule->jam_mulai, 0, 5) }}–{{ substr($schedule->jam_selesai, 0, 5) }} WIB</p>
+                        @if (substr($schedule->jam_mulai, 0, 5) === '00:00' && substr($schedule->jam_selesai, 0, 5) === '00:00')
+                            <p class="mt-2 font-semibold text-slate-600">Waktu pelaksanaan dikonfirmasi oleh kader</p>
+                        @else
+                            <p class="mt-2 font-semibold text-slate-600">{{ substr($schedule->jam_mulai, 0, 5) }}–{{ substr($schedule->jam_selesai, 0, 5) }} WIB</p>
+                        @endif
                     </div>
                     <div class="p-6 sm:p-8">
                         <div class="flex flex-wrap items-start justify-between gap-4">
