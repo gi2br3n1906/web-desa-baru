@@ -151,11 +151,16 @@ class FrontendController extends Controller
 
     public function umkm(): View
     {
+        $umkms = Umkm::query()->orderBy('nama_umkm')->get();
+
         return view('pages.umkm', [
-            'umkms' => Umkm::query()->orderBy('nama_umkm')->get(),
-            'faqs' => Faq::query()->where('kategori', 'umkm')->orderBy('urutan')->get(),
-            'categories' => Umkm::query()->distinct()->orderBy('kategori')->pluck('kategori'),
-            'dusuns' => Umkm::query()->distinct()->orderBy('dusun')->pluck('dusun'),
+            'umkms' => $umkms,
+            'faqs' => Faq::query()->whereIn('kategori', ['pajak', 'umkm'])->orderByRaw("CASE WHEN kategori = 'pajak' THEN 0 ELSE 1 END")->orderBy('urutan')->get(),
+            'taxSchedules' => TaxSchedule::query()->orderBy('tanggal')->get(),
+            'categories' => $umkms->pluck('kategori')->filter()->unique()->sort()->values(),
+            'dusuns' => $umkms->pluck('dusun')->filter()->unique()->sort()->values(),
+            'categoryDistribution' => $umkms->groupBy('kategori')->map->count()->sortDesc(),
+            'dusunDistribution' => $umkms->groupBy('dusun')->map->count()->sortDesc(),
         ]);
     }
 

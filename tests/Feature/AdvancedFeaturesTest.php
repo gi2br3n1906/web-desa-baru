@@ -29,7 +29,38 @@ class AdvancedFeaturesTest extends TestCase
         Umkm::create(['nama_umkm' => 'UMKM Uji', 'pemilik' => 'Pemilik', 'kategori' => 'Kuliner', 'dusun' => 'Pringanom', 'rt_rw' => '01/02', 'deskripsi' => 'Deskripsi', 'latitude' => -7.43, 'longitude' => 110.93]);
         Faq::create(['kategori' => 'umkm', 'pertanyaan' => 'FAQ UMKM Uji?', 'jawaban' => 'Jawaban', 'urutan' => 1]);
         TaxSchedule::create(['judul_kegiatan' => 'Agenda Pajak Uji', 'tanggal' => now()->startOfMonth()->addDays(4)]);
-        $this->get(route('umkm'))->assertOk()->assertSee('UMKM Uji')->assertSee('FAQ UMKM Uji?')->assertSee('umkm-map', false);
+        $this->get(route('umkm'))
+            ->assertOk()
+            ->assertSee('Pojok UMKM dan Pajak')
+            ->assertSee('187')
+            ->assertSee('UMKM terdaftar')
+            ->assertSee('Distribusi UMKM Desa')
+            ->assertSee(asset('images/peta-sebaran-umkm.jpg'), false)
+            ->assertSee('Lihat Gambar Penuh')
+            ->assertSee('Unduh Peta (JPG)')
+            ->assertSee('id="map"', false)
+            ->assertSee('UMKM Uji')
+            ->assertSee('FAQ UMKM Uji?')
+            ->assertSee('Kalender Kewajiban Pajak')
+            ->assertSee('Agenda Pajak Uji')
+            ->assertSee('umkm-map', false);
+
+        $this->get(route('login'))
+            ->assertOk()
+            ->assertSee('placeholder="nama@email.com"', false)
+            ->assertSee('border border-slate-300', false)
+            ->assertSee('bg-amber-500', false);
+
+        $this->get(route('services'))
+            ->assertOk()
+            ->assertSee('Pengajuan Layanan Online')
+            ->assertSee('file:bg-amber-50', false)
+            ->assertSee('placeholder="Alamat lengkap RT/RW dan dukuh"', false);
+
+        $this->get(route('agriculture'))
+            ->assertOk()
+            ->assertSee('Video Panduan Pertanian')
+            ->assertSee('https://drive.google.com/file/d/1PWNNgQXbN-8a2CAFGq6NTQSr_J3fTyTG/preview', false);
         $this->get(route('accounting'))
             ->assertOk()
             ->assertSee('🔵 Penjualan')
