@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\VillagePotential;
 use App\Models\VillageProfile;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class VillageProfileSeeder extends Seeder
 {
@@ -16,10 +16,7 @@ class VillageProfileSeeder extends Seeder
     public function run(): void
     {
         $structurePath = 'seeded/struktur-organisasi-pringanom.svg';
-        $structureDirectory = storage_path('app/public/seeded');
-
-        File::ensureDirectoryExists($structureDirectory);
-        File::put(storage_path('app/public/'.$structurePath), $this->structureSvg());
+        Storage::disk('public')->put($structurePath, $this->structureSvg());
 
         VillageProfile::updateOrCreate(
             ['id' => 1],

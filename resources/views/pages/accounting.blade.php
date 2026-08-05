@@ -158,19 +158,62 @@
                 </div>
             </section>
 
-            <section class="mt-10">
-                <h2 class="section-kicker">Template Excel Resmi</h2>
-                <div class="mt-5 grid gap-5 md:grid-cols-3">
-                    @forelse($templates as $template)
-                        <article class="content-card flex flex-col p-6">
-                            <h3 class="text-xl font-bold text-blue-900">{{ $template->nama_template }}</h3>
-                            <p class="mt-3 flex-1 text-sm leading-6 text-slate-600">{{ $template->deskripsi }}</p>
-                            <a href="{{ asset('storage/'.$template->file_path) }}" download class="primary-button mt-5">Unduh .xlsx</a>
-                        </article>
-                    @empty
-                        <div class="empty-state md:col-span-3">Template belum tersedia.</div>
-                    @endforelse
+            <section class="mt-10" aria-labelledby="template-excel-heading">
+                <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
+                    <div class="grid bg-blue-950 lg:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.6fr)]">
+                        <div class="p-6 text-white sm:p-8">
+                            <p class="text-sm font-black uppercase tracking-[0.16em] text-amber-400">Template Excel V2</p>
+                            <h2 id="template-excel-heading" class="mt-3 text-3xl font-black">Template Pembukuan UMKM Pringanom</h2>
+                            <p class="mt-4 max-w-2xl leading-7 text-blue-100">Workbook siap pakai dengan satu sheet panduan dan enam sheet pembukuan yang saling terhubung untuk pencatatan, rekap, serta evaluasi usaha.</p>
+                        </div>
+                        <div class="flex flex-col justify-center border-t border-white/15 bg-blue-900 p-6 lg:border-l lg:border-t-0 sm:p-8">
+                            <span class="text-sm font-semibold text-blue-200">Format Microsoft Excel (.xlsx)</span>
+                            <a
+                                href="{{ asset('templates/template-pembukuan-umkm.xlsx') }}"
+                                download="Template_Pembukuan_UMKM_Pringanom.xlsx"
+                                class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-amber-500 px-5 py-3 font-bold text-white shadow-md transition hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-blue-900"
+                            >
+                                Unduh Template (Excel)
+                                <span class="ml-2 text-lg" aria-hidden="true">↓</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    @php
+                        $templateFeatures = [
+                            ['01', 'Panduan Penggunaan', 'Penjelasan alur penggunaan enam sheet pembukuan agar pengguna dapat memulai pencatatan dengan benar.'],
+                            ['02', 'Buku Penjualan', 'Pencatatan transaksi harian dengan kalkulasi otomatis Qty × Harga Satuan.'],
+                            ['03', 'Rekap Penjualan Mingguan & Bulanan', 'Rekap terisi otomatis berdasarkan kalender ISO untuk memantau performa mingguan dan bulanan.'],
+                            ['04', 'Buku Kas Operasional', 'Pencatatan modal, kas masuk non-penjualan, serta seluruh pengeluaran operasional usaha.'],
+                            ['05', 'Catatan Hutang Piutang', 'Monitoring nilai, jatuh tempo, pihak terkait, dan status pelunasan hutang maupun piutang.'],
+                            ['06', 'Rekap Laba Rugi Bulanan', 'Konsolidasi otomatis pendapatan dan pengeluaran untuk melihat laba atau rugi setiap bulan.'],
+                        ];
+                    @endphp
+                    <div class="grid gap-px bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
+                        @foreach ($templateFeatures as [$number, $title, $description])
+                            <article class="bg-white p-6">
+                                <span class="inline-flex size-9 items-center justify-center rounded-lg bg-amber-100 text-xs font-black text-amber-800">{{ $number }}</span>
+                                <h3 class="mt-4 text-lg font-black text-blue-900">{{ $title }}</h3>
+                                <p class="mt-2 text-sm leading-6 text-slate-600">{{ $description }}</p>
+                            </article>
+                        @endforeach
+                    </div>
                 </div>
+
+                @if ($templates->isNotEmpty())
+                    <div class="mt-8">
+                        <h2 class="section-kicker">Template Tambahan dari Admin Desa</h2>
+                        <div class="mt-5 grid gap-5 md:grid-cols-3">
+                            @foreach($templates as $template)
+                                <article class="content-card flex flex-col p-6">
+                                    <h3 class="text-xl font-bold text-blue-900">{{ $template->nama_template }}</h3>
+                                    <p class="mt-3 flex-1 text-sm leading-6 text-slate-600">{{ $template->deskripsi }}</p>
+                                    <a href="{{ asset('storage/'.$template->file_path) }}" download class="primary-button mt-5">Unduh .xlsx</a>
+                                </article>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </section>
 
             <p class="mt-5 text-center text-xs leading-5 text-slate-500">@guest Data tamu disimpan langsung di perangkat/browser yang Anda pakai dan tidak dikirim ke server mana pun. @else Data akun disimpan pada server Desa Pringanom dan dibatasi untuk akun Anda. @endguest<br>Gunakan tombol “Unduh CSV” secara berkala untuk mencadangkan data.</p>

@@ -29,7 +29,8 @@ class VillageProfileResource extends Resource
                 Forms\Components\FileUpload::make('struktur_organisasi_path')
                     ->label('Struktur organisasi')
                     ->disk('public')
-                    ->directory('uploads')
+                    ->directory('uploads/village-profiles')
+                    ->visibility('public')
                     ->image()
                     ->required()
                     ->columnSpanFull(),

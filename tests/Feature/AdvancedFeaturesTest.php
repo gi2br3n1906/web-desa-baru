@@ -63,6 +63,16 @@ class AdvancedFeaturesTest extends TestCase
             ->assertSee('https://drive.google.com/file/d/1PWNNgQXbN-8a2CAFGq6NTQSr_J3fTyTG/preview', false);
         $this->get(route('accounting'))
             ->assertOk()
+            ->assertSee('Template Pembukuan UMKM Pringanom')
+            ->assertSee('Unduh Template (Excel)')
+            ->assertSee(asset('templates/template-pembukuan-umkm.xlsx'), false)
+            ->assertSee('download="Template_Pembukuan_UMKM_Pringanom.xlsx"', false)
+            ->assertSee('Panduan Penggunaan')
+            ->assertSee('Buku Penjualan')
+            ->assertSee('Rekap Penjualan Mingguan &amp; Bulanan', false)
+            ->assertSee('Buku Kas Operasional')
+            ->assertSee('Catatan Hutang Piutang')
+            ->assertSee('Rekap Laba Rugi Bulanan')
             ->assertSee('🔵 Penjualan')
             ->assertSee('🟢 Kas Operasional')
             ->assertSee('🟢 Utang & Piutang')
@@ -88,6 +98,8 @@ class AdvancedFeaturesTest extends TestCase
             ->assertSee('const seedKaso = []')
             ->assertSee('const seedHP = []')
             ->assertDontSee('Toko Sumber Jaya');
+
+        $this->assertFileExists(public_path('templates/template-pembukuan-umkm.xlsx'));
         $this->get(route('taxes'))->assertOk()->assertSee('Batas Pelaporan Pajak UMKM')->assertSee('Agenda Pajak Uji');
     }
 }

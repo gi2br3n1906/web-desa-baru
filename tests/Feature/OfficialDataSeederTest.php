@@ -45,7 +45,10 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseCount('admin_services', 13);
         $this->assertDatabaseCount('village_legal_products', 2);
 
-        $this->assertSame('Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen, Jawa Tengah', VillageProfile::findOrFail(1)->kontak_desa['Alamat']);
+        $profile = VillageProfile::findOrFail(1);
+        $this->assertSame('Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen, Jawa Tengah', $profile->kontak_desa['Alamat']);
+        $this->assertSame('seeded/struktur-organisasi-pringanom.svg', $profile->struktur_organisasi_path);
+        $this->assertStringNotContainsString('://', $profile->struktur_organisasi_path);
         $this->assertDatabaseHas('village_potentials', ['title_id' => 'Profil Wilayah dan Demografi']);
         $this->assertDatabaseHas('umkms', ['nama_umkm' => 'Dapur Bu Ratmi', 'dusun' => 'Pringanom']);
         $this->assertDatabaseHas('faqs', ['kategori' => 'pajak', 'pertanyaan' => 'Apa itu PPh Final UMKM 0,5%?']);
@@ -61,6 +64,11 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseHas('village_legal_products', ['judul_peraturan' => 'Perdes Rencana Kerja Pemerintah Desa (RKP Desa)']);
 
         $this->assertFileExists(storage_path('app/public/seeded/struktur-organisasi-pringanom.svg'));
+
+        $profileResourceSource = file_get_contents(app_path('Filament/Resources/VillageProfileResource.php'));
+        $this->assertStringContainsString("FileUpload::make('struktur_organisasi_path')", $profileResourceSource);
+        $this->assertStringContainsString("->disk('public')", $profileResourceSource);
+        $this->assertStringContainsString("->directory('uploads/village-profiles')", $profileResourceSource);
 
         $this->get(route('profile'))
             ->assertOk()
