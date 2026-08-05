@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Jadwal & Informasi Posyandu | Desa Pringanom')
+@section('title', 'Informasi Posyandu | Desa Pringanom')
 
 @section('content')
     <style>[x-cloak] { display: none !important; }</style>
@@ -11,8 +11,8 @@
             <div class="page-container pb-10 pt-12 lg:pb-14 lg:pt-16">
                 <div class="max-w-3xl">
                     <p class="section-kicker">Kesehatan Masyarakat</p>
-                    <h1 class="page-heading mt-5">Jadwal &amp; Informasi Posyandu Desa Pringanom</h1>
-                    <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Informasi kader, jadwal pelayanan, edukasi kesehatan, dan dokumentasi kegiatan Posyandu di wilayah Desa Pringanom.</p>
+                    <h1 class="page-heading mt-5">Informasi Posyandu Desa Pringanom</h1>
+                    <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Informasi kader, edukasi kesehatan, dan dokumentasi kegiatan Posyandu di wilayah Desa Pringanom.</p>
                 </div>
 
                 <article class="mt-10 overflow-hidden rounded-2xl bg-blue-900 shadow-xl">
@@ -36,12 +36,12 @@
             </div>
         </section>
 
-        {{-- Section 2: hierarchy of Posyandu Sari Mulyo XI --}}
+        {{-- Section 2: village-wide hierarchy of Posyandu cadres --}}
         <section class="page-container" aria-labelledby="struktur-posyandu-heading">
             <div class="max-w-3xl">
                 <p class="section-kicker">Kader &amp; Kepengurusan</p>
-                <h2 id="struktur-posyandu-heading" class="mt-4 text-3xl font-black text-blue-900">Struktur Pengurus Posyandu Sari Mulyo XI</h2>
-                <p class="mt-3 leading-7 text-slate-600">Susunan kepengurusan kader Posyandu Sari Mulyo XI tahun 2026.</p>
+                <h2 id="struktur-posyandu-heading" class="mt-4 text-3xl font-black text-blue-900">Struktur Pengurus &amp; Kader Posyandu Desa Pringanom</h2>
+                <p class="mt-3 leading-7 text-slate-600">Susunan Kepengurusan Kader Kesehatan &amp; Posyandu Desa Pringanom.</p>
             </div>
 
             @php
@@ -82,37 +82,7 @@
             </div>
         </section>
 
-        {{-- Section 3: schedule per hamlet --}}
-        <section class="border-y border-slate-200 bg-white" aria-labelledby="jadwal-posyandu-heading">
-            <div class="page-container">
-                <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-                    <div>
-                        <p class="section-kicker">Pelayanan Lapangan</p>
-                        <h2 id="jadwal-posyandu-heading" class="mt-4 text-3xl font-black text-blue-900">Jadwal Pelayanan Posyandu</h2>
-                    </div>
-                    <span class="rounded-full bg-blue-100 px-4 py-2 text-sm font-bold text-blue-900">{{ $schedules->count() }} lokasi terjadwal</span>
-                </div>
-
-                <div class="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-                    @forelse ($schedules as $schedule)
-                        <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:-translate-y-1 hover:border-amber-400 hover:bg-white hover:shadow-lg">
-                            <div class="flex items-start justify-between gap-3">
-                                <span class="rounded-lg bg-blue-900 px-3 py-2 text-center text-xs font-black uppercase leading-5 text-white">{{ $schedule->tanggal_pelaksanaan->translatedFormat('d') }}<br>{{ $schedule->tanggal_pelaksanaan->translatedFormat('M Y') }}</span>
-                                <span class="rounded-full bg-amber-100 px-3 py-1 text-[11px] font-black uppercase tracking-wide text-amber-800">Jadwal</span>
-                            </div>
-                            <h3 class="mt-5 text-lg font-black leading-6 text-blue-900">{{ $schedule->nama_posyandu }}</h3>
-                            <p class="mt-3 text-sm font-semibold text-slate-600">Bidan pembina: {{ $schedule->kontak_bidan }}</p>
-                            <p class="mt-4 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-500">Waktu pelaksanaan dikonfirmasi oleh kader</p>
-                            <div class="rich-content mt-4 border-t border-slate-200 pt-4 text-sm">{!! $schedule->informasi_phbs !!}</div>
-                        </article>
-                    @empty
-                        <div class="empty-state sm:col-span-2 xl:col-span-4">Jadwal pelayanan Posyandu belum tersedia.</div>
-                    @endforelse
-                </div>
-            </div>
-        </section>
-
-        {{-- Section 4: health education with Alpine modal --}}
+        {{-- Section 3: health education with Alpine modal --}}
         <section class="page-container" aria-labelledby="edukasi-posyandu-heading">
             <div class="max-w-3xl">
                 <p class="section-kicker">Materi Kesehatan</p>
@@ -145,7 +115,7 @@
             </div>
         </section>
 
-        {{-- Section 5: gallery with year filter --}}
+        {{-- Section 4: gallery with year filter --}}
         <section class="border-t border-slate-200 bg-white" aria-labelledby="galeri-posyandu-heading">
             <div class="page-container">
                 <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">

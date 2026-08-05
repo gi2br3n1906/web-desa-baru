@@ -138,7 +138,7 @@ class PublicFrontendTest extends TestCase
             ->assertSee(asset('storage/uploads/potensi.jpg'), false);
 
         $this->get(route('posyandu'))
-            ->assertSee('Posyandu Uji')
-            ->assertSee('<p>PHBS uji</p>', false);
+            ->assertDontSee('Posyandu Uji')
+            ->assertDontSee('<p>PHBS uji</p>', false);
     }
 }

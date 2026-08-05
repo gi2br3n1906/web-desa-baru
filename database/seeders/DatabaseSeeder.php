@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             TaxAndFaqSeeder::class,
             PosyanduSeeder::class,
             AdministrativeServiceSeeder::class,
+            LegalProductSeeder::class,
         ]);
     }
 }

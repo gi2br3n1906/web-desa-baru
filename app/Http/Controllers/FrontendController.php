@@ -7,7 +7,6 @@ use App\Models\AccountingTemplate;
 use App\Models\AdminService;
 use App\Models\AgricultureGuide;
 use App\Models\Faq;
-use App\Models\PosyanduSchedule;
 use App\Models\PosyanduEducation;
 use App\Models\PosyanduGallery;
 use App\Models\PosyanduOfficer;
@@ -20,6 +19,7 @@ use App\Models\Umkm;
 use App\Models\UmkmTransaction;
 use App\Models\VillagePotential;
 use App\Models\VillageProfile;
+use App\Models\VillageLegalProduct;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -47,6 +47,7 @@ class FrontendController extends Controller
     {
         return view('pages.services', [
             'services' => AdminService::query()->latest()->get(),
+            'legalProducts' => VillageLegalProduct::query()->latest()->get(),
         ]);
     }
 
@@ -196,10 +197,6 @@ class FrontendController extends Controller
             'officers' => PosyanduOfficer::query()->orderBy('level')->orderBy('urutan')->get(),
             'educations' => PosyanduEducation::query()->orderBy('urutan')->get(),
             'galleries' => PosyanduGallery::query()->latest('tanggal')->get(),
-            'schedules' => PosyanduSchedule::query()
-                ->orderBy('tanggal_pelaksanaan')
-                ->orderBy('jam_mulai')
-                ->get(),
         ]);
     }
 }

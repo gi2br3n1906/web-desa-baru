@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\VillageProfile;
 use Database\Seeders\AdministrativeServiceSeeder;
+use Database\Seeders\LegalProductSeeder;
 use Database\Seeders\PosyanduSeeder;
 use Database\Seeders\TaxAndFaqSeeder;
 use Database\Seeders\UmkmSeeder;
@@ -23,6 +24,7 @@ class OfficialDataSeederTest extends TestCase
             TaxAndFaqSeeder::class,
             PosyanduSeeder::class,
             AdministrativeServiceSeeder::class,
+            LegalProductSeeder::class,
         ];
 
         $this->seed($seeders);
@@ -41,6 +43,7 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseCount('posyandu_galleries', 4);
         $this->assertDatabaseCount('public_facilities', 3);
         $this->assertDatabaseCount('admin_services', 13);
+        $this->assertDatabaseCount('village_legal_products', 2);
 
         $this->assertSame('Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen, Jawa Tengah', VillageProfile::findOrFail(1)->kontak_desa['Alamat']);
         $this->assertDatabaseHas('village_potentials', ['title_id' => 'Profil Wilayah dan Demografi']);
@@ -54,6 +57,8 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseHas('posyandu_galleries', ['judul' => 'Posyandu Dukuh Pringanom', 'tanggal' => '2026-07-18 00:00:00']);
         $this->assertDatabaseHas('public_facilities', ['nama_fasilitas' => 'Posyandu Sari Mulyo XI', 'kategori' => 'kesehatan']);
         $this->assertDatabaseHas('admin_services', ['nama_layanan' => 'Surat Keterangan Domisili']);
+        $this->assertDatabaseHas('village_legal_products', ['judul_peraturan' => 'Perdes APBDes Tahun Anggaran 2026']);
+        $this->assertDatabaseHas('village_legal_products', ['judul_peraturan' => 'Perdes Rencana Kerja Pemerintah Desa (RKP Desa)']);
 
         $this->assertFileExists(storage_path('app/public/seeded/struktur-organisasi-pringanom.svg'));
 
@@ -79,17 +84,25 @@ class OfficialDataSeederTest extends TestCase
 
         $this->get(route('posyandu'))
             ->assertOk()
-            ->assertSee('Jadwal &amp; Informasi Posyandu Desa Pringanom', false)
-            ->assertSee('Struktur Pengurus Posyandu Sari Mulyo XI')
-            ->assertSee('Jadwal Pelayanan Posyandu')
+            ->assertSee('Informasi Posyandu Desa Pringanom')
+            ->assertSee('Struktur Pengurus &amp; Kader Posyandu Desa Pringanom', false)
             ->assertSee('Infografis &amp; Edukasi Kesehatan', false)
             ->assertSee('Galeri Kegiatan Posyandu')
             ->assertSee('Iis Nurdianawati')
             ->assertSee('Sri Mulyani')
-            ->assertSee('Waktu pelaksanaan dikonfirmasi oleh kader')
+            ->assertDontSee('Jadwal Pelayanan Posyandu')
             ->assertSee('Gomibunbetsu: Pilah Sampah dari Rumah')
             ->assertSee('selectedYear')
             ->assertSee('openPoster');
+
+        $this->get(route('services'))
+            ->assertOk()
+            ->assertSee('Produk Hukum Desa')
+            ->assertSee('Perdes APBDes Tahun Anggaran 2026')
+            ->assertSee('Perdes Rencana Kerja Pemerintah Desa (RKP Desa)')
+            ->assertSee('Unduh Dokumen (PDF)')
+            ->assertSee(asset('documents/produk-hukum/perdes-apbdes-2026.pdf'), false)
+            ->assertSee(asset('documents/produk-hukum/perdes-rkpdesa.pdf'), false);
 
         $this->get(route('facilities'))
             ->assertOk()
