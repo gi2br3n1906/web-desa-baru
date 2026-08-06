@@ -34,7 +34,9 @@ class FrontendController extends Controller
 {
     public function home(): View
     {
-        return view('welcome');
+        return view('welcome', [
+            'latestArticles' => Article::published()->latest('published_at')->take(3)->get(),
+        ]);
     }
 
     public function news(Request $request): View

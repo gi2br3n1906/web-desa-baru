@@ -100,6 +100,10 @@ class AdvancedFeaturesTest extends TestCase
         $this->get(route('news.index', ['q' => 'Draft Uji']))
             ->assertOk()
             ->assertDontSee('Berita Draft Uji');
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertSee('Kabar Desa Terbaru')
+            ->assertSee('Berita Uji Desa');
         $this->get(route('accounting'))
             ->assertOk()
             ->assertSee('Template Pembukuan UMKM Pringanom')

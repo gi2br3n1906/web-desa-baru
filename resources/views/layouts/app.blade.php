@@ -23,14 +23,14 @@
         $governmentActive = request()->routeIs('profile', 'services', 'potentials');
         $facilityActive = request()->routeIs('facilities', 'posyandu');
         $empowermentActive = request()->routeIs('agriculture', 'accounting', 'taxes');
-        $desktopLink = 'rounded-full px-4 py-2 text-sm font-semibold text-blue-900 transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-amber-500';
+        $desktopLink = 'rounded-full px-2.5 py-2 text-xs font-semibold text-blue-900 transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-amber-500 xl:px-3 xl:text-sm';
         $dropdownLink = 'block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-blue-50 hover:text-desaBlue focus:bg-blue-50 focus:text-desaBlue focus:outline-none';
     @endphp
 
     <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/85 text-blue-900 shadow-sm backdrop-blur-md">
         <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Navigasi utama">
             <div class="flex h-16 items-center justify-between">
-                <a href="{{ route('home') }}" class="flex items-center gap-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-desaYellow">
+                <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-desaYellow xl:gap-3">
                     @if ($sragenLogoPath)
                         <img src="{{ asset($sragenLogoPath) }}" alt="Logo resmi Kabupaten Sragen" class="h-11 w-auto shrink-0 object-contain mix-blend-multiply" width="44" height="44">
                     @else
@@ -38,7 +38,7 @@
                     @endif
                     <span>
                         <span class="block text-sm font-bold leading-tight sm:text-base">Desa Pringanom</span>
-                        <span class="hidden text-xs text-slate-500 sm:block">Kecamatan Masaran, Kabupaten Sragen</span>
+                        <span class="hidden text-xs text-slate-500 2xl:block">Kecamatan Masaran, Kabupaten Sragen</span>
                     </span>
                 </a>
 
@@ -52,7 +52,7 @@
                     </svg>
                 </button>
 
-                <div class="hidden items-center gap-1 lg:flex">
+                <div class="hidden items-center gap-0 lg:flex xl:gap-1">
                     <a href="{{ route('home') }}" class="{{ $desktopLink }} {{ request()->routeIs('home') ? 'bg-blue-50' : '' }}">Beranda</a>
                     <a href="{{ route('news.index') }}" class="{{ $desktopLink }} {{ request()->routeIs('news.*') ? 'bg-blue-50' : '' }}">Kabar Desa</a>
 
@@ -92,15 +92,15 @@
                         </div>
                     </div>
                     @auth
-                        @if (auth()->user()->role === 'admin')
-                            <a href="{{ url('/admin') }}" class="ml-2 rounded-full border border-amber-500 bg-amber-50 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-amber-100">Panel Admin</a>
-                        @endif
                         <div class="group relative ml-2">
-                            <button type="button" class="inline-flex items-center gap-2 rounded-full border border-blue-900 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-50" aria-haspopup="true">
-                                {{ auth()->user()->name }}
+                            <button type="button" class="inline-flex items-center gap-1.5 rounded-full border border-blue-900 px-3 py-2 text-xs font-bold text-blue-900 transition hover:bg-blue-50 xl:text-sm" aria-haspopup="true">
+                                <span class="max-w-32 truncate xl:max-w-40">{{ auth()->user()->name }}</span>
                                 <span aria-hidden="true">⌄</span>
                             </button>
                             <div class="invisible absolute right-0 top-full w-48 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                                @if (auth()->user()->role === 'admin')
+                                    <a href="{{ url('/admin') }}" class="{{ $dropdownLink }}"><span class="mr-2 text-amber-600" aria-hidden="true">▣</span>Panel Admin</a>
+                                @endif
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="block w-full rounded-lg px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-red-50 hover:text-red-700">Logout</button>
@@ -151,13 +151,21 @@
                         </div>
                     </details>
                     @auth
-                        @if (auth()->user()->role === 'admin')
-                            <a href="{{ url('/admin') }}" class="mt-2 block rounded-full border border-blue-900 px-4 py-2 text-center text-sm font-bold">Panel Admin</a>
-                        @endif
-                        <form method="POST" action="{{ route('logout') }}" class="mt-2">
-                            @csrf
-                            <button type="submit" class="block w-full rounded-full border border-red-700 px-4 py-2 text-center text-sm font-bold text-red-700">Logout ({{ auth()->user()->name }})</button>
-                        </form>
+                        <details class="group mt-2 rounded-lg border border-blue-900 open:bg-blue-50">
+                            <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-4 py-2 text-sm font-bold text-blue-900">
+                                <span class="truncate">{{ auth()->user()->name }}</span>
+                                <span class="transition group-open:rotate-180" aria-hidden="true">⌄</span>
+                            </summary>
+                            <div class="space-y-1 border-t border-blue-100 p-2">
+                                @if (auth()->user()->role === 'admin')
+                                    <a href="{{ url('/admin') }}" class="block rounded-lg px-3 py-2 text-sm font-bold text-blue-900 hover:bg-amber-100"><span class="mr-2 text-amber-600" aria-hidden="true">▣</span>Panel Admin</a>
+                                @endif
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="block w-full rounded-lg px-3 py-2 text-left text-sm font-bold text-red-700 hover:bg-red-50">Logout</button>
+                                </form>
+                            </div>
+                        </details>
                     @else
                         <a href="{{ route('login') }}" class="mt-2 block rounded-full border border-blue-900 px-4 py-2 text-center text-sm font-bold">Masuk</a>
                     @endauth

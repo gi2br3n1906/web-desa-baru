@@ -10,6 +10,7 @@ use App\Models\PublicFacility;
 use App\Models\TaxGuide;
 use App\Models\VillagePotential;
 use App\Models\VillageProfile;
+use Database\Seeders\NewsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -43,6 +44,8 @@ class PublicFrontendTest extends TestCase
 
     public function test_homepage_uses_the_final_pringanom_identity(): void
     {
+        $this->seed(NewsSeeder::class);
+
         $this->get(route('home'))
             ->assertOk()
             ->assertSee('Portal Informasi dan Layanan Desa Pringanom')
@@ -50,7 +53,10 @@ class PublicFrontendTest extends TestCase
             ->assertSee('Portal Resmi Pemerintahan Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen.')
             ->assertSee('bg-slate-950/45', false)
             ->assertSee('data-carousel-next', false)
-            ->assertSee('lg:grid-cols-6', false);
+            ->assertSee('lg:grid-cols-6', false)
+            ->assertSee('Kabar Desa Terbaru')
+            ->assertSee('Lihat Semua Kabar Desa')
+            ->assertSee('Pelaksanaan Program KKN Undip 2026 di Desa Pringanom');
     }
 
     public function test_public_pages_render_managed_content_and_storage_urls(): void

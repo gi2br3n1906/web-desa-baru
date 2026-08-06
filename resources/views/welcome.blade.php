@@ -34,6 +34,22 @@ $slides = [
  <a href="{{ $url }}" class="content-card group min-w-[150px] snap-start p-5 text-center lg:min-w-0"><span class="mx-auto flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-blue-50 text-xl font-bold text-blue-900 transition group-hover:bg-amber-500">{{ $icon }}</span><h3 class="mt-4 font-bold text-blue-900">{{ $label }}</h3></a>@endforeach
  </div>
 </section>
+<section class="page-container py-10" aria-labelledby="latest-news-heading">
+ <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+  <div><p class="section-kicker">Informasi Terkini</p><h2 id="latest-news-heading" class="page-heading mt-4">Kabar Desa Terbaru</h2><p class="mt-3 max-w-2xl leading-7 text-slate-600">Berita, kegiatan, dan pengumuman terbaru dari Desa Pringanom.</p></div>
+  <a href="{{ route('news.index') }}" class="inline-flex items-center font-bold text-blue-900 hover:text-amber-700">Lihat Semua Kabar Desa <span class="ml-2" aria-hidden="true">→</span></a>
+ </div>
+ <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+  @forelse($latestArticles as $article)
+   <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-amber-400 hover:shadow-lg">
+    <x-smart-image :src="$article->thumbnail_path ? asset('storage/'.$article->thumbnail_path) : null" :alt="$article->title" class="aspect-[16/9]" />
+    <div class="p-5"><span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-800">{{ $article->category }}</span><h3 class="mt-4 text-xl font-black leading-7 text-blue-900"><a href="{{ route('news.show', $article->slug) }}" class="hover:text-amber-700">{{ $article->title }}</a></h3><p class="mt-3 text-xs font-semibold text-slate-500">{{ $article->published_at->translatedFormat('d F Y') }}</p><p class="mt-3 line-clamp-3 leading-6 text-slate-600">{{ $article->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($article->content), 150) }}</p><a href="{{ route('news.show', $article->slug) }}" class="mt-5 inline-flex items-center font-bold text-blue-900 hover:text-amber-700">Baca Selengkapnya <span class="ml-2" aria-hidden="true">→</span></a></div>
+   </article>
+  @empty
+   <div class="empty-state md:col-span-2 lg:col-span-3">Belum ada berita terbaru yang diterbitkan.</div>
+  @endforelse
+ </div>
+</section>
 <section class="bg-slate-100"><div class="mx-auto grid max-w-7xl grid-cols-2 px-4 py-10 sm:px-6 md:grid-cols-4 lg:px-8">@foreach([['8','Modul Informasi'],['24/7','Akses Portal'],['1','Desa Terintegrasi'],['2026','Tahun Pelayanan']] as [$number,$label])<div class="p-5 text-center"><strong class="block text-3xl font-extrabold text-blue-900 sm:text-4xl">{{ $number }}</strong><span class="mt-2 block text-sm font-medium text-slate-600">{{ $label }}</span></div>@endforeach</div></section>
 <script>document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementById('hero-carousel');if(!c)return;const s=[...c.querySelectorAll('[data-carousel-slide]')],d=[...c.querySelectorAll('[data-carousel-dot]')];let a=0;const show=i=>{a=(i+s.length)%s.length;s.forEach((x,n)=>{const on=n===a;x.classList.toggle('opacity-100',on);x.classList.toggle('opacity-0',!on);x.classList.toggle('pointer-events-none',!on);x.setAttribute('aria-hidden',String(!on))});d.forEach((x,n)=>{const on=n===a;x.classList.toggle('w-8',on);x.classList.toggle('bg-amber-500',on);x.classList.toggle('w-2.5',!on);x.classList.toggle('bg-white/60',!on)})};c.querySelector('[data-carousel-prev]').onclick=()=>show(a-1);c.querySelector('[data-carousel-next]').onclick=()=>show(a+1);d.forEach((x,n)=>x.onclick=()=>show(n));setInterval(()=>show(a+1),7000)});</script>
 @endsection
