@@ -10,6 +10,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 Route::controller(FrontendController::class)->group(function (): void {
     Route::get('/', 'home')->name('home');
+    Route::get('/berita', 'news')->name('news.index');
+    Route::get('/berita/{slug}', 'showNews')->name('news.show');
     Route::get('/profil', 'profile')->name('profile');
     Route::get('/layanan', 'services')->name('services');
     Route::post('/layanan/pengajuan', 'storeServiceRequest')->name('services.request.store');

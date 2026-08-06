@@ -7,6 +7,7 @@ use App\Models\AdminService;
 use App\Models\Faq;
 use App\Models\TaxSchedule;
 use App\Models\Umkm;
+use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -29,6 +30,25 @@ class AdvancedFeaturesTest extends TestCase
         Umkm::create(['nama_umkm' => 'UMKM Uji', 'pemilik' => 'Pemilik', 'kategori' => 'Kuliner', 'dusun' => 'Pringanom', 'rt_rw' => '01/02', 'deskripsi' => 'Deskripsi', 'latitude' => -7.43, 'longitude' => 110.93]);
         Faq::create(['kategori' => 'umkm', 'pertanyaan' => 'FAQ UMKM Uji?', 'jawaban' => 'Jawaban', 'urutan' => 1]);
         TaxSchedule::create(['judul_kegiatan' => 'Agenda Pajak Uji', 'tanggal' => now()->startOfMonth()->addDays(4)]);
+        Article::create([
+            'title' => 'Berita Uji Desa',
+            'slug' => 'berita-uji-desa',
+            'category' => 'KKN',
+            'content' => '<p>Konten berita uji.</p>',
+            'excerpt' => 'Ringkasan berita uji.',
+            'is_published' => true,
+            'published_at' => now()->subMinute(),
+            'author_name' => 'Admin Desa',
+        ]);
+        Article::create([
+            'title' => 'Berita Draft Uji',
+            'slug' => 'berita-draft-uji',
+            'category' => 'KKN',
+            'content' => '<p>Draft.</p>',
+            'is_published' => false,
+            'published_at' => now()->addDay(),
+            'author_name' => 'Admin Desa',
+        ]);
         $this->get(route('umkm'))
             ->assertOk()
             ->assertSee('Pojok UMKM dan Pajak')
@@ -61,6 +81,25 @@ class AdvancedFeaturesTest extends TestCase
             ->assertOk()
             ->assertSee('Video Panduan Pertanian')
             ->assertSee('https://drive.google.com/file/d/1PWNNgQXbN-8a2CAFGq6NTQSr_J3fTyTG/preview', false);
+
+        $this->get(route('news.index', ['q' => 'Berita Uji']))
+            ->assertOk()
+            ->assertSee('Berita Uji Desa')
+            ->assertSee('Ringkasan berita uji.');
+
+        $this->get(route('news.index', ['category' => 'Pemerintah Desa']))
+            ->assertOk()
+            ->assertDontSee('Berita Uji Desa');
+
+        $this->get(route('news.show', 'berita-uji-desa'))
+            ->assertOk()
+            ->assertSee('Berita Uji Desa')
+            ->assertSee('<p>Konten berita uji.</p>', false)
+            ->assertSee('Berita Terkait');
+
+        $this->get(route('news.index', ['q' => 'Draft Uji']))
+            ->assertOk()
+            ->assertDontSee('Berita Draft Uji');
         $this->get(route('accounting'))
             ->assertOk()
             ->assertSee('Template Pembukuan UMKM Pringanom')

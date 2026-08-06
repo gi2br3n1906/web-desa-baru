@@ -54,6 +54,7 @@
 
                 <div class="hidden items-center gap-1 lg:flex">
                     <a href="{{ route('home') }}" class="{{ $desktopLink }} {{ request()->routeIs('home') ? 'bg-blue-50' : '' }}">Beranda</a>
+                    <a href="{{ route('news.index') }}" class="{{ $desktopLink }} {{ request()->routeIs('news.*') ? 'bg-blue-50' : '' }}">Kabar Desa</a>
 
                     <div class="group relative">
                         <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $governmentActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
@@ -91,15 +92,15 @@
                         </div>
                     </div>
                     @auth
+                        @if (auth()->user()->role === 'admin')
+                            <a href="{{ url('/admin') }}" class="ml-2 rounded-full border border-amber-500 bg-amber-50 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-amber-100">Panel Admin</a>
+                        @endif
                         <div class="group relative ml-2">
                             <button type="button" class="inline-flex items-center gap-2 rounded-full border border-blue-900 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-50" aria-haspopup="true">
                                 {{ auth()->user()->name }}
                                 <span aria-hidden="true">⌄</span>
                             </button>
                             <div class="invisible absolute right-0 top-full w-48 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                                @if (auth()->user()->role === 'admin')
-                                    <a href="{{ url('/admin') }}" class="{{ $dropdownLink }}">Panel Admin</a>
-                                @endif
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="block w-full rounded-lg px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-red-50 hover:text-red-700">Logout</button>
@@ -115,6 +116,7 @@
             <div id="mobile-menu" class="hidden border-t border-slate-200 pb-4 lg:hidden">
                 <div class="space-y-1 pt-3">
                     <a href="{{ route('home') }}" class="block rounded-lg px-3 py-2 font-semibold transition hover:bg-blue-50">Beranda</a>
+                    <a href="{{ route('news.index') }}" class="block rounded-lg px-3 py-2 font-semibold transition hover:bg-blue-50">Kabar Desa</a>
                     <details class="group rounded-lg open:bg-blue-50" {{ $governmentActive ? 'open' : '' }}>
                         <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2 font-semibold hover:bg-blue-50">
                             Pemerintahan & Layanan

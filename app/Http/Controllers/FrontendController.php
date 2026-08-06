@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewServiceRequestMail;
 use App\Models\AccountingTemplate;
+use App\Models\Article;
 use App\Models\AdminService;
 use App\Models\AgricultureGuide;
 use App\Models\Faq;
@@ -34,6 +35,60 @@ class FrontendController extends Controller
     public function home(): View
     {
         return view('welcome');
+    }
+
+    public function news(Request $request): View
+    {
+        $category = $request->string('category')->toString();
+        $search = $request->string('q')->trim()->toString();
+
+        $articles = Article::query()
+            ->published()
+            ->when($category !== '', fn ($query) => $query->where('category', $category))
+            ->when($search !== '', fn ($query) => $query->where(function ($query) use ($search): void {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('excerpt', 'like', "%{$search}%")
+                    ->orWhere('content', 'like', "%{$search}%");
+            }))
+            ->latest('published_at')
+            ->paginate(9)
+            ->withQueryString();
+
+        return view('pages.news.index', [
+            'articles' => $articles,
+            'categories' => ['KKN', 'Karang Taruna', 'Pemerintah Desa'],
+            'activeCategory' => $category,
+            'search' => $search,
+        ]);
+    }
+
+    public function showNews(string $slug): View
+    {
+        $article = Article::query()->published()->where('slug', $slug)->firstOrFail();
+        $relatedArticles = Article::query()
+            ->published()
+            ->where('id', '!=', $article->id)
+            ->where('category', $article->category)
+            ->latest('published_at')
+            ->limit(3)
+            ->get();
+
+        if ($relatedArticles->count() < 3) {
+            $relatedArticles = $relatedArticles
+                ->concat(Article::query()
+                    ->published()
+                    ->where('id', '!=', $article->id)
+                    ->whereNotIn('id', $relatedArticles->pluck('id'))
+                    ->latest('published_at')
+                    ->limit(3 - $relatedArticles->count())
+                    ->get())
+                ->take(3);
+        }
+
+        return view('pages.news.show', [
+            'article' => $article,
+            'relatedArticles' => $relatedArticles,
+        ]);
     }
 
     public function profile(): View

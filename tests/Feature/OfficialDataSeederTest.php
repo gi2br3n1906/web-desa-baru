@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\VillageProfile;
 use Database\Seeders\AdministrativeServiceSeeder;
 use Database\Seeders\LegalProductSeeder;
+use Database\Seeders\NewsSeeder;
 use Database\Seeders\PosyanduSeeder;
 use Database\Seeders\TaxAndFaqSeeder;
 use Database\Seeders\UmkmSeeder;
@@ -25,6 +26,7 @@ class OfficialDataSeederTest extends TestCase
             PosyanduSeeder::class,
             AdministrativeServiceSeeder::class,
             LegalProductSeeder::class,
+            NewsSeeder::class,
         ];
 
         $this->seed($seeders);
@@ -44,6 +46,7 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseCount('public_facilities', 3);
         $this->assertDatabaseCount('admin_services', 13);
         $this->assertDatabaseCount('village_legal_products', 2);
+        $this->assertDatabaseCount('articles', 4);
 
         $profile = VillageProfile::findOrFail(1);
         $this->assertSame('Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen, Jawa Tengah', $profile->kontak_desa['Alamat']);
@@ -62,6 +65,7 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseHas('admin_services', ['nama_layanan' => 'Surat Keterangan Domisili']);
         $this->assertDatabaseHas('village_legal_products', ['judul_peraturan' => 'Perdes APBDes Tahun Anggaran 2026']);
         $this->assertDatabaseHas('village_legal_products', ['judul_peraturan' => 'Perdes Rencana Kerja Pemerintah Desa (RKP Desa)']);
+        $this->assertDatabaseHas('articles', ['slug' => 'pelaksanaan-program-kkn-undip-2026-di-desa-pringanom', 'category' => 'KKN']);
 
         $this->assertFileExists(storage_path('app/public/seeded/struktur-organisasi-pringanom.svg'));
 
@@ -121,5 +125,18 @@ class OfficialDataSeederTest extends TestCase
             ->assertOk()
             ->assertSee('Surat Keterangan Domisili')
             ->assertSee('Pembuatan Akta Kelahiran');
+
+        $this->get(route('news.index'))
+            ->assertOk()
+            ->assertSee('Kabar Desa')
+            ->assertSee('Pelaksanaan Program KKN Undip 2026 di Desa Pringanom')
+            ->assertSee('Karang Taruna Pringanom Gelar Kerja Bakti Lingkungan')
+            ->assertSee('Pemerintah Desa')
+            ->assertSee('Cari berita');
+
+        $this->get(route('news.show', 'pelaksanaan-program-kkn-undip-2026-di-desa-pringanom'))
+            ->assertOk()
+            ->assertSee('Tim KKN Undip 2026')
+            ->assertSee('Program kerja berfokus pada literasi digital', false);
     }
 }

@@ -21,6 +21,7 @@ class PublicFrontendTest extends TestCase
     {
         $routes = [
             'home',
+            'news.index',
             'profile',
             'services',
             'facilities',

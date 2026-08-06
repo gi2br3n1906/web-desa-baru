@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PosyanduSeeder::class,
             AdministrativeServiceSeeder::class,
             LegalProductSeeder::class,
+            NewsSeeder::class,
         ]);
     }
 }
