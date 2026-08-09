@@ -223,5 +223,14 @@
     </script>
     <script src="{{ asset('js/offline-db.js') }}"></script>
     <script src="{{ asset('js/offline-sync.js') }}"></script>
+    <script>
+        window.addEventListener('load', () => {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((error) => {
+                    console.error('Registrasi Service Worker publik gagal.', error);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

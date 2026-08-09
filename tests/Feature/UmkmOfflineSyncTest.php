@@ -90,8 +90,20 @@ class UmkmOfflineSyncTest extends TestCase
         foreach (['/', '/pembukuan', '/umkm', '/posyandu', '/profil', '/layanan', '/berita', '/offline.html'] as $url) {
             $this->assertStringContainsString("'{$url}'", $serviceWorker);
         }
-        $this->assertStringContainsString('caches.match(request, { ignoreSearch: true })', $serviceWorker);
-        $this->assertStringContainsString('caches.match(OFFLINE_URL)', $serviceWorker);
+        $this->assertStringContainsString('await self.skipWaiting()', $serviceWorker);
+        $this->assertStringContainsString('await self.clients.claim()', $serviceWorker);
+        $this->assertStringContainsString('normalizedNavigationRequests', $serviceWorker);
+        $this->assertStringContainsString("url.pathname.replace(/\\/+$/, '')", $serviceWorker);
+        $this->assertStringContainsString('caches.match(candidate, { ignoreSearch: true })', $serviceWorker);
+        $this->assertStringContainsString('caches.match(OFFLINE_URL, { ignoreSearch: true })', $serviceWorker);
+        $this->assertStringContainsString("caches.match('/', { ignoreSearch: true })", $serviceWorker);
+        $this->assertStringContainsString('emergencyOfflineResponse()', $serviceWorker);
+        $this->assertStringContainsString("credentials: 'omit'", $serviceWorker);
+        $this->assertStringContainsString('return emergencyOfflineResponse()', $serviceWorker);
+        $this->assertStringNotContainsString('Response.error()', $serviceWorker);
+
+        $layout = file_get_contents(resource_path('views/layouts/app.blade.php'));
+        $this->assertStringContainsString("navigator.serviceWorker.register('/sw.js', { scope: '/' })", $layout);
 
         $admin = User::factory()->admin()->create();
         $this->actingAs($admin)->get(route('filament.admin.resources.umkms.create'))

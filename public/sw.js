@@ -1,9 +1,9 @@
 'use strict';
 
-const CACHE_VERSION = 'pringanom-pwa-v2';
+const CACHE_VERSION = 'pringanom-pwa-v3';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const OFFLINE_URL = '/offline.html';
-const PRECACHE_URLS = [
+const PUBLIC_PAGE_URLS = [
     '/',
     '/pembukuan',
     '/umkm',
@@ -11,6 +11,8 @@ const PRECACHE_URLS = [
     '/profil',
     '/layanan',
     '/berita',
+];
+const PRECACHE_URLS = [
     OFFLINE_URL,
     '/manifest.json',
     '/js/offline-db.js',
@@ -20,16 +22,27 @@ const PRECACHE_URLS = [
 ];
 
 self.addEventListener('install', (event) => {
-    event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)));
-    self.skipWaiting();
+    event.waitUntil((async () => {
+        const cache = await caches.open(STATIC_CACHE);
+
+        // Core offline shell must succeed. Dynamic public pages are cached
+        // independently so one temporary 5xx response cannot abort install.
+        await cache.addAll(PRECACHE_URLS);
+        await Promise.allSettled(PUBLIC_PAGE_URLS.map((url) => cache.add(new Request(url, {
+            credentials: 'omit',
+        }))));
+        await self.skipWaiting();
+    })());
 });
 
 self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys()
-            .then((keys) => Promise.all(keys.filter((key) => key.startsWith('pringanom-pwa-') && key !== STATIC_CACHE).map((key) => caches.delete(key))))
-            .then(() => self.clients.claim()),
-    );
+    event.waitUntil((async () => {
+        const keys = await caches.keys();
+        await Promise.all(keys
+            .filter((key) => key.startsWith('pringanom-pwa-') && key !== STATIC_CACHE)
+            .map((key) => caches.delete(key)));
+        await self.clients.claim();
+    })());
 });
 
 async function staleWhileRevalidate(request) {
@@ -42,14 +55,66 @@ async function staleWhileRevalidate(request) {
     return cached || network;
 }
 
+function normalizedNavigationRequests(request) {
+    const url = new URL(request.url);
+    url.search = '';
+
+    const normalizedPath = url.pathname === '/' ? '/' : url.pathname.replace(/\/+$/, '');
+    const alternatePath = normalizedPath === '/' ? '/' : `${normalizedPath}/`;
+
+    return [
+        request,
+        new Request(`${url.origin}${normalizedPath}`, { method: 'GET' }),
+        new Request(`${url.origin}${alternatePath}`, { method: 'GET' }),
+    ];
+}
+
+async function cachedNavigationResponse(request) {
+    for (const candidate of normalizedNavigationRequests(request)) {
+        try {
+            const response = await caches.match(candidate, { ignoreSearch: true });
+            if (response) return response;
+        } catch (_) {
+            // Continue to the guaranteed offline response when Cache API fails.
+        }
+    }
+
+    return null;
+}
+
+function emergencyOfflineResponse() {
+    return new Response(
+        '<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mode Offline | Desa Pringanom</title></head><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#0f172a;color:#e2e8f0;font-family:system-ui,sans-serif;padding:24px"><main><h1>Portal Desa sedang offline</h1><p>Periksa koneksi Anda lalu coba kembali.</p></main></body></html>',
+        { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } },
+    );
+}
+
 async function networkFirstNavigation(request) {
     try {
         return await fetch(request);
     } catch (_) {
-        const cachedPage = await caches.match(request, { ignoreSearch: true });
-        if (cachedPage) return cachedPage;
+        try {
+            const cachedPage = await cachedNavigationResponse(request);
+            if (cachedPage) return cachedPage;
+        } catch (_) {
+            // URL normalization or Cache API may fail in restricted contexts.
+        }
 
-        return (await caches.match(OFFLINE_URL)) || Response.error();
+        try {
+            const offlinePage = await caches.match(OFFLINE_URL, { ignoreSearch: true });
+            if (offlinePage) return offlinePage;
+        } catch (_) {
+            // Continue to the next guaranteed fallback.
+        }
+
+        try {
+            const cachedHome = await caches.match('/', { ignoreSearch: true });
+            if (cachedHome) return cachedHome;
+        } catch (_) {
+            // The inline emergency response below does not depend on Cache API.
+        }
+
+        return emergencyOfflineResponse();
     }
 }
 
