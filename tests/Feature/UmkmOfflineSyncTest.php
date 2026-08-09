@@ -93,6 +93,11 @@ class UmkmOfflineSyncTest extends TestCase
         $this->assertStringContainsString('await self.skipWaiting()', $serviceWorker);
         $this->assertStringContainsString('await self.clients.claim()', $serviceWorker);
         $this->assertStringContainsString('normalizedNavigationRequests', $serviceWorker);
+        $this->assertStringContainsString('cacheSuccessfulPublicNavigation', $serviceWorker);
+        $this->assertStringContainsString('PUBLIC_PAGE_PATHS.has(normalizedPath)', $serviceWorker);
+        $this->assertStringContainsString("['opaque', 'error'].includes(response.type)", $serviceWorker);
+        $this->assertStringContainsString('await cache.put(', $serviceWorker);
+        $this->assertStringContainsString('await cacheSuccessfulPublicNavigation(request, networkResponse)', $serviceWorker);
         $this->assertStringContainsString("url.pathname.replace(/\\/+$/, '')", $serviceWorker);
         $this->assertStringContainsString('caches.match(candidate, { ignoreSearch: true })', $serviceWorker);
         $this->assertStringContainsString('caches.match(OFFLINE_URL, { ignoreSearch: true })', $serviceWorker);
@@ -104,6 +109,7 @@ class UmkmOfflineSyncTest extends TestCase
 
         $layout = file_get_contents(resource_path('views/layouts/app.blade.php'));
         $this->assertStringContainsString("navigator.serviceWorker.register('/sw.js', { scope: '/' })", $layout);
+        $this->assertStringContainsString('registration.update()', $layout);
 
         $admin = User::factory()->admin()->create();
         $this->actingAs($admin)->get(route('filament.admin.resources.umkms.create'))

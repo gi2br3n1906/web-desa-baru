@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_VERSION = 'pringanom-pwa-v3';
+const CACHE_VERSION = 'pringanom-pwa-v4';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const OFFLINE_URL = '/offline.html';
 const PUBLIC_PAGE_URLS = [
@@ -12,6 +12,7 @@ const PUBLIC_PAGE_URLS = [
     '/layanan',
     '/berita',
 ];
+const PUBLIC_PAGE_PATHS = new Set(PUBLIC_PAGE_URLS);
 const PRECACHE_URLS = [
     OFFLINE_URL,
     '/manifest.json',
@@ -69,6 +70,35 @@ function normalizedNavigationRequests(request) {
     ];
 }
 
+function normalizedPublicPath(request) {
+    const url = new URL(request.url);
+    return url.pathname === '/' ? '/' : url.pathname.replace(/\/+$/, '');
+}
+
+async function cacheSuccessfulPublicNavigation(request, response) {
+    if (!response?.ok || ['opaque', 'error'].includes(response.type)) return;
+
+    const normalizedPath = normalizedPublicPath(request);
+    if (!PUBLIC_PAGE_PATHS.has(normalizedPath)) return;
+
+    try {
+        const cache = await caches.open(STATIC_CACHE);
+        const normalizedUrl = new URL(normalizedPath, self.location.origin).toString();
+        const guestRequest = new Request(normalizedUrl, {
+            method: 'GET',
+            credentials: 'omit',
+            headers: { 'Accept': 'text/html' },
+        });
+        const guestResponse = await fetch(guestRequest);
+        if (guestResponse.ok && !['opaque', 'error'].includes(guestResponse.type)) {
+            await cache.put(guestRequest, guestResponse);
+        }
+    } catch (_) {
+        // A successful online navigation must still render even if runtime
+        // cache persistence is unavailable in a restricted browser context.
+    }
+}
+
 async function cachedNavigationResponse(request) {
     for (const candidate of normalizedNavigationRequests(request)) {
         try {
@@ -91,7 +121,9 @@ function emergencyOfflineResponse() {
 
 async function networkFirstNavigation(request) {
     try {
-        return await fetch(request);
+        const networkResponse = await fetch(request);
+        await cacheSuccessfulPublicNavigation(request, networkResponse);
+        return networkResponse;
     } catch (_) {
         try {
             const cachedPage = await cachedNavigationResponse(request);

@@ -226,9 +226,11 @@
     <script>
         window.addEventListener('load', () => {
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((error) => {
-                    console.error('Registrasi Service Worker publik gagal.', error);
-                });
+                navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                    .then((registration) => registration.update())
+                    .catch((error) => {
+                        console.error('Registrasi Service Worker publik gagal.', error);
+                    });
             }
         });
     </script>
