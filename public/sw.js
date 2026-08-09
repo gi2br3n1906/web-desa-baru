@@ -1,9 +1,16 @@
 'use strict';
 
-const CACHE_VERSION = 'pringanom-pwa-v1';
+const CACHE_VERSION = 'pringanom-pwa-v2';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const OFFLINE_URL = '/offline.html';
-const PRECACHE = [
+const PRECACHE_URLS = [
+    '/',
+    '/pembukuan',
+    '/umkm',
+    '/posyandu',
+    '/profil',
+    '/layanan',
+    '/berita',
     OFFLINE_URL,
     '/manifest.json',
     '/js/offline-db.js',
@@ -13,7 +20,7 @@ const PRECACHE = [
 ];
 
 self.addEventListener('install', (event) => {
-    event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE)));
+    event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)));
     self.skipWaiting();
 });
 
@@ -39,6 +46,9 @@ async function networkFirstNavigation(request) {
     try {
         return await fetch(request);
     } catch (_) {
+        const cachedPage = await caches.match(request, { ignoreSearch: true });
+        if (cachedPage) return cachedPage;
+
         return (await caches.match(OFFLINE_URL)) || Response.error();
     }
 }

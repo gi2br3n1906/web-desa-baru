@@ -86,6 +86,13 @@ class UmkmOfflineSyncTest extends TestCase
         $this->assertFileExists(public_path('images/pwa-icon-192.png'));
         $this->assertFileExists(public_path('images/pwa-icon-512.png'));
 
+        $serviceWorker = file_get_contents(public_path('sw.js'));
+        foreach (['/', '/pembukuan', '/umkm', '/posyandu', '/profil', '/layanan', '/berita', '/offline.html'] as $url) {
+            $this->assertStringContainsString("'{$url}'", $serviceWorker);
+        }
+        $this->assertStringContainsString('caches.match(request, { ignoreSearch: true })', $serviceWorker);
+        $this->assertStringContainsString('caches.match(OFFLINE_URL)', $serviceWorker);
+
         $admin = User::factory()->admin()->create();
         $this->actingAs($admin)->get(route('filament.admin.resources.umkms.create'))
             ->assertOk()
