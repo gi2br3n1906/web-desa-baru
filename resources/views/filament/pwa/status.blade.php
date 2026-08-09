@@ -1,1 +1,1 @@
-<x-pwa-status class="mr-3 hidden sm:flex" />
+<x-pwa-status compact class="mr-3 hidden shrink-0 sm:flex" />

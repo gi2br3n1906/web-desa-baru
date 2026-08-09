@@ -33,13 +33,21 @@
         try { count = await window.countPendingUmkms(); } catch (_) { /* IndexedDB may be unavailable. */ }
 
         document.querySelectorAll('[data-pwa-connection]').forEach((element) => {
-            element.textContent = online ? '🟢 Online' : '🟡 Mode Offline (Tersimpan Lokal)';
+            const label = online ? 'Online' : 'Mode Offline (Tersimpan Lokal)';
+            const dot = element.querySelector('[data-pwa-dot]');
+            const text = element.querySelector('[data-pwa-text]');
+            if (dot) dot.textContent = online ? '🟢' : '🟡';
+            if (text) text.textContent = label;
+            if (!dot && !text) element.textContent = `${online ? '🟢' : '🟡'} ${label}`;
+            element.title = label;
             element.classList.toggle('text-green-700', online);
             element.classList.toggle('text-amber-700', !online);
         });
         document.querySelectorAll('[data-pwa-queue]').forEach((element) => {
-            element.textContent = `📥 ${count} Antrean Sync`;
+            const countElement = element.querySelector('[data-pwa-count]');
+            if (countElement) countElement.textContent = count;
             element.hidden = count === 0;
+            element.classList.toggle('inline-flex', count > 0);
         });
     }
 

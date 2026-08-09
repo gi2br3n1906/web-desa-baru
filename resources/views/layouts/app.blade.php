@@ -28,21 +28,21 @@
         $governmentActive = request()->routeIs('profile', 'services', 'potentials');
         $facilityActive = request()->routeIs('facilities', 'posyandu');
         $empowermentActive = request()->routeIs('agriculture', 'accounting', 'umkm', 'taxes');
-        $desktopLink = 'rounded-full px-2.5 py-2 text-xs font-semibold text-blue-900 transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-amber-500 xl:px-3 xl:text-sm';
+        $desktopLink = 'whitespace-nowrap rounded-full px-2 py-1.5 text-xs font-semibold text-blue-900 transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-amber-500 xl:px-3 xl:text-sm';
         $dropdownLink = 'block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-blue-50 hover:text-desaBlue focus:bg-blue-50 focus:text-desaBlue focus:outline-none';
     @endphp
 
     <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/85 text-blue-900 shadow-sm backdrop-blur-md">
-        <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Navigasi utama">
-            <div class="flex h-16 items-center justify-between">
+        <nav class="mx-auto max-w-7xl overflow-hidden px-4 hover:overflow-visible focus-within:overflow-visible sm:px-6 lg:px-8" aria-label="Navigasi utama">
+            <div class="flex h-16 flex-nowrap items-center justify-between gap-2 overflow-hidden hover:overflow-visible focus-within:overflow-visible">
                 <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-desaYellow xl:gap-3">
                     @if ($sragenLogoPath)
-                        <img src="{{ asset($sragenLogoPath) }}" alt="Logo resmi Kabupaten Sragen" class="h-11 w-auto shrink-0 object-contain mix-blend-multiply" width="44" height="44">
+                        <img src="{{ asset($sragenLogoPath) }}" alt="Logo resmi Kabupaten Sragen" class="h-9 w-auto shrink-0 object-contain mix-blend-multiply xl:h-11" width="44" height="44">
                     @else
                         <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-desaYellow text-lg font-black text-desaBlue" aria-hidden="true">P</span>
                     @endif
                     <span>
-                        <span class="block text-sm font-bold leading-tight sm:text-base">Desa Pringanom</span>
+                        <span class="block whitespace-nowrap text-xs font-bold leading-tight xl:text-base">Desa Pringanom</span>
                         <span class="hidden text-xs text-slate-500 2xl:block">Kecamatan Masaran, Kabupaten Sragen</span>
                     </span>
                 </a>
@@ -57,50 +57,52 @@
                     </svg>
                 </button>
 
-                <div class="hidden items-center gap-0 lg:flex xl:gap-1">
-                    <a href="{{ route('home') }}" class="{{ $desktopLink }} {{ request()->routeIs('home') ? 'bg-blue-50' : '' }}">Beranda</a>
-                    <a href="{{ route('news.index') }}" class="{{ $desktopLink }} {{ request()->routeIs('news.*') ? 'bg-blue-50' : '' }}">Kabar Desa</a>
+                <div class="hidden min-w-0 flex-1 flex-nowrap items-center justify-end gap-1 overflow-hidden hover:overflow-visible focus-within:overflow-visible lg:flex xl:gap-2">
+                    <div class="flex shrink-0 items-center gap-1 xl:gap-2">
+                        <a href="{{ route('home') }}" class="{{ $desktopLink }} {{ request()->routeIs('home') ? 'bg-blue-50' : '' }}">Beranda</a>
+                        <a href="{{ route('news.index') }}" class="{{ $desktopLink }} {{ request()->routeIs('news.*') ? 'bg-blue-50' : '' }}">Kabar Desa</a>
 
-                    <div class="group relative">
-                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $governmentActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
-                            Pemerintahan & Layanan
-                            <svg class="size-4 transition group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                        </button>
-                        <div class="invisible absolute right-0 top-full w-64 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                            <a href="{{ route('profile') }}" class="{{ $dropdownLink }}">Profil Pemerintah Desa</a>
-                            <a href="{{ route('services') }}" class="{{ $dropdownLink }}">Panduan Administrasi & Hukum</a>
-                            <a href="{{ route('potentials') }}" class="{{ $dropdownLink }}">Potensi Desa Bilingual</a>
+                        <div class="group relative shrink-0">
+                            <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $governmentActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
+                                Pemerintahan & Layanan
+                                <svg class="hidden size-4 transition group-hover:rotate-180 group-focus-within:rotate-180 xl:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                            </button>
+                            <div class="invisible absolute right-0 top-full w-64 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                                <a href="{{ route('profile') }}" class="{{ $dropdownLink }}">Profil Pemerintah Desa</a>
+                                <a href="{{ route('services') }}" class="{{ $dropdownLink }}">Panduan Administrasi & Hukum</a>
+                                <a href="{{ route('potentials') }}" class="{{ $dropdownLink }}">Potensi Desa Bilingual</a>
+                            </div>
+                        </div>
+
+                        <div class="group relative shrink-0">
+                            <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $facilityActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
+                                Fasilitas & Kesehatan
+                                <svg class="hidden size-4 transition group-hover:rotate-180 group-focus-within:rotate-180 xl:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                            </button>
+                            <div class="invisible absolute right-0 top-full w-60 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                                <a href="{{ route('facilities') }}" class="{{ $dropdownLink }}">Peta Fasilitas Desa</a>
+                                <a href="{{ route('posyandu') }}" class="{{ $dropdownLink }}">Informasi Posyandu</a>
+                            </div>
+                        </div>
+
+                        <div class="group relative shrink-0">
+                            <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $empowermentActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
+                                Pemberdayaan & UMKM
+                                <svg class="hidden size-4 transition group-hover:rotate-180 group-focus-within:rotate-180 xl:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
+                            </button>
+                            <div class="invisible absolute right-0 top-full w-60 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                                <a href="{{ route('agriculture') }}" class="{{ $dropdownLink }}">Panduan Alat Tani</a>
+                                <a href="{{ route('accounting') }}" class="{{ $dropdownLink }}">Pembukuan UMKM</a>
+                                <a href="{{ route('umkm') }}" class="{{ $dropdownLink }}">Direktori UMKM</a>
+                                <a href="{{ route('taxes') }}" class="{{ $dropdownLink }}">Panduan Pajak UMKM</a>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="group relative">
-                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $facilityActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
-                            Fasilitas & Kesehatan
-                            <svg class="size-4 transition group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                        </button>
-                        <div class="invisible absolute right-0 top-full w-60 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                            <a href="{{ route('facilities') }}" class="{{ $dropdownLink }}">Peta Fasilitas Desa</a>
-                            <a href="{{ route('posyandu') }}" class="{{ $dropdownLink }}">Informasi Posyandu</a>
-                        </div>
-                    </div>
-
-                    <div class="group relative">
-                        <button type="button" class="{{ $desktopLink }} inline-flex items-center gap-1 {{ $empowermentActive ? 'bg-blue-50' : '' }}" aria-haspopup="true">
-                            Pemberdayaan & UMKM
-                            <svg class="size-4 transition group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" /></svg>
-                        </button>
-                        <div class="invisible absolute right-0 top-full w-60 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                            <a href="{{ route('agriculture') }}" class="{{ $dropdownLink }}">Panduan Alat Tani</a>
-                            <a href="{{ route('accounting') }}" class="{{ $dropdownLink }}">Pembukuan UMKM</a>
-                            <a href="{{ route('umkm') }}" class="{{ $dropdownLink }}">Direktori UMKM</a>
-                            <a href="{{ route('taxes') }}" class="{{ $dropdownLink }}">Panduan Pajak UMKM</a>
-                        </div>
-                    </div>
-                    <x-pwa-status class="hidden 2xl:flex" />
+                    <x-pwa-status compact class="hidden shrink-0 lg:flex" />
                     @auth
-                        <div class="group relative ml-2">
-                            <button type="button" class="inline-flex items-center gap-1.5 rounded-full border border-blue-900 px-3 py-2 text-xs font-bold text-blue-900 transition hover:bg-blue-50 xl:text-sm" aria-haspopup="true">
-                                <span class="max-w-32 truncate xl:max-w-40">{{ auth()->user()->name }}</span>
+                        <div class="group relative ml-1 shrink-0 xl:ml-2">
+                            <button type="button" class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-blue-900 px-2 py-1.5 text-xs font-bold text-blue-900 transition hover:bg-blue-50 xl:px-3 xl:text-sm" aria-haspopup="true">
+                                <span class="max-w-[140px] truncate xl:max-w-none">{{ auth()->user()->name }}</span>
                                 <span aria-hidden="true">⌄</span>
                             </button>
                             <div class="invisible absolute right-0 top-full w-48 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
@@ -114,7 +116,7 @@
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="ml-2 rounded-full border border-blue-900 px-4 py-2 text-sm font-bold text-blue-900 transition hover:bg-blue-900 hover:text-white">Masuk</a>
+                        <a href="{{ route('login') }}" class="ml-1 shrink-0 whitespace-nowrap rounded-full border border-blue-900 px-2.5 py-1.5 text-xs font-bold text-blue-900 transition hover:bg-blue-900 hover:text-white xl:ml-2 xl:px-4 xl:text-sm">Masuk</a>
                     @endauth
                 </div>
             </div>
