@@ -1,0 +1,1 @@
+<x-pwa-status class="mr-3 hidden sm:flex" />

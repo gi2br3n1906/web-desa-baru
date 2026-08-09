@@ -8,7 +8,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @if (auth()->user()?->role === 'admin')
+        <meta name="pwa-umkm-sync-authorized" content="1">
+    @endif
     <meta name="description" content="Portal resmi informasi dan pelayanan Pemerintah Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen.">
+    <meta name="theme-color" content="#1e3a8a">
+    <link rel="manifest" href="/manifest.json">
 
     <title>@yield('title', 'Portal Desa Pringanom')</title>
 
@@ -86,11 +91,12 @@
                         </button>
                         <div class="invisible absolute right-0 top-full w-60 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                             <a href="{{ route('agriculture') }}" class="{{ $dropdownLink }}">Panduan Alat Tani</a>
-                            <a href="{{ route('accounting') }}" class="{{ $dropdownLink }}">Template Pembukuan</a>
+                            <a href="{{ route('accounting') }}" class="{{ $dropdownLink }}">Pembukuan UMKM</a>
                             <a href="{{ route('umkm') }}" class="{{ $dropdownLink }}">Direktori UMKM</a>
                             <a href="{{ route('taxes') }}" class="{{ $dropdownLink }}">Panduan Pajak UMKM</a>
                         </div>
                     </div>
+                    <x-pwa-status class="hidden 2xl:flex" />
                     @auth
                         <div class="group relative ml-2">
                             <button type="button" class="inline-flex items-center gap-1.5 rounded-full border border-blue-900 px-3 py-2 text-xs font-bold text-blue-900 transition hover:bg-blue-50 xl:text-sm" aria-haspopup="true">
@@ -145,11 +151,12 @@
                         </summary>
                         <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-slate-600">
                             <a href="{{ route('agriculture') }}" class="block py-2 hover:text-blue-900">Panduan Alat Tani</a>
-                            <a href="{{ route('accounting') }}" class="block py-2 hover:text-blue-900">Template Pembukuan</a>
+                            <a href="{{ route('accounting') }}" class="block py-2 hover:text-blue-900">Pembukuan UMKM</a>
                             <a href="{{ route('umkm') }}" class="block py-2 hover:text-blue-900">Direktori UMKM</a>
                             <a href="{{ route('taxes') }}" class="block py-2 hover:text-blue-900">Panduan Pajak UMKM</a>
                         </div>
                     </details>
+                    <x-pwa-status class="mt-3 flex flex-wrap rounded-xl bg-slate-50 p-3" />
                     @auth
                         <details class="group mt-2 rounded-lg border border-blue-900 open:bg-blue-50">
                             <summary class="flex cursor-pointer list-none items-center justify-between rounded-lg px-4 py-2 text-sm font-bold text-blue-900">
@@ -212,5 +219,7 @@
             closeIcon?.classList.toggle('hidden');
         });
     </script>
+    <script src="{{ asset('js/offline-db.js') }}"></script>
+    <script src="{{ asset('js/offline-sync.js') }}"></script>
 </body>
 </html>

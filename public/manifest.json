@@ -1,0 +1,24 @@
+{
+    "name": "Portal Resmi Desa Pringanom",
+    "short_name": "Desa Pringanom",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#1e3a8a",
+    "lang": "id",
+    "icons": [
+        {
+            "src": "/images/pwa-icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/images/pwa-icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

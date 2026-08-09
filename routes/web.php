@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\UmkmSyncController;
 use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.store');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+Route::post('/api/umkm/sync-offline', UmkmSyncController::class)
+    ->middleware(['auth', 'throttle:30,1'])
+    ->name('api.umkm.sync-offline');
 
 Route::controller(FrontendController::class)->group(function (): void {
     Route::get('/', 'home')->name('home');

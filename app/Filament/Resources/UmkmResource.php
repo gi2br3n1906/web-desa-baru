@@ -28,11 +28,21 @@ class UmkmResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama_umkm')->required(),
-                Forms\Components\TextInput::make('pemilik')->required(),
-                Forms\Components\TextInput::make('kategori')->required()->datalist(['Kuliner', 'Kerajinan', 'Pertanian', 'Jasa']),
-                Forms\Components\TextInput::make('dusun')->required(),
-                Forms\Components\TextInput::make('rt_rw')->required(),
+                Forms\Components\TextInput::make('nama_umkm')->label('Nama Usaha')->required(),
+                Forms\Components\TextInput::make('pemilik')->label('Nama Pemilik')->required(),
+                Forms\Components\TextInput::make('kategori')->label('Jenis Usaha')->required()->datalist(['Kuliner', 'Kerajinan', 'Pertanian', 'Jasa', 'Perdagangan']),
+                Forms\Components\TextInput::make('dusun')->label('Dukuh')->required(),
+                Forms\Components\TextInput::make('rt_rw')->label('RT/RW')->required(),
+                Forms\Components\Textarea::make('alamat_lengkap')->label('Alamat Lengkap')->required()->columnSpanFull(),
+                Forms\Components\Select::make('bentuk_usaha')->label('Bentuk Usaha')->options([
+                    'Perorangan' => 'Perorangan',
+                    'UD' => 'UD',
+                    'CV' => 'CV',
+                    'Koperasi' => 'Koperasi',
+                    'PT' => 'PT',
+                    'Kelompok' => 'Kelompok',
+                ])->required(),
+                Forms\Components\TextInput::make('no_hp')->label('No. HP')->tel(),
                 Forms\Components\Textarea::make('deskripsi')->required()->columnSpanFull(),
                 Forms\Components\TextInput::make('latitude')->numeric(),
                 Forms\Components\TextInput::make('longitude')->numeric(),
