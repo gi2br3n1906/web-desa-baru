@@ -5,7 +5,15 @@
 @section('content')
     <style>[x-cloak] { display: none !important; }</style>
 
-    <div x-data="posyanduPage()" class="bg-slate-50">
+    @php
+        $officerGroups = $officers->groupBy('nama_posyandu')->map(fn ($group) => $group->map(fn ($officer) => [
+            'no' => $officer->urutan,
+            'jabatan' => $officer->jabatan,
+            'nama' => $officer->nama,
+        ])->values())->all();
+    @endphp
+
+    <div x-data="posyanduPage(@js($officerGroups))" class="bg-slate-50">
         {{-- Section 1: hero and responsible midwife --}}
         <section class="border-b border-slate-200 bg-white">
             <div class="page-container pb-10 pt-12 lg:pb-14 lg:pt-16">
@@ -44,40 +52,27 @@
                 <p class="mt-3 leading-7 text-slate-600">Susunan Kepengurusan Kader Kesehatan &amp; Posyandu Desa Pringanom.</p>
             </div>
 
-            @php
-                $chair = $officers->firstWhere('jabatan', 'Ketua');
-                $coreOfficers = $officers->whereIn('level', [2]);
-                $fieldOfficers = $officers->where('level', 3);
-            @endphp
-            <div class="relative mt-10">
-                <div class="mx-auto max-w-sm">
-                    @if ($chair)
-                        <article class="relative rounded-2xl border-2 border-amber-400 bg-white p-5 text-center shadow-lg">
-                            <span class="text-xs font-black uppercase tracking-[0.15em] text-amber-600">Ketua</span>
-                            <h3 class="mt-2 text-xl font-black text-blue-900">{{ $chair->nama }}</h3>
-                            <span class="mt-3 inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-900">Puncak kepengurusan</span>
-                        </article>
-                    @endif
+            <div class="mt-8 overflow-x-auto pb-3" role="tablist" aria-label="Pilih Posyandu Sari Mulyo">
+                <div class="flex min-w-max gap-2 rounded-2xl bg-blue-50 p-2">
+                    <template x-for="posyandu in posyanduNames" :key="posyandu">
+                        <button type="button" role="tab" @click="selectedPosyandu = posyandu" :aria-selected="selectedPosyandu === posyandu" :class="selectedPosyandu === posyandu ? 'bg-blue-900 text-white shadow-md' : 'bg-white text-blue-900 hover:bg-amber-100'" class="rounded-full px-4 py-2.5 text-sm font-bold transition" x-text="posyandu.replace('Posyandu ', '')"></button>
+                    </template>
                 </div>
+            </div>
 
-                <div class="mx-auto hidden h-10 w-px bg-slate-300 md:block" aria-hidden="true"></div>
-                <div class="mx-auto grid max-w-2xl gap-5 md:grid-cols-2">
-                    @foreach ($coreOfficers as $officer)
-                        <article class="rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
-                            <span class="text-xs font-black uppercase tracking-[0.15em] text-blue-700">{{ $officer->jabatan }}</span>
-                            <h3 class="mt-2 text-lg font-black text-slate-900">{{ $officer->nama }}</h3>
-                        </article>
-                    @endforeach
+            <div class="mt-5 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div class="border-b border-slate-200 bg-blue-950 px-5 py-4 text-white">
+                    <h3 class="text-lg font-black" x-text="selectedPosyandu + ' Tahun 2026'"></h3>
                 </div>
-
-                <div class="mx-auto hidden h-10 w-px bg-slate-300 md:block" aria-hidden="true"></div>
-                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
-                    @foreach ($fieldOfficers as $officer)
-                        <article class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-md">
-                            <span class="block text-xs font-black uppercase leading-5 tracking-wide text-blue-700">{{ $officer->jabatan }}</span>
-                            <h3 class="mt-3 text-sm font-bold leading-6 text-slate-900">{{ $officer->nama }}</h3>
-                        </article>
-                    @endforeach
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[42rem] text-left">
+                        <thead class="bg-blue-50 text-blue-950"><tr><th class="w-20 px-5 py-3 font-black">No</th><th class="px-5 py-3 font-black">Jabatan</th><th class="px-5 py-3 font-black">Nama</th></tr></thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <template x-for="officer in (officerGroups[selectedPosyandu] || [])" :key="`${selectedPosyandu}-${officer.no}`">
+                                <tr class="hover:bg-slate-50"><td class="px-5 py-4 font-black text-amber-700" x-text="officer.no"></td><td class="px-5 py-4 font-semibold text-blue-900" x-text="officer.jabatan"></td><td class="px-5 py-4 text-slate-700" x-text="officer.nama"></td></tr>
+                            </template>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -179,8 +174,12 @@
     </div>
 
     <script>
-        function posyanduPage() {
+        function posyanduPage(officerGroups) {
+            const posyanduNames = ['Posyandu Sari Mulyo I', 'Posyandu Sari Mulyo II', 'Posyandu Sari Mulyo III', 'Posyandu Sari Mulyo IV', 'Posyandu Sari Mulyo V', 'Posyandu Sari Mulyo VI', 'Posyandu Sari Mulyo VII', 'Posyandu Sari Mulyo VIII', 'Posyandu Sari Mulyo IX', 'Posyandu Sari Mulyo X', 'Posyandu Sari Mulyo XI'];
             return {
+                officerGroups,
+                posyanduNames,
+                selectedPosyandu: posyanduNames[0],
                 selectedYear: 'all',
                 years: ['all', '2026', '2025'],
                 poster: null,

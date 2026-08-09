@@ -210,15 +210,16 @@ class FrontendController extends Controller
     public function umkm(): View
     {
         $umkms = Umkm::query()->orderBy('nama_umkm')->get();
+        $officialHamlets = collect(['Sari', 'Pakis', 'Jetak', 'Pringanom', 'Bampir', 'Sadakan', 'Mojo', 'Bakung Kulon', 'Bakung Wetan', 'Jembangan', 'Bakung Tengah']);
 
         return view('pages.umkm', [
             'umkms' => $umkms,
             'faqs' => Faq::query()->whereIn('kategori', ['pajak', 'umkm'])->orderByRaw("CASE WHEN kategori = 'pajak' THEN 0 ELSE 1 END")->orderBy('urutan')->get(),
             'taxSchedules' => TaxSchedule::query()->orderBy('tanggal')->get(),
             'categories' => $umkms->pluck('kategori')->filter()->unique()->sort()->values(),
-            'dusuns' => $umkms->pluck('dusun')->filter()->unique()->sort()->values(),
+            'dusuns' => $officialHamlets,
             'categoryDistribution' => $umkms->groupBy('kategori')->map->count()->sortDesc(),
-            'dusunDistribution' => $umkms->groupBy('dusun')->map->count()->sortDesc(),
+            'dusunDistribution' => $officialHamlets->mapWithKeys(fn (string $hamlet): array => [$hamlet => $umkms->where('dusun', $hamlet)->count()]),
         ]);
     }
 
@@ -251,7 +252,7 @@ class FrontendController extends Controller
     {
         return view('pages.posyandu', [
             'posyanduProfile' => PosyanduProfile::query()->first(),
-            'officers' => PosyanduOfficer::query()->orderBy('level')->orderBy('urutan')->get(),
+            'officers' => PosyanduOfficer::query()->orderBy('id')->get(),
             'educations' => PosyanduEducation::query()->orderBy('urutan')->get(),
             'galleries' => PosyanduGallery::query()->latest('tanggal')->get(),
         ]);

@@ -3,16 +3,18 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
+use App\Filament\Widgets\QuickMenuWidget;
+use App\Filament\Widgets\StatsOverviewWidget;
 use App\Support\BrandAssets;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
+use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -29,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(Login::class)
-            ->brandName('Admin Pringanom')
+            ->brandName('Pemerintahan Desa Pringanom')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -38,10 +40,16 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->navigationGroups([
+                NavigationGroup::make()->label('Pemerintahan & Profil'),
+                NavigationGroup::make()->label('Kabar & Informasi'),
+                NavigationGroup::make()->label('Fasilitas & Kesehatan'),
+                NavigationGroup::make()->label('Pemberdayaan & UMKM'),
+                NavigationGroup::make()->label('Sistem'),
+            ])
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                StatsOverviewWidget::class,
+                QuickMenuWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

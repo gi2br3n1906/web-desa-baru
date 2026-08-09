@@ -14,7 +14,15 @@ class AgricultureGuideResource extends Resource
 {
     protected static ?string $model = AgricultureGuide::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-sun';
+
+    protected static ?string $navigationLabel = 'Panduan Pertanian';
+
+    protected static ?string $navigationGroup = 'Pemberdayaan & UMKM';
+
+    protected static ?string $modelLabel = 'Panduan Pertanian';
+
+    protected static ?string $pluralModelLabel = 'Panduan Pertanian';
 
     public static function form(Form $form): Form
     {

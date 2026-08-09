@@ -14,7 +14,15 @@ class VillagePotentialResource extends Resource
 {
     protected static ?string $model = VillagePotential::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+
+    protected static ?string $navigationLabel = 'Potensi Desa';
+
+    protected static ?string $navigationGroup = 'Pemerintahan & Profil';
+
+    protected static ?string $modelLabel = 'Potensi Desa';
+
+    protected static ?string $pluralModelLabel = 'Potensi Desa';
 
     public static function form(Form $form): Form
     {

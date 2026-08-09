@@ -14,7 +14,15 @@ class AccountingTemplateResource extends Resource
 {
     protected static ?string $model = AccountingTemplate::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-table-cells';
+
+    protected static ?string $navigationLabel = 'Template Pembukuan';
+
+    protected static ?string $navigationGroup = 'Pemberdayaan & UMKM';
+
+    protected static ?string $modelLabel = 'Template Pembukuan';
+
+    protected static ?string $pluralModelLabel = 'Template Pembukuan';
 
     public static function form(Form $form): Form
     {

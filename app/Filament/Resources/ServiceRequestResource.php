@@ -14,9 +14,17 @@ class ServiceRequestResource extends Resource
 {
     protected static ?string $model = ServiceRequest::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-inbox-arrow-down';
 
     protected static ?string $navigationLabel = 'Pengajuan Layanan';
+
+    protected static ?string $navigationGroup = 'Pemerintahan & Profil';
+
+    protected static ?string $modelLabel = 'Pengajuan Layanan';
+
+    protected static ?string $pluralModelLabel = 'Pengajuan Layanan';
+
+    protected static ?string $slug = 'service-submissions';
 
     public static function getNavigationBadge(): ?string
     {

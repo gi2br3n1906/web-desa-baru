@@ -18,11 +18,13 @@ class ArticleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
-    protected static ?string $navigationLabel = 'Berita Desa';
+    protected static ?string $navigationLabel = 'Berita & Kabar Desa';
+
+    protected static ?string $navigationGroup = 'Kabar & Informasi';
 
     protected static ?string $modelLabel = 'Berita';
 
-    protected static ?string $pluralModelLabel = 'Berita Desa';
+    protected static ?string $pluralModelLabel = 'Berita & Kabar Desa';
 
     public static function form(Form $form): Form
     {

@@ -18,6 +18,12 @@ class TaxScheduleResource extends Resource
 
     protected static ?string $navigationLabel = 'Jadwal Pajak';
 
+    protected static ?string $navigationGroup = 'Pemberdayaan & UMKM';
+
+    protected static ?string $modelLabel = 'Jadwal Pajak';
+
+    protected static ?string $pluralModelLabel = 'Jadwal Pajak';
+
     public static function form(Form $form): Form
     {
         return $form

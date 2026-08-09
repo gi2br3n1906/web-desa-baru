@@ -19,7 +19,7 @@ class UmkmTransactionResource extends Resource
 
     protected static ?string $navigationLabel = 'Buku Transaksi UMKM';
 
-    protected static ?string $navigationGroup = 'Pemberdayaan UMKM';
+    protected static ?string $navigationGroup = 'Pemberdayaan & UMKM';
 
     protected static ?int $navigationSort = 20;
 

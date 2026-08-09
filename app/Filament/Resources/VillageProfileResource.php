@@ -14,7 +14,15 @@ class VillageProfileResource extends Resource
 {
     protected static ?string $model = VillageProfile::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-library';
+
+    protected static ?string $navigationLabel = 'Profil Desa';
+
+    protected static ?string $navigationGroup = 'Pemerintahan & Profil';
+
+    protected static ?string $modelLabel = 'Profil Desa';
+
+    protected static ?string $pluralModelLabel = 'Profil Desa';
 
     public static function form(Form $form): Form
     {

@@ -14,7 +14,15 @@ class AdminServiceResource extends Resource
 {
     protected static ?string $model = AdminService::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
+    protected static ?string $navigationLabel = 'Panduan Layanan';
+
+    protected static ?string $navigationGroup = 'Pemerintahan & Profil';
+
+    protected static ?string $modelLabel = 'Panduan Layanan';
+
+    protected static ?string $pluralModelLabel = 'Panduan Layanan';
 
     public static function form(Form $form): Form
     {

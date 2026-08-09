@@ -27,24 +27,77 @@ class PosyanduSeeder extends Seeder
             ],
         );
 
-        $officers = [
-            ['Ketua', 'Sri Mulyani', 1, 1],
-            ['Sekretaris', 'Tri Wahyuni', 2, 1],
-            ['Bendahara', 'Sunarsi', 2, 2],
-            ['Ketua Bidang Pendidikan', 'Triana Puji Lestari', 3, 1],
-            ['Ketua Bidang Kesehatan', 'Ike Susanti', 3, 2],
-            ['Anggota Bidang Kesehatan', 'Umi Farida', 3, 3],
-            ['Ketua Bidang Pekerjaan Umum', 'Suryani', 3, 4],
-            ['Ketua Bidang Sosial', 'Bp. Diyono', 3, 5],
-            ['Ketua Bidang Trantibumlinmas', 'Bp. Alex Sangidi', 3, 6],
-            ['Ketua Bidang Perumahan Rakyat', 'Bp. Sukimin', 3, 7],
+        // Sumber: sheet "Kader per posyandu" pada DATA POSYANDU.xlsx.
+        $officersByPosyandu = [
+            'Posyandu Sari Mulyo I' => [
+                ['Ketua', 'Tri Kayati'], ['Sekretaris', 'Yulianti'], ['Bendahara', 'Yeni Fatmawati'],
+                ['Ketua Bidang Pendidikan', 'Asma Nur Pratiwi'], ['Ketua Bidang Kesehatan', 'Tutik Setyaningsih'], ['Anggota Bidang Kesehatan', 'Titin Purnamasari'],
+                ['Ketua Bidang Pekerjaan Umum', 'Satini'], ['Ketua Bidang Sosial', 'Bp. Martono'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Tugino'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Sukamto'],
+            ],
+            'Posyandu Sari Mulyo II' => [
+                ['Ketua', 'Endang Sukamti'], ['Sekretaris', 'Eli Zubaidah'], ['Bendahara', 'Nur Chayati'],
+                ['Ketua Bidang Pendidikan', 'Sutarmi'], ['Ketua Bidang Kesehatan', 'Nuryati'], ['Anggota Bidang Kesehatan', 'Tri Wahyuni'],
+                ['Ketua Bidang Pekerjaan Umum', 'Sugiyanti'], ['Ketua Bidang Sosial', 'Bp. Sardi'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Bekti Prayitno'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Supardi'],
+            ],
+            'Posyandu Sari Mulyo III' => [
+                ['Ketua', 'Suyati'], ['Sekretaris', 'Avina Rani'], ['Bendahara', 'Suprihatin'],
+                ['Ketua Bidang Pendidikan', 'Suparni'], ['Ketua Bidang Kesehatan', 'Darmi'], ['Anggota Bidang Kesehatan', 'Eka Daryani'],
+                ['Ketua Bidang Pekerjaan Umum', 'Nanik Sunarni'], ['Ketua Bidang Sosial', 'Bp. Marindi'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Marno Susilo'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Tukiyanto'],
+            ],
+            'Posyandu Sari Mulyo IV' => [
+                ['Ketua', 'Putri Sulistyoningrum'], ['Sekretaris', 'Sri Wulandari'], ['Bendahara', 'Purwani'],
+                ['Ketua Bidang Pendidikan', 'Hartatik'], ['Ketua Bidang Kesehatan', 'Sulistyowati'], ['Anggota Bidang Kesehatan', 'Maryati'],
+                ['Ketua Bidang Pekerjaan Umum', 'Warsi'], ['Ketua Bidang Sosial', 'Bp. Ali Shadiki'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Karno'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Suyatno'],
+            ],
+            'Posyandu Sari Mulyo V' => [
+                ['Ketua', 'Sukamti'], ['Sekretaris', 'Sastri Nunggal'], ['Bendahara', 'Tugiyem'],
+                ['Ketua Bidang Pendidikan', 'Muryani'], ['Ketua Bidang Kesehatan', 'Siti Sumanafti'], ['Anggota Bidang Kesehatan', 'Ida Mahmilawati'],
+                ['Ketua Bidang Pekerjaan Umum', 'Sutiyem'], ['Ketua Bidang Sosial', 'Bp. Wiyono'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Sunaryo'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Wibowo'],
+            ],
+            'Posyandu Sari Mulyo VI' => [
+                ['Ketua', 'Mulyati Nur Anisa'], ['Sekretaris', 'Suwarti'], ['Bendahara', 'Frida Frastika Yekti'],
+                ['Ketua Bidang Pendidikan', 'Dwi Sugiyanti'], ['Ketua Bidang Kesehatan', 'Sarmini'], ['Anggota Bidang Kesehatan', 'Purwanti'],
+                ['Ketua Bidang Pekerjaan Umum', 'Suginem'], ['Ketua Bidang Sosial', 'Bp. Supono'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Sayono'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Sastro Suwarno'],
+            ],
+            'Posyandu Sari Mulyo VII' => [
+                ['Ketua', 'Ismiyati'], ['Sekretaris', 'Sunarsi'], ['Bendahara', 'Hetti Lilis Suryani'],
+                ['Ketua Bidang Pendidikan', 'Reni Septiana Yus Sriyanti'], ['Ketua Bidang Kesehatan', 'Suharti'], ['Anggota Bidang Kesehatan', 'Kasinah'],
+                ['Ketua Bidang Pekerjaan Umum', 'Zahbilla Indah Yuniati'], ['Ketua Bidang Sosial', 'Bp. Suharjo'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Agus Trio Wibowo'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Sutopo'],
+            ],
+            'Posyandu Sari Mulyo VIII' => [
+                ['Ketua', 'Ngadiyem'], ['Sekretaris', 'Suryaningsih'], ['Bendahara', 'Tri Mulyani'],
+                ['Ketua Bidang Pendidikan', 'Nining Iswahyuni'], ['Ketua Bidang Kesehatan', 'Sri Mulyani S'], ['Anggota Bidang Kesehatan', 'Nati Ramadhani'],
+                ['Ketua Bidang Pekerjaan Umum', 'Sri Mulyani'], ['Ketua Bidang Sosial', 'Bp. Susilo'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Marimin'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Wagiman'],
+            ],
+            'Posyandu Sari Mulyo IX' => [
+                ['Ketua', 'Juniati'], ['Sekretaris', 'Sumiyem'], ['Bendahara', 'Sugiyarti'],
+                ['Ketua Bidang Pendidikan', 'Rumiyati'], ['Ketua Bidang Kesehatan', 'Ita Yuliani'], ['Anggota Bidang Kesehatan', 'Suprapti'],
+                ['Ketua Bidang Pekerjaan Umum', 'Bp. Surono'], ['Ketua Bidang Sosial', 'Bp. Wijiyanto'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Wijiyanto'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Aris Triyanto'],
+            ],
+            'Posyandu Sari Mulyo X' => [
+                ['Ketua', 'Nita Dwi Ningsih'], ['Sekretaris', 'Sri Lestari'], ['Bendahara', 'Dewi Ratnayani'],
+                ['Ketua Bidang Pendidikan', 'Windi Widhyaningsih'], ['Ketua Bidang Kesehatan', 'Indarsih'], ['Anggota Bidang Kesehatan', 'Winarsih'],
+                ['Ketua Bidang Pekerjaan Umum', 'Triyani'], ['Ketua Bidang Sosial', 'Bp. Abbas Supardi'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Rudiyanto'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Slamet Riyanto'],
+            ],
+            'Posyandu Sari Mulyo XI' => [
+                ['Ketua', 'Sri Mulyani'], ['Sekretaris', 'Tri Wahyuni'], ['Bendahara', 'Sunarsi'],
+                ['Ketua Bidang Pendidikan', 'Triana Puji Lestari'], ['Ketua Bidang Kesehatan', 'Ike Susanti'], ['Anggota Bidang Kesehatan', 'Umi Farida'],
+                ['Ketua Bidang Pekerjaan Umum', 'Suryani'], ['Ketua Bidang Sosial', 'Bp. Diyono'], ['Ketua Bidang Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'Bp. Alex Sangidi'], ['Ketua Bidang Perumahan Rakyat', 'Bp. Sukimin'],
+            ],
         ];
 
-        foreach ($officers as [$position, $name, $level, $order]) {
-            PosyanduOfficer::updateOrCreate(
-                ['nama_posyandu' => 'Posyandu Sari Mulyo XI', 'jabatan' => $position],
-                ['nama' => $name, 'level' => $level, 'urutan' => $order],
-            );
+        PosyanduOfficer::query()->delete();
+
+        foreach ($officersByPosyandu as $posyandu => $officers) {
+            foreach ($officers as $index => [$position, $name]) {
+                PosyanduOfficer::create([
+                    'nama_posyandu' => $posyandu,
+                    'jabatan' => $position,
+                    'nama' => $name,
+                    'level' => $index === 0 ? 1 : ($index < 3 ? 2 : 3),
+                    'urutan' => $index + 1,
+                ]);
+            }
         }
 
         $educations = [

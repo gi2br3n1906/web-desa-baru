@@ -14,7 +14,15 @@ class PosyanduScheduleResource extends Resource
 {
     protected static ?string $model = PosyanduSchedule::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-heart';
+
+    protected static ?string $navigationLabel = 'Kesehatan & Posyandu';
+
+    protected static ?string $navigationGroup = 'Fasilitas & Kesehatan';
+
+    protected static ?string $modelLabel = 'Jadwal Posyandu';
+
+    protected static ?string $pluralModelLabel = 'Kesehatan & Posyandu';
 
     public static function form(Form $form): Form
     {

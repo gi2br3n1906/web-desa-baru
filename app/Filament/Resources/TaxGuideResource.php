@@ -14,7 +14,15 @@ class TaxGuideResource extends Resource
 {
     protected static ?string $model = TaxGuide::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+
+    protected static ?string $navigationLabel = 'Panduan Pajak';
+
+    protected static ?string $navigationGroup = 'Pemberdayaan & UMKM';
+
+    protected static ?string $modelLabel = 'Panduan Pajak';
+
+    protected static ?string $pluralModelLabel = 'Panduan Pajak';
 
     public static function form(Form $form): Form
     {

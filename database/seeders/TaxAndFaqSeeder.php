@@ -52,9 +52,12 @@ class TaxAndFaqSeeder extends Seeder
 
         $year = (int) now()->year;
         $month = (int) now()->month;
+        TaxSchedule::query()->where('is_routine_monthly', true)->delete();
+
         $schedules = [
-            ['Setor PPh Final UMKM', Carbon::create($year, $month, 10), 'Atas omzet bulan sebelumnya.', true],
-            ['Lapor setoran bulanan', Carbon::create($year, $month, 20), 'Dilakukan bila diwajibkan lapor terpisah.', true],
+            ['Setor PPh 21, PPh 25/UMKM PP 23', Carbon::create($year, $month, 15), 'Penyetoran kewajiban PPh masa pajak bulan sebelumnya.', true],
+            ['Lapor SPT Masa & Upload Faktur Pajak', Carbon::create($year, $month, 20), 'Pelaporan SPT Masa dan unggah faktur pajak sesuai ketentuan.', true],
+            ['Setor/Lapor SPT Masa PPN', Carbon::create($year, $month, 1)->endOfMonth(), 'Dilaksanakan pada tanggal terakhir bulan berjalan (30/31).', true],
             ['Lapor SPT Tahunan Orang Pribadi', Carbon::create($year, 3, 31), 'Batas pelaporan untuk pelaku usaha perorangan.', false],
             ['Lapor SPT Tahunan Badan', Carbon::create($year, 4, 30), 'Batas pelaporan untuk usaha CV, PT, koperasi, dan badan lainnya.', false],
         ];

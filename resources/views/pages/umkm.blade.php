@@ -20,7 +20,7 @@
                 <div class="max-w-4xl">
                     <p class="section-kicker">Ekonomi Desa &amp; Literasi Pajak</p>
                     <h1 class="page-heading mt-5">Pojok UMKM dan Pajak</h1>
-                    <p class="mt-5 text-lg leading-8 text-slate-600">Direktori pelaku usaha mikro, kecil, dan menengah Desa Pringanom dari hasil pendataan UMKM BPS, dilengkapi info dasar pajak untuk pelaku usaha.</p>
+                    <p class="mt-5 text-lg leading-8 text-slate-600">Direktori pelaku usaha mikro, kecil, dan menengah hasil olah data perangkat Desa Pringanom, dilengkapi informasi dasar perpajakan untuk pelaku usaha.</p>
                 </div>
                 <nav class="mt-8 flex flex-wrap gap-3" aria-label="Navigasi pintas Pojok UMKM dan Pajak">
                     <a href="#direktori-umkm" class="primary-button">Lihat Direktori UMKM</a>
@@ -31,24 +31,25 @@
             </div>
         </section>
 
-        {{-- Section 2: BPS overview --}}
+        {{-- Section 2: official village overview --}}
         <section id="statistik-desa" class="page-container scroll-mt-24">
             <div class="overflow-hidden rounded-2xl bg-blue-950 p-6 text-white shadow-xl sm:p-8">
                 <div class="flex flex-col justify-between gap-3 md:flex-row md:items-end">
                     <div>
-                        <p class="text-sm font-black uppercase tracking-[0.16em] text-amber-400">Sensus Ekonomi BPS 2024</p>
+                        <p class="text-sm font-black uppercase tracking-[0.16em] text-amber-400">Data UMKM Desa Pringanom</p>
                         <h2 class="mt-2 text-2xl font-black sm:text-3xl">Gambaran UMKM Desa Pringanom</h2>
                     </div>
-                    <p class="text-sm text-blue-200">Ringkasan pendataan resmi tingkat desa</p>
+                    <p class="text-sm text-blue-200">Pembaruan 31 Juli 2026</p>
                 </div>
-                <div class="mt-8 grid gap-px overflow-hidden rounded-xl bg-white/15 sm:grid-cols-2 lg:grid-cols-4">
-                    @foreach ([['187', 'UMKM terdaftar'], ['11', 'Dukuh tercakup'], ['9', 'Rata-rata usia usaha (tahun)'], ['16', 'Berbadan usaha / kelompok']] as [$value, $label])
+                <div class="mt-8 grid gap-px overflow-hidden rounded-xl bg-white/15 sm:grid-cols-3">
+                    @foreach ([['61', 'UMKM Terdaftar'], ['11', 'Dukuh Tercakup'], ['4', 'Berbadan Usaha (57 Perorangan)']] as [$value, $label])
                         <div class="bg-blue-900/80 p-6">
                             <strong class="block text-4xl font-black text-amber-400">{{ $value }}</strong>
                             <span class="mt-2 block text-sm font-semibold leading-6 text-blue-100">{{ $label }}</span>
                         </div>
                     @endforeach
                 </div>
+                <p class="mt-5 text-sm text-blue-200">Sumber Data: Olah data perangkat desa Pringanom (update 31 Juli 2026)</p>
             </div>
         </section>
 
@@ -59,7 +60,7 @@
                 <h2 id="sebaran-statistik-heading" class="mt-4 text-3xl font-black text-blue-900">Distribusi UMKM Desa</h2>
                 <p class="mt-3 leading-7 text-slate-600">Grafik kategori dan wilayah dihitung langsung dari direktori yang tersimpan di database.</p>
             </div>
-            <div class="mt-8 grid gap-6 lg:grid-cols-3">
+            <div class="mt-8 grid gap-6 lg:grid-cols-2">
                 <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                     <h3 class="font-black text-blue-900">Menurut Jenis Usaha</h3>
                     <div class="mt-6 space-y-4">
@@ -85,14 +86,6 @@
                             <p class="text-sm text-slate-500">Data dukuh belum tersedia.</p>
                         @endforelse
                     </div>
-                </article>
-                <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <h3 class="font-black text-blue-900">Menurut Tahun Berdiri</h3>
-                    <div class="mt-6 rounded-xl bg-blue-50 p-6 text-center">
-                        <strong class="text-5xl font-black text-blue-900">9</strong>
-                        <p class="mt-2 font-bold text-slate-700">tahun rata-rata usia usaha</p>
-                    </div>
-                    <p class="mt-5 text-sm leading-6 text-slate-500">Dokumen ringkasan BPS menyediakan rata-rata usia usaha. Distribusi per tahun berdiri belum tersedia pada record publik, sehingga tidak ditampilkan sebagai angka rekaan.</p>
                 </article>
             </div>
         </section>
@@ -178,15 +171,17 @@
 
         {{-- Section 7: tax calendar --}}
         <section id="kalender-pajak" class="page-container scroll-mt-24" aria-labelledby="kalender-pajak-heading">
-            <p class="section-kicker">Agenda Wajib Pajak</p>
-            <h2 id="kalender-pajak-heading" class="mt-4 text-3xl font-black text-blue-900">Kalender Kewajiban Pajak</h2>
+            <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+                <div><p class="section-kicker">Agenda Wajib Pajak</p><h2 id="kalender-pajak-heading" class="mt-4 text-3xl font-black text-blue-900">Kalender Kewajiban Pajak</h2></div>
+                <div class="rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-200"><a href="https://www.pajakku.com/" target="_blank" rel="noopener" class="primary-button w-full">Unduh Buku Saku Pajak UMKM 2026 <span class="ml-2" aria-hidden="true">↗</span></a><p class="mt-2 text-center text-xs font-semibold text-amber-800">Sumber data: www.pajakku.com</p></div>
+            </div>
             <div class="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[42rem] text-left">
                         <thead class="bg-blue-950 text-white"><tr><th class="px-6 py-4 font-bold">Waktu</th><th class="px-6 py-4 font-bold">Kewajiban</th><th class="px-6 py-4 font-bold">Keterangan</th></tr></thead>
                         <tbody class="divide-y divide-slate-200">
                             @forelse ($taxSchedules as $schedule)
-                                <tr class="hover:bg-slate-50"><td class="px-6 py-4 font-black text-amber-700">{{ $schedule->is_routine_monthly ? 'Tiap Tgl '.$schedule->tanggal->format('d') : $schedule->tanggal->translatedFormat('d F') }}</td><td class="px-6 py-4 font-bold text-blue-900">{{ $schedule->judul_kegiatan }}</td><td class="px-6 py-4 text-slate-600">{{ $schedule->keterangan ?: 'Ikuti ketentuan perpajakan yang berlaku.' }}</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-6 py-4 font-black text-amber-700">{{ $schedule->judul_kegiatan === 'Setor/Lapor SPT Masa PPN' ? 'Tiap Tgl 30/31' : ($schedule->is_routine_monthly ? 'Tiap Tgl '.$schedule->tanggal->format('d') : $schedule->tanggal->translatedFormat('d F')) }}</td><td class="px-6 py-4 font-bold text-blue-900">{{ $schedule->judul_kegiatan }}</td><td class="px-6 py-4 text-slate-600">{{ $schedule->keterangan ?: 'Ikuti ketentuan perpajakan yang berlaku.' }}</td></tr>
                             @empty
                                 <tr><td colspan="3" class="px-6 py-10 text-center text-slate-500">Kalender pajak belum tersedia.</td></tr>
                             @endforelse

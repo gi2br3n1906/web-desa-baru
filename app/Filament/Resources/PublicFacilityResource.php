@@ -14,7 +14,15 @@ class PublicFacilityResource extends Resource
 {
     protected static ?string $model = PublicFacility::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+
+    protected static ?string $navigationLabel = 'Fasilitas Publik';
+
+    protected static ?string $navigationGroup = 'Fasilitas & Kesehatan';
+
+    protected static ?string $modelLabel = 'Fasilitas Publik';
+
+    protected static ?string $pluralModelLabel = 'Fasilitas Publik';
 
     public static function form(Form $form): Form
     {

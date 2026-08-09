@@ -22,7 +22,7 @@
     @php
         $governmentActive = request()->routeIs('profile', 'services', 'potentials');
         $facilityActive = request()->routeIs('facilities', 'posyandu');
-        $empowermentActive = request()->routeIs('agriculture', 'accounting', 'taxes');
+        $empowermentActive = request()->routeIs('agriculture', 'accounting', 'umkm', 'taxes');
         $desktopLink = 'rounded-full px-2.5 py-2 text-xs font-semibold text-blue-900 transition hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-amber-500 xl:px-3 xl:text-sm';
         $dropdownLink = 'block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-blue-50 hover:text-desaBlue focus:bg-blue-50 focus:text-desaBlue focus:outline-none';
     @endphp
@@ -75,7 +75,7 @@
                         </button>
                         <div class="invisible absolute right-0 top-full w-60 translate-y-2 rounded-xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-slate-200 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                             <a href="{{ route('facilities') }}" class="{{ $dropdownLink }}">Peta Fasilitas Desa</a>
-                            <a href="{{ route('posyandu') }}" class="{{ $dropdownLink }}">Jadwal & Info Posyandu</a>
+                            <a href="{{ route('posyandu') }}" class="{{ $dropdownLink }}">Informasi Posyandu</a>
                         </div>
                     </div>
 
@@ -135,7 +135,7 @@
                         </summary>
                         <div class="space-y-1 px-3 pb-2 pl-6 text-sm text-slate-600">
                             <a href="{{ route('facilities') }}" class="block py-2 hover:text-blue-900">Peta Fasilitas Desa</a>
-                            <a href="{{ route('posyandu') }}" class="block py-2 hover:text-blue-900">Jadwal & Info Posyandu</a>
+                            <a href="{{ route('posyandu') }}" class="block py-2 hover:text-blue-900">Informasi Posyandu</a>
                         </div>
                     </details>
                     <details class="group rounded-lg open:bg-blue-50" {{ $empowermentActive ? 'open' : '' }}>
