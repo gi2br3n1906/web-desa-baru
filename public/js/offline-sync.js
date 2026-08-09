@@ -175,7 +175,7 @@
     window.addEventListener('load', async () => {
         if ('serviceWorker' in navigator) {
             try {
-                await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+                await navigator.serviceWorker.register('/sw.js?v=4', { scope: '/' });
                 navigator.serviceWorker.addEventListener('message', (event) => {
                     if (event.data?.type === 'SYNC_PENDING_UMKMS') triggerSync();
                     if (event.data?.type === 'UMKM_SYNC_COMPLETE') {

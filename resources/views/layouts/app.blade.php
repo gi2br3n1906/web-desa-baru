@@ -226,7 +226,7 @@
     <script>
         window.addEventListener('load', () => {
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                navigator.serviceWorker.register('/sw.js?v=4', { scope: '/' })
                     .then((registration) => registration.update())
                     .catch((error) => {
                         console.error('Registrasi Service Worker publik gagal.', error);

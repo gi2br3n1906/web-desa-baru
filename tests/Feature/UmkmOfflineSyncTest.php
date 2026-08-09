@@ -126,8 +126,12 @@ class UmkmOfflineSyncTest extends TestCase
         $this->assertStringNotContainsString('Response.error()', $serviceWorker);
 
         $layout = file_get_contents(resource_path('views/layouts/app.blade.php'));
-        $this->assertStringContainsString("navigator.serviceWorker.register('/sw.js', { scope: '/' })", $layout);
+        $this->assertStringContainsString("navigator.serviceWorker.register('/sw.js?v=4', { scope: '/' })", $layout);
         $this->assertStringContainsString('registration.update()', $layout);
+
+        $offlineSync = file_get_contents(public_path('js/offline-sync.js'));
+        $this->assertStringContainsString("navigator.serviceWorker.register('/sw.js?v=4', { scope: '/' })", $offlineSync);
+        $this->assertStringNotContainsString("navigator.serviceWorker.register('/sw.js',", $offlineSync);
 
         $admin = User::factory()->admin()->create();
         $this->actingAs($admin)->get(route('filament.admin.resources.umkms.create'))
