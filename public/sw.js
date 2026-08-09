@@ -17,7 +17,7 @@ const PRECACHE_URLS = [
     OFFLINE_URL,
     '/manifest.json',
     '/js/offline-db.js',
-    '/js/offline-sync.js',
+    '/js/offline-sync.js?v=4',
     '/images/pwa-icon-192.png',
     '/images/pwa-icon-512.png',
 ];

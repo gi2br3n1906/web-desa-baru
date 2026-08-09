@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#1e3a8a">
     <title>Mode Offline | Desa Pringanom</title>
     <style>
-        *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0f172a;color:#e2e8f0;font-family:system-ui,sans-serif;padding:1.5rem}.card{max-width:38rem;border:1px solid #334155;border-radius:1.25rem;background:#1e293b;padding:2rem;box-shadow:0 24px 60px #02061780}.badge{display:inline-block;border-radius:999px;background:#f59e0b;color:#172554;padding:.4rem .8rem;font-weight:800}.card h1{color:#fff;font-size:2rem;margin:1.25rem 0 .75rem}.card p{line-height:1.7;color:#cbd5e1}.card button{margin-top:1rem;border:0;border-radius:.75rem;background:#f59e0b;color:#172554;font-weight:800;padding:.8rem 1rem;cursor:pointer}
+        *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0f172a;color:#e2e8f0;font-family:system-ui,sans-serif;padding:1.5rem}.card{max-width:42rem;border:1px solid #334155;border-radius:1.25rem;background:#1e293b;padding:2rem;box-shadow:0 24px 60px #02061780}.badge{display:inline-block;border-radius:999px;background:#f59e0b;color:#172554;padding:.4rem .8rem;font-weight:800}.card h1{color:#fff;font-size:2rem;margin:1.25rem 0 .75rem}.card p{line-height:1.7;color:#cbd5e1}.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem}.action{display:inline-flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:.75rem;font:inherit;font-weight:800;padding:.8rem 1rem;cursor:pointer;text-decoration:none}.retry{background:#f59e0b;color:#172554}.home{background:#2563eb;color:#fff}.back{border-color:#64748b;background:#334155;color:#fff}.action:hover{filter:brightness(1.08)}.action:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
     </style>
 </head>
 <body>
@@ -14,7 +14,11 @@
         <span class="badge">Mode Offline</span>
         <h1>Portal Desa belum dapat terhubung.</h1>
         <p>Periksa koneksi internet Anda. Data UMKM yang disimpan saat offline tetap aman di perangkat dan akan dikirim otomatis setelah koneksi tersedia kembali.</p>
-        <button type="button" onclick="window.location.reload()">Coba Hubungkan Kembali</button>
+        <div class="actions" aria-label="Pilihan navigasi offline">
+            <button class="action retry" type="button" onclick="window.location.reload()">Coba Hubungkan Kembali</button>
+            <a class="action home" href="/">Kembali ke Beranda</a>
+            <button class="action back" type="button" onclick="history.back()">Kembali ke Halaman Sebelumnya</button>
+        </div>
     </main>
 </body>
 </html>

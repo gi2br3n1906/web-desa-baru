@@ -207,6 +207,17 @@
         </div>
     </footer>
 
+    <div class="fixed inset-0 z-[120] hidden items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm" data-offline-route-modal role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="offline-route-modal-title">
+        <div class="w-full max-w-lg rounded-2xl bg-white p-6 text-slate-800 shadow-2xl ring-1 ring-slate-200 sm:p-8" data-offline-modal-panel>
+            <div class="flex size-12 items-center justify-center rounded-full bg-amber-100 text-2xl" aria-hidden="true">📡</div>
+            <h2 id="offline-route-modal-title" class="mt-4 text-xl font-black text-slate-950 sm:text-2xl">Halaman Belum Tersedia Offline</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600 sm:text-base">Anda sedang tidak terhubung ke jaringan internet. Halaman ini belum tersimpan di perangkat. Silakan akses halaman lain yang tersedia (seperti Beranda atau Pembukuan UMKM).</p>
+            <div class="mt-6 flex justify-end">
+                <button type="button" class="rounded-xl bg-blue-900 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2" data-offline-modal-close>Paham</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const menuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -222,7 +233,7 @@
         });
     </script>
     <script src="{{ asset('js/offline-db.js') }}"></script>
-    <script src="{{ asset('js/offline-sync.js') }}"></script>
+    <script src="{{ asset('js/offline-sync.js') }}?v=4"></script>
     <script>
         window.addEventListener('load', () => {
             if ('serviceWorker' in navigator) {

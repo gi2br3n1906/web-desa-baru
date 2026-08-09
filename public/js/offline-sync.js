@@ -3,7 +3,11 @@
 
     const SYNC_ENDPOINT = '/api/umkm/sync-offline';
     const OFFLINE_MESSAGE = '⚠️ Mode Offline Terdeteksi: Data UMKM tersimpan di memori perangkat lokal. Data akan otomatis dikirim ke server saat Anda terhubung kembali ke internet.';
+    const OFFLINE_PUBLIC_ROUTES = new Set(['/', '/pembukuan', '/umkm', '/posyandu', '/profil', '/layanan', '/berita']);
+    const PUBLIC_NAV_SELECTOR = 'nav[aria-label="Navigasi utama"]';
     let syncInProgress = false;
+    let lastModalTrigger = null;
+    let previousBodyOverflow = '';
 
     function showToast(message, color = 'blue') {
         let container = document.querySelector('[data-pwa-toast-container]');
@@ -25,6 +29,81 @@
         toast.textContent = message;
         container.appendChild(toast);
         setTimeout(() => toast.remove(), 8000);
+    }
+
+    function normalizedLinkPath(link) {
+        try {
+            const url = new URL(link.href, window.location.origin);
+            if (url.origin !== window.location.origin) return null;
+            return url.pathname === '/' ? '/' : url.pathname.replace(/\/+$/, '');
+        } catch (_) {
+            return null;
+        }
+    }
+
+    function isOfflineSupportedLink(link) {
+        const path = normalizedLinkPath(link);
+        return path !== null && OFFLINE_PUBLIC_ROUTES.has(path);
+    }
+
+    function getOfflineModal() {
+        return document.querySelector('[data-offline-route-modal]');
+    }
+
+    function openOfflineModal(trigger) {
+        const modal = getOfflineModal();
+        if (!modal) return;
+
+        lastModalTrigger = trigger;
+        previousBodyOverflow = document.body.style.overflow;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        modal.querySelector('[data-offline-modal-close]')?.focus();
+    }
+
+    function closeOfflineModal() {
+        const modal = getOfflineModal();
+        if (!modal || modal.classList.contains('hidden')) return;
+
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = previousBodyOverflow;
+        lastModalTrigger?.focus();
+        lastModalTrigger = null;
+    }
+
+    function setOfflineNavigationState() {
+        const offline = !navigator.onLine;
+
+        document.querySelectorAll(`${PUBLIC_NAV_SELECTOR} a[href]`).forEach((link) => {
+            const unsupported = offline && !isOfflineSupportedLink(link);
+            link.classList.toggle('line-through', unsupported);
+            link.classList.toggle('opacity-50', unsupported);
+            link.classList.toggle('cursor-not-allowed', unsupported);
+
+            if (unsupported) {
+                link.setAttribute('aria-disabled', 'true');
+                link.dataset.offlineUnsupported = 'true';
+
+                if (!link.querySelector('[data-offline-lock]')) {
+                    const lock = document.createElement('span');
+                    lock.dataset.offlineLock = '';
+                    lock.className = 'ml-1 inline-block no-underline';
+                    lock.setAttribute('aria-hidden', 'true');
+                    lock.textContent = '🔒';
+                    link.appendChild(lock);
+                }
+            } else {
+                link.removeAttribute('aria-disabled');
+                delete link.dataset.offlineUnsupported;
+                link.querySelector('[data-offline-lock]')?.remove();
+            }
+        });
+
+        if (!offline) closeOfflineModal();
     }
 
     async function updateIndicators() {
@@ -168,9 +247,25 @@
     }
 
     window.triggerSync = triggerSync;
-    window.addEventListener('online', () => { updateIndicators(); triggerSync(); });
-    window.addEventListener('offline', updateIndicators);
+    window.addEventListener('online', () => { updateIndicators(); setOfflineNavigationState(); triggerSync(); });
+    window.addEventListener('offline', () => { updateIndicators(); setOfflineNavigationState(); });
     document.addEventListener('submit', handleOfflineSubmit, true);
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest(`${PUBLIC_NAV_SELECTOR} a[data-offline-unsupported="true"]`);
+        if (!link || navigator.onLine) return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        openOfflineModal(link);
+    }, true);
+    document.addEventListener('click', (event) => {
+        const modal = getOfflineModal();
+        if (!modal || modal.classList.contains('hidden')) return;
+        if (event.target === modal || event.target.closest('[data-offline-modal-close]')) closeOfflineModal();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeOfflineModal();
+    });
 
     window.addEventListener('load', async () => {
         if ('serviceWorker' in navigator) {
@@ -188,6 +283,7 @@
             }
         }
         await updateIndicators();
+        setOfflineNavigationState();
         if (navigator.onLine) triggerSync();
     });
 })();

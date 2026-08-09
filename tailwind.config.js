@@ -5,6 +5,14 @@ export default {
     "./resources/**/*.js",
     "./resources/**/*.vue",
   ],
+  safelist: [
+    'line-through',
+    'opacity-50',
+    'cursor-not-allowed',
+    'ml-1',
+    'inline-block',
+    'no-underline',
+  ],
   theme: {
     extend: {
       colors: {

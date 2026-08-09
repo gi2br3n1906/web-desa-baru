@@ -86,6 +86,12 @@ class UmkmOfflineSyncTest extends TestCase
         $this->assertFileExists(public_path('images/pwa-icon-192.png'));
         $this->assertFileExists(public_path('images/pwa-icon-512.png'));
 
+        $offlinePage = file_get_contents(public_path('offline.html'));
+        $this->assertStringContainsString('href="/"', $offlinePage);
+        $this->assertStringContainsString('Kembali ke Beranda', $offlinePage);
+        $this->assertStringContainsString('onclick="history.back()"', $offlinePage);
+        $this->assertStringContainsString('Kembali ke Halaman Sebelumnya', $offlinePage);
+
         foreach (['/sw.js' => 'application/javascript', '/manifest.json' => 'application/json'] as $url => $contentType) {
             $response = $this->get($url)
                 ->assertOk()
@@ -128,10 +134,30 @@ class UmkmOfflineSyncTest extends TestCase
         $layout = file_get_contents(resource_path('views/layouts/app.blade.php'));
         $this->assertStringContainsString("navigator.serviceWorker.register('/sw.js?v=4', { scope: '/' })", $layout);
         $this->assertStringContainsString('registration.update()', $layout);
+        $this->assertStringContainsString('data-offline-route-modal', $layout);
+        $this->assertStringContainsString('Halaman Belum Tersedia Offline', $layout);
+        $this->assertStringContainsString('Anda sedang tidak terhubung ke jaringan internet.', $layout);
+        $this->assertStringContainsString('data-offline-modal-close>Paham', $layout);
+        $this->assertStringContainsString("asset('js/offline-sync.js') }}?v=4", $layout);
 
         $offlineSync = file_get_contents(public_path('js/offline-sync.js'));
         $this->assertStringContainsString("navigator.serviceWorker.register('/sw.js?v=4', { scope: '/' })", $offlineSync);
         $this->assertStringNotContainsString("navigator.serviceWorker.register('/sw.js',", $offlineSync);
+        $this->assertStringContainsString("new Set(['/', '/pembukuan', '/umkm', '/posyandu', '/profil', '/layanan', '/berita'])", $offlineSync);
+        $this->assertStringContainsString("nav[aria-label=\"Navigasi utama\"]", $offlineSync);
+        $this->assertStringContainsString("link.classList.toggle('line-through', unsupported)", $offlineSync);
+        $this->assertStringContainsString("link.classList.toggle('opacity-50', unsupported)", $offlineSync);
+        $this->assertStringContainsString("link.classList.toggle('cursor-not-allowed', unsupported)", $offlineSync);
+        $this->assertStringContainsString("lock.textContent = '🔒'", $offlineSync);
+        $this->assertStringContainsString('event.preventDefault()', $offlineSync);
+        $this->assertStringContainsString('openOfflineModal(link)', $offlineSync);
+        $this->assertStringContainsString("event.key === 'Escape'", $offlineSync);
+        $this->assertStringContainsString('setOfflineNavigationState()', $offlineSync);
+
+        $tailwindConfig = file_get_contents(base_path('tailwind.config.js'));
+        foreach (['line-through', 'opacity-50', 'cursor-not-allowed', 'no-underline'] as $className) {
+            $this->assertStringContainsString("'{$className}'", $tailwindConfig);
+        }
 
         $admin = User::factory()->admin()->create();
         $this->actingAs($admin)->get(route('filament.admin.resources.umkms.create'))
