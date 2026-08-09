@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_VERSION = 'pringanom-pwa-v4';
-const STATIC_CACHE = `${CACHE_VERSION}-static`;
+const STATIC_CACHE = CACHE_VERSION;
 const OFFLINE_URL = '/offline.html';
 const PUBLIC_PAGE_URLS = [
     '/',
@@ -38,10 +38,10 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
     event.waitUntil((async () => {
-        const keys = await caches.keys();
-        await Promise.all(keys
-            .filter((key) => key.startsWith('pringanom-pwa-') && key !== STATIC_CACHE)
-            .map((key) => caches.delete(key)));
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames
+            .filter((cacheName) => cacheName !== CACHE_VERSION)
+            .map((cacheName) => caches.delete(cacheName)));
         await self.clients.claim();
     })());
 });

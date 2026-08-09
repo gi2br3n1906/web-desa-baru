@@ -91,6 +91,10 @@ class UmkmOfflineSyncTest extends TestCase
             $this->assertStringContainsString("'{$url}'", $serviceWorker);
         }
         $this->assertStringContainsString('await self.skipWaiting()', $serviceWorker);
+        $this->assertStringContainsString("const STATIC_CACHE = CACHE_VERSION", $serviceWorker);
+        $this->assertStringContainsString('const cacheNames = await caches.keys()', $serviceWorker);
+        $this->assertStringContainsString('cacheName !== CACHE_VERSION', $serviceWorker);
+        $this->assertStringContainsString('caches.delete(cacheName)', $serviceWorker);
         $this->assertStringContainsString('await self.clients.claim()', $serviceWorker);
         $this->assertStringContainsString('normalizedNavigationRequests', $serviceWorker);
         $this->assertStringContainsString('cacheSuccessfulPublicNavigation', $serviceWorker);
