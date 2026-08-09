@@ -5,6 +5,24 @@ use App\Http\Controllers\Api\UmkmSyncController;
 use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/sw.js', function () {
+    return response()->make(file_get_contents(public_path('sw.js')), 200, [
+        'Content-Type' => 'application/javascript',
+        'Cache-Control' => 'no-cache, no-store, must-revalidate, max-age=0',
+        'Pragma' => 'no-cache',
+        'Expires' => '0',
+    ]);
+});
+
+Route::get('/manifest.json', function () {
+    return response()->make(file_get_contents(public_path('manifest.json')), 200, [
+        'Content-Type' => 'application/json',
+        'Cache-Control' => 'no-cache, no-store, must-revalidate, max-age=0',
+        'Pragma' => 'no-cache',
+        'Expires' => '0',
+    ]);
+});
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.store');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');

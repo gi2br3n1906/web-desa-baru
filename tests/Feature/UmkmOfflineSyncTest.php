@@ -86,6 +86,20 @@ class UmkmOfflineSyncTest extends TestCase
         $this->assertFileExists(public_path('images/pwa-icon-192.png'));
         $this->assertFileExists(public_path('images/pwa-icon-512.png'));
 
+        foreach (['/sw.js' => 'application/javascript', '/manifest.json' => 'application/json'] as $url => $contentType) {
+            $response = $this->get($url)
+                ->assertOk()
+                ->assertHeader('Content-Type', $contentType)
+                ->assertHeader('Pragma', 'no-cache')
+                ->assertHeader('Expires', '0');
+
+            $cacheControl = $response->headers->get('Cache-Control');
+            foreach (['no-cache', 'no-store', 'must-revalidate', 'max-age=0'] as $directive) {
+                $this->assertStringContainsString($directive, $cacheControl);
+            }
+            $this->assertStringNotContainsString('public', $cacheControl);
+        }
+
         $serviceWorker = file_get_contents(public_path('sw.js'));
         foreach (['/', '/pembukuan', '/umkm', '/posyandu', '/profil', '/layanan', '/berita', '/offline.html'] as $url) {
             $this->assertStringContainsString("'{$url}'", $serviceWorker);
