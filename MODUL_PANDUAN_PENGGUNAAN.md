@@ -226,7 +226,32 @@ Kelompok menu ini mencakup:
 
 ## 2.3 Mencari Informasi Layanan Desa
 
-### 2.3.1 Membaca Persyaratan dan Alur
+### 2.3.1 Daftar Layanan dan Persyaratan Terbaru
+
+Portal menyediakan 14 layanan administrasi. Siapkan dokumen berikut sesuai layanan yang akan diajukan.
+
+| Layanan | Persyaratan |
+|---|---|
+| Keterangan Domisili | Surat pengantar RT; Fotokopi KTP; Fotokopi KK |
+| Nikah atau Numpang Nikah | Fotokopi KTP; Fotokopi KK kedua calon mempelai; Fotokopi KTP saksi; Foto latar biru 3×4 (4 lembar) dan 4×6 (4 lembar); Fotokopi buku nikah orang tua; Fotokopi ijazah; khusus nikah gereja: foto calon satu bangku gereja; surat cerai asli bagi yang pernah bercerai |
+| Pembuatan Akta Kelahiran | Mengisi formulir; Fotokopi surat nikah orang tua yang dilegalisir KUA penerbit; Fotokopi KTP kedua orang tua; Fotokopi KTP pemohon bila sudah memiliki KTP; Fotokopi KK; Fotokopi ijazah bila sudah memiliki; surat keterangan dokter/bidan atau duplikat surat kelahiran; surat kematian bagi orang tua yang telah meninggal; Fotokopi KTP dua orang saksi; surat cerai bila orang tua telah bercerai |
+| Pembuatan atau Perubahan KK | Fotokopi KK (1 lembar); surat pindah bagi penduduk dari luar wilayah; dokumen pendukung identitas untuk ralat data; surat bidan/dokter/rumah sakit untuk penambahan anak baru lahir |
+| Pembuatan KTP | Fotokopi KK; foto hitam putih 3×4 (1 lembar) bagi pemula |
+| Pindah Tempat | Surat pengantar RT; mengisi formulir; Fotokopi KTP (2 lembar); Fotokopi KK (2 lembar); foto berwarna 4×6 (8 lembar); alamat tujuan yang lengkap dan jelas; SKCK untuk perpindahan antar kabupaten/provinsi bila dipersyaratkan |
+| Cerai | Fotokopi KTP; buku nikah asli; suami dan istri menghadap Kepala Desa |
+| Rujuk | Fotokopi KTP; foto ukuran 2×3 (4 lembar); akta cerai asli keduanya |
+| Surat Kelahiran | Fotokopi surat dari bidan/rumah sakit; Fotokopi KK; Fotokopi KTP Orangtua |
+| Surat Kehilangan | Fotokopi KTP; Fotokopi KK; keterangan alasan kehilangan |
+| Surat Kematian | Surat pengantar RT; mengisi formulir; Fotokopi KTP; Fotokopi KK; Fotokopi KTP dua orang saksi |
+| Surat Keterangan Tidak Mampu | Fotokopi KK; Fotokopi KTP; surat pernyataan tidak mampu dari RT/RW |
+| Surat Keterangan Usaha | Fotokopi KTP; informasi jenis usaha; alamat usaha |
+| Surat Pengantar SKCK | Fotokopi KTP; tahun lulus SD, SMP, dan SMA/SMK atau jenjang berikutnya; keterangan keperluan pengajuan |
+
+> **Catatan:** Surat pengantar RT hanya menjadi persyaratan untuk **Keterangan Domisili**, **Pindah Tempat**, dan **Surat Kematian**. Layanan lainnya tidak mensyaratkan Surat pengantar RT.
+
+[📷 Tampilkan Screenshot: Daftar Layanan Administrasi dan Persyaratan Terbaru]
+
+### 2.3.2 Membaca Persyaratan dan Alur
 
 1. Pilih **Pemerintahan & Layanan → Panduan Administrasi & Hukum**.
 2. Cari nama layanan yang dibutuhkan.
@@ -236,7 +261,7 @@ Kelompok menu ini mencakup:
 
 [📷 Tampilkan Screenshot: Kartu Persyaratan dan Alur Pengurusan Layanan]
 
-### 2.3.2 Mengunduh Produk Hukum
+### 2.3.3 Mengunduh Produk Hukum
 
 1. Buka bagian **Produk Hukum Desa**.
 2. Periksa judul, nomor/tahun, kategori, dan keterangan dokumen.
@@ -245,7 +270,7 @@ Kelompok menu ini mencakup:
 
 [📷 Tampilkan Screenshot: Daftar Produk Hukum dan Tombol Unduh PDF]
 
-### 2.3.3 Mengajukan Layanan Online
+### 2.3.4 Mengajukan Layanan Online
 
 1. Buka bagian **Pengajuan Layanan Online**.
 2. Pilih jenis layanan.

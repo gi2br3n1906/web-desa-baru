@@ -103,7 +103,7 @@ class FrontendController extends Controller
     public function services(): View
     {
         return view('pages.services', [
-            'services' => AdminService::query()->latest()->get(),
+            'services' => AdminService::query()->orderBy('nama_layanan')->get(),
             'legalProducts' => VillageLegalProduct::query()->latest()->get(),
         ]);
     }

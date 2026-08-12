@@ -74,7 +74,16 @@
             </form>
         </section>
 
-        <div class="mt-10 space-y-8">
+        <div class="mt-12 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+                <p class="section-kicker">Panduan Administrasi Desa</p>
+                <h2 class="mt-4 text-3xl font-black text-blue-900">Daftar Layanan Administrasi</h2>
+                <p class="mt-3 max-w-3xl leading-7 text-slate-600">Periksa persyaratan terbaru untuk setiap layanan sebelum mengirim pengajuan atau datang ke Kantor Desa Pringanom.</p>
+            </div>
+            <span class="rounded-full bg-blue-100 px-4 py-2 text-sm font-bold text-blue-900">{{ $services->count() }} layanan tersedia</span>
+        </div>
+
+        <div class="mt-8 space-y-8">
             @forelse ($services as $service)
                 <article class="content-card overflow-hidden">
                     <header class="border-b border-slate-100 bg-blue-50 px-6 py-5 sm:px-8"><h2 class="text-xl font-bold text-blue-900 sm:text-2xl">{{ $service->nama_layanan }}</h2></header>

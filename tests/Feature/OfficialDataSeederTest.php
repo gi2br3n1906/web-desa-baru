@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\AdminService;
 use App\Models\VillageProfile;
 use Database\Seeders\AdministrativeServiceSeeder;
 use Database\Seeders\LegalProductSeeder;
@@ -44,7 +45,7 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseCount('posyandu_educations', 3);
         $this->assertDatabaseCount('posyandu_galleries', 4);
         $this->assertDatabaseCount('public_facilities', 3);
-        $this->assertDatabaseCount('admin_services', 13);
+        $this->assertDatabaseCount('admin_services', 14);
         $this->assertDatabaseCount('village_legal_products', 2);
         $this->assertDatabaseCount('articles', 4);
 
@@ -68,7 +69,26 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseHas('posyandu_educations', ['kategori' => 'PHBS', 'judul' => 'Gomibunbetsu: Pilah Sampah dari Rumah']);
         $this->assertDatabaseHas('posyandu_galleries', ['judul' => 'Posyandu Dukuh Pringanom', 'tanggal' => '2026-07-18 00:00:00']);
         $this->assertDatabaseHas('public_facilities', ['nama_fasilitas' => 'Posyandu Sari Mulyo XI', 'kategori' => 'kesehatan']);
-        $this->assertDatabaseHas('admin_services', ['nama_layanan' => 'Surat Keterangan Domisili']);
+        $this->assertDatabaseHas('admin_services', ['nama_layanan' => 'Keterangan Domisili']);
+        $this->assertDatabaseHas('admin_services', ['nama_layanan' => 'Pembuatan KTP']);
+        $this->assertDatabaseHas('admin_services', ['nama_layanan' => 'Surat Kehilangan']);
+        $this->assertDatabaseHas('admin_services', ['nama_layanan' => 'Surat Kelahiran']);
+        $this->assertDatabaseMissing('admin_services', ['nama_layanan' => 'Perpanjangan KTP']);
+        $this->assertDatabaseMissing('admin_services', ['nama_layanan' => 'IMB atau HO']);
+
+        $services = AdminService::query()->get();
+        foreach ($services as $service) {
+            $this->assertStringNotContainsString('KK asli', $service->persyaratan, "Persyaratan {$service->nama_layanan} masih memuat KK asli.");
+            $this->assertStringNotContainsString('KTP asli', $service->persyaratan, "Persyaratan {$service->nama_layanan} masih memuat KTP asli.");
+        }
+
+        $this->assertEqualsCanonicalizing(
+            ['Keterangan Domisili', 'Pindah Tempat', 'Surat Kematian'],
+            $services
+                ->filter(fn (AdminService $service): bool => str_contains($service->persyaratan, 'Surat pengantar RT'))
+                ->pluck('nama_layanan')
+                ->all(),
+        );
         $this->assertDatabaseHas('village_legal_products', ['judul_peraturan' => 'Perdes APBDes Tahun Anggaran 2026']);
         $this->assertDatabaseHas('village_legal_products', ['judul_peraturan' => 'Perdes Rencana Kerja Pemerintah Desa (RKP Desa)']);
         $this->assertDatabaseHas('articles', ['slug' => 'pelaksanaan-program-kkn-undip-2026-di-desa-pringanom', 'category' => 'KKN']);
@@ -143,8 +163,18 @@ class OfficialDataSeederTest extends TestCase
 
         $this->get(route('services'))
             ->assertOk()
-            ->assertSee('Surat Keterangan Domisili')
-            ->assertSee('Pembuatan Akta Kelahiran');
+            ->assertSee('14 layanan tersedia')
+            ->assertSee('Keterangan Domisili')
+            ->assertSee('Pembuatan KTP')
+            ->assertSee('Pembuatan Akta Kelahiran')
+            ->assertSee('Surat Kehilangan')
+            ->assertSee('Keterangan alasan kehilangan')
+            ->assertSee('Surat Kelahiran')
+            ->assertSee('Fotokopi surat dari bidan/rumah sakit')
+            ->assertDontSee('Perpanjangan KTP')
+            ->assertDontSee('IMB atau HO')
+            ->assertDontSee('KK asli')
+            ->assertDontSee('KTP asli');
 
         $this->get(route('news.index'))
             ->assertOk()
