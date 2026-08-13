@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\AccountingTemplate;
 use App\Models\AdminService;
 use App\Models\AgricultureGuide;
+use App\Models\HeroBanner;
 use App\Models\PosyanduSchedule;
 use App\Models\PublicFacility;
 use App\Models\TaxGuide;
@@ -57,6 +58,40 @@ class PublicFrontendTest extends TestCase
             ->assertSee('Kabar Desa Terbaru')
             ->assertSee('Lihat Semua Kabar Desa')
             ->assertSee('Pelaksanaan Program KKN Undip 2026 di Desa Pringanom');
+    }
+
+    public function test_homepage_renders_only_active_banners_in_sort_order(): void
+    {
+        HeroBanner::create([
+            'title' => 'Banner Urutan Kedua',
+            'subtitle' => 'Deskripsi banner kedua',
+            'image_path' => 'carousel-banners/kedua.jpg',
+            'button_text' => 'Buka Profil',
+            'button_url' => '/profil',
+            'sort_order' => 20,
+            'is_active' => true,
+        ]);
+        HeroBanner::create([
+            'title' => 'Banner Urutan Pertama',
+            'image_path' => 'carousel-banners/pertama.jpg',
+            'sort_order' => 10,
+            'is_active' => true,
+        ]);
+        HeroBanner::create([
+            'title' => 'Banner Nonaktif',
+            'image_path' => 'carousel-banners/nonaktif.jpg',
+            'sort_order' => 0,
+            'is_active' => false,
+        ]);
+
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertSeeInOrder(['Banner Urutan Pertama', 'Banner Urutan Kedua'])
+            ->assertSee(asset('storage/carousel-banners/pertama.jpg'), false)
+            ->assertSee('Deskripsi banner kedua')
+            ->assertSee('Buka Profil')
+            ->assertSee('href="/profil"', false)
+            ->assertDontSee('Banner Nonaktif');
     }
 
     public function test_public_pages_render_managed_content_and_storage_urls(): void

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\AdminService;
 use App\Models\VillageProfile;
 use Database\Seeders\AdministrativeServiceSeeder;
+use Database\Seeders\HeroBannerSeeder;
 use Database\Seeders\LegalProductSeeder;
 use Database\Seeders\NewsSeeder;
 use Database\Seeders\PosyanduSeeder;
@@ -28,6 +29,7 @@ class OfficialDataSeederTest extends TestCase
             AdministrativeServiceSeeder::class,
             LegalProductSeeder::class,
             NewsSeeder::class,
+            HeroBannerSeeder::class,
         ];
 
         $this->seed($seeders);
@@ -48,6 +50,7 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseCount('admin_services', 14);
         $this->assertDatabaseCount('village_legal_products', 2);
         $this->assertDatabaseCount('articles', 4);
+        $this->assertDatabaseCount('hero_banners', 3);
 
         $profile = VillageProfile::findOrFail(1);
         $this->assertSame('Desa Pringanom, Kecamatan Masaran, Kabupaten Sragen, Jawa Tengah', $profile->kontak_desa['Alamat']);
@@ -92,8 +95,14 @@ class OfficialDataSeederTest extends TestCase
         $this->assertDatabaseHas('village_legal_products', ['judul_peraturan' => 'Perdes APBDes Tahun Anggaran 2026']);
         $this->assertDatabaseHas('village_legal_products', ['judul_peraturan' => 'Perdes Rencana Kerja Pemerintah Desa (RKP Desa)']);
         $this->assertDatabaseHas('articles', ['slug' => 'pelaksanaan-program-kkn-undip-2026-di-desa-pringanom', 'category' => 'KKN']);
+        $this->assertDatabaseHas('hero_banners', [
+            'title' => 'Selamat Datang di Portal Informasi dan Layanan Desa Pringanom',
+            'sort_order' => 0,
+            'is_active' => true,
+        ]);
 
         $this->assertFileExists(storage_path('app/public/seeded/struktur-organisasi-pringanom.svg'));
+        $this->assertFileExists(storage_path('app/public/carousel-banners/hero-banner-1.jpg'));
 
         $profileResourceSource = file_get_contents(app_path('Filament/Resources/VillageProfileResource.php'));
         $this->assertStringContainsString("FileUpload::make('struktur_organisasi_path')", $profileResourceSource);

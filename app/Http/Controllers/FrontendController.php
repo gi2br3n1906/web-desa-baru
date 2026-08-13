@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\AdminService;
 use App\Models\AgricultureGuide;
 use App\Models\Faq;
+use App\Models\HeroBanner;
 use App\Models\PosyanduEducation;
 use App\Models\PosyanduGallery;
 use App\Models\PosyanduOfficer;
@@ -36,6 +37,11 @@ class FrontendController extends Controller
     {
         return view('welcome', [
             'latestArticles' => Article::published()->latest('published_at')->take(3)->get(),
+            'heroBanners' => HeroBanner::query()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->get(),
         ]);
     }
 

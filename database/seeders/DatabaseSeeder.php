@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             AdministrativeServiceSeeder::class,
             LegalProductSeeder::class,
             NewsSeeder::class,
+            HeroBannerSeeder::class,
         ]);
     }
 }

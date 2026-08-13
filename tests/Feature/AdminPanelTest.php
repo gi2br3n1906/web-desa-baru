@@ -36,6 +36,8 @@ class AdminPanelTest extends TestCase
             'filament.admin.pages.dashboard',
             'filament.admin.resources.articles.index',
             'filament.admin.resources.articles.create',
+            'filament.admin.resources.hero-banners.index',
+            'filament.admin.resources.hero-banners.create',
             'filament.admin.resources.accounting-templates.index',
             'filament.admin.resources.accounting-templates.create',
             'filament.admin.resources.admin-services.index',
