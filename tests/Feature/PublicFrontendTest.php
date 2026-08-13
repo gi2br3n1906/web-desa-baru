@@ -94,6 +94,23 @@ class PublicFrontendTest extends TestCase
             ->assertDontSee('Banner Nonaktif');
     }
 
+    public function test_forwarded_https_request_generates_secure_routes_and_assets(): void
+    {
+        HeroBanner::create([
+            'title' => 'Banner HTTPS',
+            'image_path' => 'carousel-banners/secure.jpg',
+            'sort_order' => 0,
+            'is_active' => true,
+        ]);
+
+        $this->withHeaders(['X-Forwarded-Proto' => 'https'])
+            ->get(route('home'))
+            ->assertOk()
+            ->assertSee('https://localhost/layanan', false)
+            ->assertSee('https://localhost/storage/carousel-banners/secure.jpg', false)
+            ->assertDontSee('http://localhost/storage/carousel-banners/secure.jpg', false);
+    }
+
     public function test_public_pages_render_managed_content_and_storage_urls(): void
     {
         VillageProfile::create([

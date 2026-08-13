@@ -6,6 +6,11 @@ Panduan ini disiapkan khusus untuk arsitektur server dengan batasan anggaran ket
 Karena web ini bertipe informasional dengan *traffic* rendah hingga sedang, spesifikasi minimal sudah cukup memadai.
 
 ## Langkah Setup pada Shared Hosting (cPanel):
+0. **Environment & HTTPS:**
+   - Gunakan `APP_ENV=production` dan `APP_DEBUG=false`.
+   - Set `APP_URL=https://desapringanom.web.id` (wajib menggunakan `https://`).
+   - Aktifkan SSL/TLS pada domain dan gunakan mode Cloudflare **Full (strict)** jika Cloudflare dipakai.
+   - Aplikasi mempercayai proxy Cloudflare dan memaksa URL aset/rute ke HTTPS pada production, staging, atau request dengan header `X-Forwarded-Proto: https`.
 1. **Pemisahan Folder (Jika non-root public_html):**
    - Taruh seluruh core folder Laravel di root direktori (di luar `public_html`).
    - Pindahkan seluruh isi folder `public` bawaan Laravel ke dalam folder `public_html`.
